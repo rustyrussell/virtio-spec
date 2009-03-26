@@ -1,0 +1,2799 @@
+#LyX 1.5.6 created this file. For more info see http://www.lyx.org/
+\lyxformat 276
+\begin_document
+\begin_header
+\textclass report
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\paperfontsize default
+\spacing single
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Virtio PCI Card Specification
+\newline
+v0.0.2 pre-release incomplete
+\newline
+(
+\noun on
+Contains Some Lies
+\noun default
+)
+\end_layout
+
+\begin_layout Author
+Rusty Russell <rusty@rustcorp.com.au>
+\newline
+IBM Corporation
+\end_layout
+
+\begin_layout Date
+24/03/09
+\end_layout
+
+\begin_layout Chapter
+Purpose and Description
+\end_layout
+
+\begin_layout Standard
+This document describes the specifications of the 
+\begin_inset Quotes eld
+\end_inset
+
+virtio
+\begin_inset Quotes erd
+\end_inset
+
+ family of 
+\emph on
+PCI
+\emph default
+
+\begin_inset LatexCommand nomenclature
+symbol "PCI"
+description "Peripheral Component Interconnect; a common device bus.  See\\\\http://en.wikipedia.org/wiki/Peripheral Component Interconnect"
+
+\end_inset
+
+ devices.
+ These are devices are found in 
+\emph on
+virtual
+\emph default
+ 
+\emph on
+environments
+\begin_inset LatexCommand nomenclature
+symbol "virtualized"
+description "Environments where access to hardware is restricted (and often emulated) by a hypervisor."
+
+\end_inset
+
+
+\emph default
+, yet by design they are not all that different from physical PCI devices,
+ and this document treats them as such.
+ This allows the guest to use standard PCI drivers and discovery mechanisms.
+\end_layout
+
+\begin_layout Standard
+The purpose of virtio and this specification is that virtual environments
+ and guests should have a straightforward, efficient, standard and extensible
+ mechanism for virtual devices, rather than boutique per-environment or
+ per-OS mechanisms.
+\end_layout
+
+\begin_layout Description
+Straightforward: Virtio PCI devices use normal PCI mechanisms of interrupts
+ and DMA which should be familiar to any device driver author.
+ There is no exotic page-flipping or COW mechanism: it's just a PCI device.
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+This lack of page-sharing implies that the implementation of the device
+ (e.g.
+ the hypervisor or host) needs full access to the guest memory.
+ Communication with untrusted parties (i.e.
+ inter-guest communication) requires copying.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Efficient: Virtio PCI devices consist of rings of descriptors for input
+ and output, which are neatly separated to avoid cache effects from both
+ guest and device writing to the same cache lines.
+\end_layout
+
+\begin_layout Description
+Standard: Virtio PCI makes no assumptions about the environment in which
+ it operates, beyond supporting PCI.
+ In fact the virtio devices specified in the appendices do not require PCI
+ at all: they have been implemented on non-PCI buses.
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+The Linux implementation further separates the PCI virtio code from the
+ specific virtio drivers: these drivers are shared with the non-PCI implementati
+ons (currently lguest and S/390).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Extensible: Virtio PCI devices contain feature bits which are acknowledged
+ by the guest operating system during device setup.
+ This allows forwards and backwards compatibility: the device offers all
+ the features it knows about, and the driver acknowledges those it understands
+ and wishes to use.
+\end_layout
+
+\begin_layout Section
+Virtqueues
+\end_layout
+
+\begin_layout Standard
+The mechanism for bulk data transport on virtio PCI devices is pretentiously
+ called a virtqueue.
+ Each device can have zero or more virtqueues: for example, the network
+ device has one for transmit and one for receive.
+\end_layout
+
+\begin_layout Standard
+Each virtqueue occupies two or more physically-contiguous pages (defined,
+ for the purposes of this specification, as 4096 bytes), and consists of
+ three parts:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="4">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Descriptor Table
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Available Ring\InsetSpace ~
+\InsetSpace ~
+\InsetSpace ~
+\InsetSpace ~
+\InsetSpace ~
+
+\emph on
+(padding)
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Used Ring
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When the driver wants to send buffers to the device, it puts them in one
+ or more slots in the descriptor table, and writes the descriptor indices
+ into the available ring.
+ It then notifies the device.
+ When the device has finished with the buffers, it writes the descriptors
+ into the used ring, and sends an interrupt.
+\end_layout
+
+\begin_layout Chapter
+Specification
+\end_layout
+
+\begin_layout Section
+PCI Discovery
+\end_layout
+
+\begin_layout Standard
+Any PCI device with Vendor ID 0x1AF4, and Device ID 0x1000 through 0x103F
+ inclusive is a virtio device
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+The actual value within this range is ignored
+\end_layout
+
+\end_inset
+
+.
+ The device must also have a Revision ID of 0 to match this specification.
+\end_layout
+
+\begin_layout Standard
+The Subsystem Device ID indicates which virtio device is supported by the
+ device.
+ The Subsystem Vendor ID should reflect the PCI Vendor ID of the environment
+ (it's currently only used for informational purposes by the guest).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="3">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Subsystem Device ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Virtio Device
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Specification
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+network card
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Appendix C
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+block device
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Appendix D
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+console
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Appendix E
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+entropy source
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+memory ballooning
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+9P transport
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+DCP server
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Appendix X
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Device Configuration
+\end_layout
+
+\begin_layout Standard
+To control the device, we use the PCI configuration space: following the
+ standard PCI header we have a 
+\emph on
+virtio header
+\emph default
+ followed by a 
+\emph on
+device-specific header.
+\end_layout
+
+\begin_layout Standard
+The PCI spec defines different widths of accesses to the configuration space;
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+natural
+\begin_inset Quotes erd
+\end_inset
+
+ access method for each field in the virtio header must be used (i.e.
+ 32-bit accesses for 32-bit fields, etc), but the device-specific header
+ can be accessed using any width accesses, and should obtain the same results.
+\end_layout
+
+\begin_layout Standard
+Note that this is possible because while the virtio header is PCI (i.e.
+ little) endian, the device configuration space is the native endian of
+ the guest (where such distinction is applicable).
+\end_layout
+
+\begin_layout Subsection
+Device Initialization Sequence
+\end_layout
+
+\begin_layout Standard
+We start with an overview of device initialization, then expand on the details
+ of the device and how each step is preformed.
+\end_layout
+
+\begin_layout Enumerate
+Reset the device.
+ This is not required on initial start up.
+\end_layout
+
+\begin_layout Enumerate
+The ACKNOWLEDGE status bit is set: we have noticed the device.
+\end_layout
+
+\begin_layout Enumerate
+The DRIVER status bit is set: we know how to drive the device.
+\end_layout
+
+\begin_layout Enumerate
+Device-specific setup, including reading the Device Feature Bits and reading
+ and possibly writing the virtio configuration space.
+\end_layout
+
+\begin_layout Enumerate
+The subset of Device Feature Bits understood by the driver is written to
+ the device.
+\end_layout
+
+\begin_layout Enumerate
+The DRIVER_OK status bit is set.
+\end_layout
+
+\begin_layout Standard
+If any of these steps go irrecoverably wrong, the guest should set the FAILED
+ status bit to indicate that it has given up on the device (it can reset
+ the device later to restart if desired).
+\end_layout
+
+\begin_layout Standard
+We now cover the fields required for general setup in detail.
+\end_layout
+
+\begin_layout Subsection
+Virtio Header
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="10">
+<features>
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" width="0">
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Bits
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Device specific
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Read/Write
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+R
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+R+W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+R+W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+R
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+R+W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+R+W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+R+W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+R
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Device specific
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Purpose
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Device
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Guest
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Queue
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Queue
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Queue
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Queue
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Device
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+ISR
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Device
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Features
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Features
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Address
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Size
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Select
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Notify
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Status
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Status
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+
+\size footnotesize
+Configuration...
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Device Status
+\end_layout
+
+\begin_layout Standard
+The Device Status field is updated by the guest to indicate its progress.
+ This provides a simple low-level diagnostic: it's most useful to imagine
+ them hooked up to traffic lights on the console indicating the status of
+ each device.
+\end_layout
+
+\begin_layout Standard
+The device can be reset by writing a 0 to this field, otherwise at least
+ one bit should be set:
+\end_layout
+
+\begin_layout Description
+ACKNOWLEDGE\InsetSpace ~
+(1) Indicates that the guest OS has found the device and recognized
+ it as a valid virtio device.
+\end_layout
+
+\begin_layout Description
+DRIVER\InsetSpace ~
+(2) Indicates that the guest OS knows how to drive the device.
+ Under Linux, drivers can be loadable modules so there may be a significant
+ (or infinite) delay before setting this bit.
+\end_layout
+
+\begin_layout Description
+DRIVER_OK\InsetSpace ~
+(3) Indicates that the driver is set up and ready to drive the
+ device.
+\end_layout
+
+\begin_layout Description
+FAILED\InsetSpace ~
+(128) Indicates that something went wrong in the guest, and it has
+ given up on the device.
+ This could be an internal error, or the driver didn't like the device for
+ some reason, or even a fatal error during device operation.
+ The device must be reset before attempting to re-initialize.
+\end_layout
+
+\begin_layout Subsubsection
+Feature Bits
+\end_layout
+
+\begin_layout Standard
+The least significant 31 bits of the first configuration field indicates
+ the features that the device supports (the high bit is reserved, and will
+ be used to indicate the presence of future feature bits elsewhere).
+ The bits are allocated as follows:
+\end_layout
+
+\begin_layout Description
+0\InsetSpace ~
+to\InsetSpace ~
+23 Feature bits for the specific device type
+\end_layout
+
+\begin_layout Description
+24\InsetSpace \space{}
+to\InsetSpace ~
+30 Feature bits reserved for extensions to the queue mechanism
+\end_layout
+
+\begin_layout Standard
+For example, feature bit 0 for a network device (i.e.
+ Subsystem Device ID 1) indicates that the device supports checksumming
+ of packets.
+\end_layout
+
+\begin_layout Standard
+The feature bits are 
+\emph on
+negotiated:
+\emph default
+ the device lists all the features it understands in the Device Features
+ field, and the guest writes the subset that it understands into the Guest
+ Features field.
+ The only way to renegotiate is to reset the device.
+\end_layout
+
+\begin_layout Standard
+In particular, new fields in the device configuration header are indicated
+ by offering a feature bit, so the guest can check before accessing that
+ part of the configuration space.
+\end_layout
+
+\begin_layout Standard
+This allows for forwards and backwards compatibility: if the device is enhanced
+ with a new feature bit, older guests will not write that feature bit back
+ to the Guest Features field and it can go into backwards compatibility
+ mode.
+ Similarly, if a guest is enhanced with a feature that the device doesn't
+ support, it will not see that feature bit in the Device Features field
+ and can go into backwards compatibility mode (or, for poor implementations,
+ set the FAILED Device Status bit).
+\end_layout
+
+\begin_layout Section
+Virtqueue Configuration
+\end_layout
+
+\begin_layout Standard
+As a device can have zero or more virtqueues for bulk data transport (for
+ example, the network driver has two), the driver needs to configure them
+ as part of the device-specific configuration.
+\end_layout
+
+\begin_layout Standard
+This is done as follows, for each virtqueue a device has:
+\end_layout
+
+\begin_layout Enumerate
+Write the virtqueue index (first queue is 0) to the Queue Select field.
+\end_layout
+
+\begin_layout Enumerate
+Read the virtqueue size from the Queue Size field, which is always a power
+ of 2.
+ This controls how big the virtqueue is (see below).
+ If this field is 0, the virtqueue does not exist.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Allocate and zero virtqueue in contiguous physical memory, on a 4096 byte
+ alignment.
+ Write the physical address, divided by 4096 to the Queue Address field.
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+The 4096 is based on the x86 page size, but it's also large enough to ensure
+ that the separate parts of the virtqueue are on separate cache lines.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Queue Size field controls the total number of bytes required for the
+ virtqueue according to the following formula:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+#define ALIGN(x) (((x) + 4095) & ~4095)
+\end_layout
+
+\begin_layout Standard
+
+static inline unsigned vring_size(unsigned int qsz)
+\end_layout
+
+\begin_layout Standard
+
+{
+\end_layout
+
+\begin_layout Standard
+
+     return ALIGN(sizeof(struct vring_desc)*qsz + sizeof(u16)*(2 + qsz))
+\end_layout
+
+\begin_layout Standard
+
+          + ALIGN(sizeof(struct vring_used_elem)*qsz);
+\end_layout
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This currently wastes some space with padding, but also allows future extensions.
+ The virtqueue layout structure looks like this (qsz is the Queue Size field,
+ which is a variable, so this code won't compile):
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+struct vring {
+\end_layout
+
+\begin_layout Standard
+
+    /* The actual descriptors (16 bytes each) */
+\end_layout
+
+\begin_layout Standard
+
+    struct vring_desc desc[qsz];
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+    /* A ring of available descriptor heads with free-running index.
+ */
+\end_layout
+
+\begin_layout Standard
+
+    struct vring_avail avail;
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+    // Padding to the next 4096 boundary.
+\end_layout
+
+\begin_layout Standard
+
+    char pad[];
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+    // A ring of used descriptor heads with free-running index.
+\end_layout
+
+\begin_layout Standard
+
+    struct vring_used used;
+\end_layout
+
+\begin_layout Standard
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+A Note on Virtqueue Endianness
+\end_layout
+
+\begin_layout Standard
+Note that the 
+\emph on
+endian
+\emph default
+ of these fields and everything else in the virtqueue is the native endian
+ of the guest, not little-endian as PCI normally is.
+ This makes for simpler guest code, and it is assumed that the host already
+ has to be deeply aware of the guest endian so such an 
+\begin_inset Quotes eld
+\end_inset
+
+endian-aware
+\begin_inset Quotes erd
+\end_inset
+
+ device is not a significant issue.
+\end_layout
+
+\begin_layout Subsection
+Descriptor Table
+\end_layout
+
+\begin_layout Standard
+The descriptor table refers to the buffers the guest is using for the device.
+ The addresses are physical addresses, and the buffers can be chained via
+ the next field.
+ Each descriptor describes a buffer which is read-only or write-only, but
+ a chain of descriptors can contain both read-only and write-only buffers.
+\end_layout
+
+\begin_layout Standard
+No descriptor chain may be more than 2^32 bytes long in total.
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+struct vring_desc {
+\end_layout
+
+\begin_layout Standard
+
+    /* Address (guest-physical).
+ */
+\end_layout
+
+\begin_layout Standard
+
+    u64 addr;
+\end_layout
+
+\begin_layout Standard
+
+    /* Length.
+ */
+\end_layout
+
+\begin_layout Standard
+
+    u32 len;
+\end_layout
+
+\begin_layout Standard
+
+/* This marks a buffer as continuing via the next field.
+ */
+\end_layout
+
+\begin_layout Standard
+
+#define VRING_DESC_F_NEXT   1
+\end_layout
+
+\begin_layout Standard
+
+/* This marks a buffer as write-only (otherwise read-only).
+ */
+\end_layout
+
+\begin_layout Standard
+
+#define VRING_DESC_F_WRITE     2 
+\end_layout
+
+\begin_layout Standard
+
+    /* The flags as indicated above.
+ */
+\end_layout
+
+\begin_layout Standard
+
+    u16 flags;
+\end_layout
+
+\begin_layout Standard
+
+    /* Next field if flags & NEXT */
+\end_layout
+
+\begin_layout Standard
+
+    u16 next;
+\end_layout
+
+\begin_layout Standard
+
+}; 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The number of descriptors in the table is specified by the Queue Size field
+ for this virtqueue.
+\end_layout
+
+\begin_layout Subsection
+Available Ring
+\end_layout
+
+\begin_layout Standard
+The available ring refers to what descriptors we are offering the device:
+ it refers to the head of a descriptor chain.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+flags
+\begin_inset Quotes erd
+\end_inset
+
+ field is currently 0 or 1: 1 indicating that we do not need an interrupt
+ when the device consumes a descriptor from the available ring.
+ This interrupt suppression is merely an optimization; it may not suppress
+ interrupts entirely.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+idx
+\begin_inset Quotes erd
+\end_inset
+
+ field indicates where we would put the 
+\emph on
+next
+\emph default
+ descriptor entry (modulo the ring size).
+ This starts at 0, and increases.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+struct vring_avail {
+\end_layout
+
+\begin_layout Standard
+
+#define VRING_AVAIL_F_NO_INTERRUPT      1
+\end_layout
+
+\begin_layout Standard
+
+   u16 flags;
+\end_layout
+
+\begin_layout Standard
+
+   u16 idx;
+\end_layout
+
+\begin_layout Standard
+
+   u16 ring[qsz]; /* qsz is the Queue Size field read from device */
+\end_layout
+
+\begin_layout Standard
+
+}; 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Used Ring
+\end_layout
+
+\begin_layout Standard
+The used ring is where the device returns buffers once it is done with them.
+ The flags field can be used by the device to hint that no notification
+ is necessary when the guest adds to the 
+\emph on
+available
+\emph default
+ ring (the flag is kept here because this is the only part of the virtqueue
+ written by the device).
+\end_layout
+
+\begin_layout Standard
+Each entry in the ring is a pair: the head entry of the descriptor chain
+ describing the buffer (this matches an entry placed in the available ring
+ by the guest earlier), and the total of bytes written into the buffer.
+ The latter is extremely useful for guests using untrusted buffers: if you
+ do not know exactly how much has been written by the device, you usually
+ have to zero the buffer to ensure no data leakage occurs.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+/* u32 is used here for ids for padding reasons.
+ */
+\end_layout
+
+\begin_layout Standard
+
+struct vring_used_elem {
+\end_layout
+
+\begin_layout Standard
+
+    /* Index of start of used descriptor chain.
+ */
+\end_layout
+
+\begin_layout Standard
+
+    u32 id;
+\end_layout
+
+\begin_layout Standard
+
+    /* Total length of the descriptor chain which was used (written to)
+ */
+\end_layout
+
+\begin_layout Standard
+
+    u32 len;
+\end_layout
+
+\begin_layout Standard
+
+};
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+struct vring_used {
+\end_layout
+
+\begin_layout Standard
+
+#define VRING_USED_F_NO_NOTIFY  1 
+\end_layout
+
+\begin_layout Standard
+
+    u16 flags;
+\end_layout
+
+\begin_layout Standard
+
+    u16 idx;
+\end_layout
+
+\begin_layout Standard
+
+    struct vring_used_elem ring[qsz];
+\end_layout
+
+\begin_layout Standard
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Helpers for Managing Virtqueues
+\end_layout
+
+\begin_layout Standard
+The Linux Kernel Source code contains the definitions above and helper routines
+ in a more usable form, in include/linux/virtio_ring.h.
+ This was explicitly licensed by IBM under the (3-clause) BSD license so
+ that it can be freely used by all other projects, and is reproduced (with
+ slight variation to remove Linux assumptions) in Appendix A.
+\end_layout
+
+\begin_layout Section
+Device Operation
+\end_layout
+
+\begin_layout Standard
+There are two parts to device operation: supplying new buffers to the device,
+ and processing used buffers from the device.
+ As an example, the virtio network device has two virtqueues: the transmit
+ virtqueue and the receive virtqueue.
+ The driver adds outgoing (read-only) packets are added to the transmit
+ virtqueue, and then frees them after they are used.
+ Similarly, incoming (write-only) buffers are added to the receive virtqueue,
+ and processed after they are used.
+\end_layout
+
+\begin_layout Subsection
+Supplying Buffers to The Device
+\end_layout
+
+\begin_layout Standard
+Actual transfer of buffers from the guest OS to the device operates as follows:
+\end_layout
+
+\begin_layout Enumerate
+Place the buffer(s) into free descriptor(s).
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If there are no free descriptors, the guest may choose to notify the device
+ even if notifications are suppressed (to reduce latency).
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+The Linux drivers do this only for read-only buffers: for write-only buffers,
+ it is assumed that the driver is merely trying to keep the receive buffer
+ ring full, and no notification of this expected condition is necessary.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Place the id of the buffer in the next ring entry of the available ring.
+\end_layout
+
+\begin_layout Enumerate
+The steps (1) and (2) may be performed repeatedly if batching is possible.
+\end_layout
+
+\begin_layout Enumerate
+A memory barrier should be executed to ensure the device sees the updated
+ descriptor table and available ring before the next step.
+\end_layout
+
+\begin_layout Enumerate
+The available 
+\begin_inset Quotes eld
+\end_inset
+
+idx
+\begin_inset Quotes erd
+\end_inset
+
+ field should be increased by the number of entries added to the available
+ ring.
+\end_layout
+
+\begin_layout Enumerate
+A memory barrier should be executed to ensure that we update the idx field
+ before checking for notification suppression.
+\end_layout
+
+\begin_layout Enumerate
+If notifications are not suppressed, the device should be notified of the
+ new buffers.
+\end_layout
+
+\begin_layout Standard
+Note that the above code does not take precautions against the available
+ ring buffer wrapping around: this is not possible since the ring buffer
+ is the same size as the descriptor table, so step (1) will prevent such
+ a condition.
+\end_layout
+
+\begin_layout Standard
+In addition, the maximum queue size is 32768 (it must be a power of 2 which
+ fits in 16 bits), so the 16-bit 
+\begin_inset Quotes eld
+\end_inset
+
+idx
+\begin_inset Quotes erd
+\end_inset
+
+ value can always distinguish between a full and empty buffer.
+\end_layout
+
+\begin_layout Standard
+Here is a description of each stage in more detail.
+\end_layout
+
+\begin_layout Subsubsection
+Placing Buffers Into The Descriptor Table
+\end_layout
+
+\begin_layout Standard
+A buffer consists of zero or more read-only physically-contiguous elements
+ followed by zero or more physically-contiguous write-only elements (it
+ must have at least one element).
+ This algorithm maps it into the descriptor table:
+\end_layout
+
+\begin_layout Enumerate
+for each buffer element, 
+\family typewriter
+b
+\family default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Get the next free descriptor table entry, 
+\family typewriter
+d
+\end_layout
+
+\begin_layout Enumerate
+Set 
+\family typewriter
+d.addr
+\family default
+ to the physical address of the start of 
+\family typewriter
+b
+\end_layout
+
+\begin_layout Enumerate
+Set 
+\family typewriter
+d.len
+\family default
+ to the length of 
+\family typewriter
+b
+\family default
+.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\family typewriter
+b
+\family default
+ is write-only, set 
+\family typewriter
+d.flags
+\family default
+ to VRING_DESC_F_WRITE, otherwise 0.
+\end_layout
+
+\begin_layout Enumerate
+If there is a buffer element after this:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Set 
+\family typewriter
+d.next
+\family default
+ to the index of the next free descriptor element.
+\end_layout
+
+\begin_layout Enumerate
+Set the VRING_DESC_F_NEXT bit in 
+\family typewriter
+d.flags
+\family default
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+In practice, the d.next fields are usually used to chain free descriptors,
+ and a separate count kept to check there are enough free descriptors before
+ beginning the mappings.
+\end_layout
+
+\begin_layout Subsubsection
+Updating The Available Ring
+\end_layout
+
+\begin_layout Standard
+The head of the buffer we mapped is the first 
+\family typewriter
+d
+\family default
+ in the algorithm above.
+ A naive implementation would do the following:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+avail->ring[avail->idx % qsz] = head;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+However, in general we can add many descriptors before we update the 
+\begin_inset Quotes eld
+\end_inset
+
+idx
+\begin_inset Quotes erd
+\end_inset
+
+ field (at which point they become visible to the device), so we keep a
+ counter of how many we've added:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+avail->ring[(avail->idx + added++) % qsz] = head;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Updating The Index Field
+\end_layout
+
+\begin_layout Standard
+Once the idx field of the virtqueue is updated, the device will be able
+ to access the descriptor entries we've created and the memory they refer
+ to.
+ This is why a memory barrier is generally used before the idx update, to
+ ensure it sees the most up-to-date copy.
+\end_layout
+
+\begin_layout Standard
+The idx field always increments, and we let it wrap naturally at 65536:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+avail->idx += added;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Notifying The Device
+\end_layout
+
+\begin_layout Standard
+Device notification occurs by writing the 16-bit virtqueue index of this
+ virtqueue to the Queue Notify field of the virtio header in the PCI configurati
+on space.
+ This can be expensive, however, so the device can suppress such notifications
+ if it doesn't need them.
+ We have to be careful to expose the new idx value 
+\emph on
+before
+\emph default
+ checking the suppression flag: it's OK to notify gratuitously, but not
+ to skip a notification.
+ So again, we use a memory barrier here before reading the flags.
+\end_layout
+
+\begin_layout Standard
+If the VRING_USED_F_NOTIFY flag is not set, we go ahead and write to the
+ PCI configuration space.
+\end_layout
+
+\begin_layout Subsection
+Receiving Used Buffers From The Device
+\end_layout
+
+\begin_layout Standard
+Once the device has used a buffer (read from or written to it, or parts
+ of both, depending on the nature of the virtqueue and the device), it sends
+ an interrupt, following an algorithm very similar to the algorithm used
+ for the driver to send the device a buffer:
+\end_layout
+
+\begin_layout Enumerate
+Write the head descriptor number to the next field in the used ring.
+\end_layout
+
+\begin_layout Enumerate
+Update the used ring idx.
+\end_layout
+
+\begin_layout Enumerate
+If the VRING_AVAIL_F_NO_INTERRUPT flag is not set in avail->flags:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Set the lower bit of the ISR Status field for the device.
+\end_layout
+
+\begin_layout Enumerate
+Send the appropriate PCI interrupt for the device.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The guest interrupt handler should read the ISR Status field, which will
+ reset it to zero.
+ If the lower bit is zero, the interrupt was not for this device.
+ Otherwise, the guest driver should look through the used rings of each
+ virtqueue for the device, to see if any progress has been made by the device
+ which requires servicing.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+while (vq->last_seen_used != vring->used.idx) {
+\end_layout
+
+\begin_layout Standard
+
+    struct vring_used_elem *e = vring.used->ring[vq->last_seen_used%vsz];
+\end_layout
+
+\begin_layout Standard
+
+    process_buffer(e);
+\end_layout
+
+\begin_layout Standard
+
+    vq->last_seen_used++;
+\end_layout
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Dealing With Configuration Changes
+\end_layout
+
+\begin_layout Standard
+Some virtio PCI devices can change the device configuration state, as reflected
+ in the virtio header in the PCI configuration space.
+ In this case, an interrupt is delivered and the second highest bit is set
+ in the ISR Status field to indicate that the driver should re-examine the
+ configuration space.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+#define VIRTIO_PCI_ISR_CONFIG 0x2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that a single interrupt can indicate both that one or more virtqueue
+ has been used and that the configuration space has changed: even if the
+ config bit is set, virtqueues must be scanned.
+\end_layout
+
+\begin_layout Chapter
+Creating New Device Types
+\end_layout
+
+\begin_layout Standard
+FIXME:
+\end_layout
+
+\begin_layout Standard
+1) Independence of framing from message.
+\end_layout
+
+\begin_layout Standard
+2) Endianness of config space
+\end_layout
+
+\begin_layout Standard
+3) Assignment of device numbers
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand printnomenclature
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter*
+Appendix A: virtio_ring.h
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+#ifndef VIRTIO_RING_H
+\end_layout
+
+\begin_layout Standard
+
+#define VIRTIO_RING_H
+\end_layout
+
+\begin_layout Standard
+
+/* An interface for efficient virtio implementation.
+\end_layout
+
+\begin_layout Standard
+
+ *
+\end_layout
+
+\begin_layout Standard
+
+ * This header is BSD licensed so anyone can use the definitions
+\end_layout
+
+\begin_layout Standard
+
+ * to implement compatible drivers/servers.
+\end_layout
+
+\begin_layout Standard
+
+ *
+\end_layout
+
+\begin_layout Standard
+
+ * Copyright Rusty Russell IBM Corporation 2007, 2009.
+ */
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+/* This marks a buffer as continuing via the next field.
+ */
+\end_layout
+
+\begin_layout Standard
+
+#define VRING_DESC_F_NEXT       1
+\end_layout
+
+\begin_layout Standard
+
+/* This marks a buffer as write-only (otherwise read-only).
+ */
+\end_layout
+
+\begin_layout Standard
+
+#define VRING_DESC_F_WRITE      2
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+/* The Host uses this in used->flags to advise the Guest: don't kick me
+\end_layout
+
+\begin_layout Standard
+
+ * when you add a buffer.
+  It's unreliable, so it's simply an
+\end_layout
+
+\begin_layout Standard
+
+ * optimization.
+  Guest will still kick if it's out of buffers.
+ */
+\end_layout
+
+\begin_layout Standard
+
+#define VRING_USED_F_NO_NOTIFY  1
+\end_layout
+
+\begin_layout Standard
+
+/* The Guest uses this in avail->flags to advise the Host: don't
+\end_layout
+
+\begin_layout Standard
+
+ * interrupt me when you consume a buffer.
+  It's unreliable, so it's
+\end_layout
+
+\begin_layout Standard
+
+ * simply an optimization.
+  */
+\end_layout
+
+\begin_layout Standard
+
+#define VRING_AVAIL_F_NO_INTERRUPT      1
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+/* Virtio ring descriptors: 16 bytes.
+\end_layout
+
+\begin_layout Standard
+
+ * These can chain together via "next".
+ */
+\end_layout
+
+\begin_layout Standard
+
+struct vring_desc {
+\end_layout
+
+\begin_layout Standard
+
+        /* Address (guest-physical).
+ */
+\end_layout
+
+\begin_layout Standard
+
+        uint64_t addr;
+\end_layout
+
+\begin_layout Standard
+
+        /* Length.
+ */
+\end_layout
+
+\begin_layout Standard
+
+        uint32_t len;
+\end_layout
+
+\begin_layout Standard
+
+        /* The flags as indicated above.
+ */
+\end_layout
+
+\begin_layout Standard
+
+        uint16_t flags;
+\end_layout
+
+\begin_layout Standard
+
+        /* We chain unused descriptors via this, too */
+\end_layout
+
+\begin_layout Standard
+
+        uint16_t next;
+\end_layout
+
+\begin_layout Standard
+
+};
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+struct vring_avail {
+\end_layout
+
+\begin_layout Standard
+
+        uint16_t flags;
+\end_layout
+
+\begin_layout Standard
+
+        uint16_t idx;
+\end_layout
+
+\begin_layout Standard
+
+        uint16_t ring[];
+\end_layout
+
+\begin_layout Standard
+
+};
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+/* u32 is used here for ids for padding reasons.
+ */
+\end_layout
+
+\begin_layout Standard
+
+struct vring_used_elem {
+\end_layout
+
+\begin_layout Standard
+
+        /* Index of start of used descriptor chain.
+ */
+\end_layout
+
+\begin_layout Standard
+
+        uint32_t id;
+\end_layout
+
+\begin_layout Standard
+
+        /* Total length of the descriptor chain which was written to.
+ */
+\end_layout
+
+\begin_layout Standard
+
+        uint32_t len;
+\end_layout
+
+\begin_layout Standard
+
+};
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+struct vring_used {
+\end_layout
+
+\begin_layout Standard
+
+        uint16_t flags;
+\end_layout
+
+\begin_layout Standard
+
+        uint16_t idx;
+\end_layout
+
+\begin_layout Standard
+
+        struct vring_used_elem ring[];
+\end_layout
+
+\begin_layout Standard
+
+};
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+struct vring {
+\end_layout
+
+\begin_layout Standard
+
+        unsigned int num;
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+        struct vring_desc *desc;
+\end_layout
+
+\begin_layout Standard
+
+        struct vring_avail *avail;
+\end_layout
+
+\begin_layout Standard
+
+        struct vring_used *used;
+\end_layout
+
+\begin_layout Standard
+
+};
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+/* The standard layout for the ring is a continuous chunk of memory which
+\end_layout
+
+\begin_layout Standard
+
+ * looks like this.
+  We assume num is a power of 2.
+\end_layout
+
+\begin_layout Standard
+
+ *
+\end_layout
+
+\begin_layout Standard
+
+ * struct vring {
+\end_layout
+
+\begin_layout Standard
+
+ *      // The actual descriptors (16 bytes each)
+\end_layout
+
+\begin_layout Standard
+
+ *      struct vring_desc desc[num];
+\end_layout
+
+\begin_layout Standard
+
+ *
+\end_layout
+
+\begin_layout Standard
+
+ *      // A ring of available descriptor heads with free-running index.
+\end_layout
+
+\begin_layout Standard
+
+ *      __u16 avail_flags;
+\end_layout
+
+\begin_layout Standard
+
+ *      __u16 avail_idx;
+\end_layout
+
+\begin_layout Standard
+
+ *      __u16 available[num];
+\end_layout
+
+\begin_layout Standard
+
+ *
+\end_layout
+
+\begin_layout Standard
+
+ *      // Padding to the next align boundary.
+\end_layout
+
+\begin_layout Standard
+
+ *      char pad[];
+\end_layout
+
+\begin_layout Standard
+
+ *
+\end_layout
+
+\begin_layout Standard
+
+ *      // A ring of used descriptor heads with free-running index.
+\end_layout
+
+\begin_layout Standard
+
+ *      __u16 used_flags;
+\end_layout
+
+\begin_layout Standard
+
+ *      __u16 used_idx;
+\end_layout
+
+\begin_layout Standard
+
+ *      struct vring_used_elem used[num];
+\end_layout
+
+\begin_layout Standard
+
+ * };
+\end_layout
+
+\begin_layout Standard
+
+ * Note: for virtio PCI, align is 4096.
+\end_layout
+
+\begin_layout Standard
+
+ */
+\end_layout
+
+\begin_layout Standard
+
+static inline void vring_init(struct vring *vr, unsigned int num, void *p,
+\end_layout
+
+\begin_layout Standard
+
+                              unsigned long align)
+\end_layout
+
+\begin_layout Standard
+
+{
+\end_layout
+
+\begin_layout Standard
+
+        vr->num = num;
+\end_layout
+
+\begin_layout Standard
+
+        vr->desc = p;
+\end_layout
+
+\begin_layout Standard
+
+        vr->avail = p + num*sizeof(struct vring_desc);
+\end_layout
+
+\begin_layout Standard
+
+        vr->used = (void *)(((unsigned long)&vr->avail->ring[num]
+\end_layout
+
+\begin_layout Standard
+
+                              + align-1)
+\end_layout
+
+\begin_layout Standard
+
+                            & ~(align - 1));
+\end_layout
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+static inline unsigned vring_size(unsigned int num, unsigned long align)
+\end_layout
+
+\begin_layout Standard
+
+{
+\end_layout
+
+\begin_layout Standard
+
+        return ((sizeof(struct vring_desc)*num + sizeof(uint16_t)*(2+num)
+\end_layout
+
+\begin_layout Standard
+
+                 + align - 1) & ~(align - 1))
+\end_layout
+
+\begin_layout Standard
+
+                + sizeof(uint16_t)*2 + sizeof(struct vring_used_elem)*num;
+\end_layout
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\begin_layout Standard
+
+#endif /* VIRTIO_RING_H */
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter*
+Appendix B: Reserved Feature Bits
+\end_layout
+
+\begin_layout Standard
+Currently there is only one device-independent feature bit defined:
+\end_layout
+
+\begin_layout Description
+VIRTIO_F_NOTIFY_ON_EMPTY\InsetSpace ~
+(24) This feature indicates that the driver wants
+ an interrupt if the device runs out of available descriptors on a virtqueue,
+ even though interrupts are suppressed using the VRING_AVAIL_F_NO_INTERRUPT
+ flag.
+ An example of this is the networking driver: it doesn't need to know every
+ time a packet is transmitted, but it does need to free the transmitted
+ packets a finite time after they are transmitted.
+ It can avoid using a timer if the device interrupts it when all the packets
+ are transmitted.
+\end_layout
+
+\begin_layout Chapter*
+Appendix C: Virtio Network Device
+\end_layout
+
+\begin_layout Chapter*
+Appendix D: Virtio Block Device
+\end_layout
+
+\begin_layout Chapter*
+Appendix E: Virtio Console Device
+\end_layout
+
+\begin_layout Chapter*
+Appendix X: DCP Server
+\end_layout
+
+\begin_layout Standard
+The intent of this virtio device is that the guest act as a Dual Core Protocol
+ server, performing I/O operations on an underlying device.
+ To this end, it receives requests from the environment/client, sends them
+ to the underlying device, and forwards the responses from the device back
+ to the client.
+\end_layout
+
+\begin_layout Section*
+Configuration
+\end_layout
+
+\begin_layout Description
+Subsystem\InsetSpace ~
+Device\InsetSpace ~
+ID 10
+\end_layout
+
+\begin_layout Description
+Virtqueues 0:requestq.
+ 1:responseq.
+\end_layout
+
+\begin_layout Description
+Feature\InsetSpace ~
+bits None defined
+\end_layout
+
+\begin_layout Description
+Device\InsetSpace ~
+configuration\InsetSpace ~
+layout Only one configuration parameter is defined: the
+ size of the buffers which the guest should place in the requestq, in bytes.
+ This will be the limit on the command message size.
+\newline
+
+\series bold
+FIXME: should the guest inform the client about max requests in flight?
+\series default
+ 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Standard
+
+struct virtio_dcp_server_config {
+\end_layout
+
+\begin_layout Standard
+
+    u32 request_size;
+\end_layout
+
+\begin_layout Standard
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Device Initialization
+\end_layout
+
+\begin_layout Standard
+The device initialization should identify both virtqueues, and read the
+ request size.
+ It must then place at least one buffer of request size bytes into the requestq,
+ ready to receive commands.
+\end_layout
+
+\begin_layout Standard
+Note that there can be more requests in flight than there are entries in
+ the requestq, as requests are removed from the requestq as they are processed,
+ not as they are completed.
+\end_layout
+
+\begin_layout Section*
+Device Operation
+\end_layout
+
+\begin_layout Standard
+Upon receiving a request from the requestq, the device should dispatch it
+ for servicing.
+ If it can service more requests than there are entries in the requestq,
+ it should refill the requestq with more buffers.
+\end_layout
+
+\begin_layout Standard
+On request completion (by the underlying device), the driver should queue
+ the response message on the responseq.
+ This response may even reuse the same buffer as the requestq.
+ If the responseq is full, it should queue it elsewhere until the responseq
+ is serviced.
+\end_layout
+
+\begin_layout Standard
+When a responseq buffer is used, it can be freed or recycled.
+\end_layout
+
+\begin_layout Standard
+Note that the exact format of the DCP requests and responses is defined
+ in the Dual Core Protocol Specification.
+\end_layout
+
+\begin_layout Section*
+Implementation Details
+\end_layout
+
+\begin_layout Standard
+Note that the implementation can be simplified significantly if the driver
+ limits the number of requests in flight at any time to the qsz of the responseq.
+ If a request is considered 
+\begin_inset Quotes eld
+\end_inset
+
+in flight
+\begin_inset Quotes erd
+\end_inset
+
+ until its response is used from the responseq by the client, the requestq
+ can never fill.
+\end_layout
+
+\begin_layout Standard
+In addition, if the qsz of the responseq is less than or equal to the qsz
+ of the requestq, then all the request buffers can be pre-allocated, and
+ placed in the requestq descriptor table ahead of time, which then need
+ never be altered.
+ If request completion from the underlying device is tagged with the descriptor
+ index, this is especially trivial.
+\end_layout
+
+\begin_layout Standard
+Finally, the request buffers can be reused as response buffers (assuming
+ they will always be of sufficient length): the descriptor table of the
+ responseq can precisely match that of the requestq, and also remain unaltered
+ after initialization.
+\end_layout
+
+\end_body
+\end_document
