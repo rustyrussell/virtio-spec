@@ -552,48 +552,18 @@ Device Configuration
 \end_layout
 
 \begin_layout Standard
-To 
-\change_deleted 0 1238108336
-control
-\change_inserted 0 1238108336
-configure
-\change_unchanged
- the device, we use the 
-\change_deleted 0 1238108369
-PCI configuration space: following the standard PCI header we have
-\change_inserted 0 1238108378
-first I/O region of the PCI device.
- This contains
-\change_unchanged
- a 
+To configure the device, we use the first I/O region of the PCI device.
+ This contains a 
 \emph on
 virtio header
 \emph default
  followed by a 
 \emph on
-device-specific 
-\change_deleted 0 1238108369
-header
-\change_inserted 0 1238108315
-region
-\change_unchanged
-.
+device-specific region.
 \end_layout
 
 \begin_layout Standard
-
-\change_deleted 0 1238108594
-The PCI spec defines
-\change_inserted 0 1238108596
-There may be
-\change_unchanged
- different widths of accesses to the 
-\change_deleted 0 1238108497
-configuration space
-\change_inserted 0 1238108500
-I/O region
-\change_unchanged
-; the 
+There may be different widths of accesses to the I/O region; the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -602,28 +572,14 @@ natural
 \end_inset
 
  access method for each field in the virtio header must be used (i.e.
- 32-bit accesses for 32-bit fields, etc), but the device-specific 
-\change_deleted 0 1238108324
-header
-\change_inserted 0 1238108324
-region
-\change_unchanged
+ 32-bit accesses for 32-bit fields, etc), but the device-specific region
  can be accessed using any width accesses, and should obtain the same results.
 \end_layout
 
 \begin_layout Standard
 Note that this is possible because while the virtio header is PCI (i.e.
- little) endian, the device
-\change_inserted 0 1238108545
--specific region
-\change_deleted 0 1238108539
- configuration space
-\change_unchanged
- is 
-\change_inserted 0 1238108556
-encoded in 
-\change_unchanged
-the native endian of the guest (where such distinction is applicable).
+ little) endian, the device-specific region is encoded in the native endian
+ of the guest (where such distinction is applicable).
 \end_layout
 
 \begin_layout Subsection
