@@ -1,8 +1,9 @@
-#LyX 1.5.6 created this file. For more info see http://www.lyx.org/
-\lyxformat 276
+#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
 \begin_document
 \begin_header
 \textclass report
+\use_default_options false
 \language english
 \inputencoding auto
 \font_roman default
@@ -13,9 +14,11 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \paperfontsize default
 \spacing single
+\use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
@@ -41,42 +44,46 @@
 
 \begin_layout Title
 Virtio PCI Card Specification
-\newline
+\begin_inset Newline newline
+\end_inset
+
 v0.0.
-\change_inserted 0 1238108274
+\change_inserted 0 1239171397
+4
+\change_deleted 0 1239171390
 3
-\change_deleted 0 1238108274
-2
 \change_unchanged
  pre-release incomplete
-\newline
+\begin_inset Newline newline
+\end_inset
+
 (
 \noun on
-Contains Some 
-\change_inserted 0 1238108284
-Truthiness
-\change_deleted 0 1238108287
-Lies
+Contains 
+\change_deleted 0 1239171394
+Some 
 \change_unchanged
-
+Truthiness
 \noun default
 )
 \end_layout
 
 \begin_layout Author
 Rusty Russell <rusty@rustcorp.com.au>
-\newline
+\begin_inset Newline newline
+\end_inset
+
 IBM Corporation
 \end_layout
 
 \begin_layout Date
-2
-\change_inserted 0 1238108296
-7
-\change_deleted 0 1238108295
-4
+
+\change_deleted 0 1239190279
+27/03
+\change_inserted 0 1241505745
+4/05
 \change_unchanged
-/03/09
+/09
 \end_layout
 
 \begin_layout Chapter
@@ -97,7 +104,8 @@ virtio
 PCI
 \emph default
 
-\begin_inset LatexCommand nomenclature
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
 symbol "PCI"
 description "Peripheral Component Interconnect; a common device bus.  See\\\\http://en.wikipedia.org/wiki/Peripheral Component Interconnect"
 
@@ -111,7 +119,8 @@ virtual
  
 \emph on
 environments
-\begin_inset LatexCommand nomenclature
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
 symbol "virtualized"
 description "Environments where access to hardware is restricted (and often emulated) by a hypervisor."
 
@@ -138,7 +147,7 @@ Straightforward: Virtio PCI devices use normal PCI mechanisms of interrupts
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This lack of page-sharing implies that the implementation of the device
  (e.g.
  the hypervisor or host) needs full access to the guest memory.
@@ -165,7 +174,7 @@ Standard: Virtio PCI makes no assumptions about the environment in which
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The Linux implementation further separates the PCI virtio code from the
  specific virtio drivers: these drivers are shared with the non-PCI implementati
 ons (currently lguest and S/390).
@@ -205,15 +214,15 @@ Each virtqueue occupies two or more physically-contiguous pages (defined,
 \begin_inset Tabular
 <lyxtabular version="3" rows="1" columns="4">
 <features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Descriptor Table
 \end_layout
 
@@ -222,12 +231,27 @@ Descriptor Table
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-Available Ring\InsetSpace ~
-\InsetSpace ~
-\InsetSpace ~
-\InsetSpace ~
-\InsetSpace ~
+\begin_layout Plain Layout
+Available Ring
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
 
 \emph on
 (padding)
@@ -238,16 +262,16 @@ Available Ring\InsetSpace ~
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Used Ring
 \end_layout
 
@@ -284,7 +308,7 @@ Any PCI device with Vendor ID 0x1AF4, and Device ID 0x1000 through 0x103F
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The actual value within this range is ignored
 \end_layout
 
@@ -305,43 +329,43 @@ The Subsystem Device ID indicates which virtio device is supported by the
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="3">
 <features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Subsystem Device ID
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Virtio Device
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Specification
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 1
 \end_layout
 
@@ -350,7 +374,7 @@ Specification
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 network card
 \end_layout
 
@@ -359,18 +383,18 @@ network card
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Appendix C
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 2
 \end_layout
 
@@ -379,7 +403,7 @@ Appendix C
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 block device
 \end_layout
 
@@ -388,18 +412,18 @@ block device
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Appendix D
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 3
 \end_layout
 
@@ -408,7 +432,7 @@ Appendix D
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 console
 \end_layout
 
@@ -417,18 +441,18 @@ console
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Appendix E
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 4
 \end_layout
 
@@ -437,7 +461,7 @@ Appendix E
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 entropy source
 \end_layout
 
@@ -446,18 +470,18 @@ entropy source
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 5
 \end_layout
 
@@ -466,7 +490,7 @@ entropy source
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 memory ballooning
 \end_layout
 
@@ -475,18 +499,18 @@ memory ballooning
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 9
 \end_layout
 
@@ -495,7 +519,7 @@ memory ballooning
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 9P transport
 \end_layout
 
@@ -504,36 +528,36 @@ memory ballooning
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 10
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 DCP server
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Appendix X
 \end_layout
 
@@ -636,21 +660,21 @@ Virtio Header
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="10">
 <features>
-<column alignment="left" valignment="top" leftline="true" rightline="true" width="0">
-<column alignment="left" valignment="top" leftline="true" width="0">
-<column alignment="left" valignment="top" leftline="true" width="0">
-<column alignment="left" valignment="top" leftline="true" width="0">
-<column alignment="left" valignment="top" leftline="true" width="0">
-<column alignment="left" valignment="top" leftline="true" width="0">
-<column alignment="left" valignment="top" leftline="true" width="0">
-<column alignment="left" valignment="top" leftline="true" width="0">
-<column alignment="left" valignment="top" leftline="true" width="0">
-<column alignment="left" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Bits
 \end_layout
 
@@ -659,7 +683,7 @@ Bits
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 32
 \end_layout
 
@@ -668,7 +692,7 @@ Bits
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 32
 \end_layout
 
@@ -677,7 +701,7 @@ Bits
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 32
 \end_layout
 
@@ -686,7 +710,7 @@ Bits
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 16
 \end_layout
 
@@ -695,7 +719,7 @@ Bits
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 16
 \end_layout
 
@@ -704,7 +728,7 @@ Bits
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 16
 \end_layout
 
@@ -713,7 +737,7 @@ Bits
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 8
 \end_layout
 
@@ -722,7 +746,7 @@ Bits
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 8
 \end_layout
 
@@ -731,18 +755,18 @@ Bits
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Device specific
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Read/Write
 \end_layout
 
@@ -751,7 +775,7 @@ Read/Write
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 R
 \end_layout
 
@@ -760,7 +784,7 @@ R
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 R+W
 \end_layout
 
@@ -769,7 +793,7 @@ R+W
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 R+W
 \end_layout
 
@@ -778,7 +802,7 @@ R+W
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 R
 \end_layout
 
@@ -787,7 +811,7 @@ R
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 R+W
 \end_layout
 
@@ -796,7 +820,7 @@ R+W
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 R+W
 \end_layout
 
@@ -805,7 +829,7 @@ R+W
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 R+W
 \end_layout
 
@@ -814,7 +838,7 @@ R+W
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 R
 \end_layout
 
@@ -823,18 +847,18 @@ R
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Device specific
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Purpose
 \end_layout
 
@@ -843,7 +867,7 @@ Purpose
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Device
@@ -854,7 +878,7 @@ Device
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Guest
@@ -865,7 +889,7 @@ Guest
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Queue
@@ -876,7 +900,7 @@ Queue
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Queue
@@ -887,7 +911,7 @@ Queue
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Queue
@@ -898,7 +922,7 @@ Queue
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Queue
@@ -909,7 +933,7 @@ Queue
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Device
@@ -920,7 +944,7 @@ Device
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 ISR
@@ -931,7 +955,7 @@ ISR
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Device
@@ -940,20 +964,20 @@ Device
 \end_inset
 </cell>
 </row>
-<row bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Features
@@ -961,10 +985,10 @@ Features
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Features
@@ -972,10 +996,10 @@ Features
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Address
@@ -983,10 +1007,10 @@ Address
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Size
@@ -994,10 +1018,10 @@ Size
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Select
@@ -1005,10 +1029,10 @@ Select
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Notify
@@ -1016,10 +1040,10 @@ Notify
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Status
@@ -1027,10 +1051,10 @@ Status
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Status
@@ -1038,10 +1062,10 @@ Status
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size footnotesize
 Configuration...
@@ -1074,28 +1098,39 @@ The device can be reset by writing a 0 to this field, otherwise at least
 \end_layout
 
 \begin_layout Description
-ACKNOWLEDGE\InsetSpace ~
-(1) Indicates that the guest OS has found the device and recognized
- it as a valid virtio device.
+ACKNOWLEDGE
+\begin_inset space ~
+\end_inset
+
+(1) Indicates that the guest OS has found the device and recognized it as
+ a valid virtio device.
 \end_layout
 
 \begin_layout Description
-DRIVER\InsetSpace ~
+DRIVER
+\begin_inset space ~
+\end_inset
+
 (2) Indicates that the guest OS knows how to drive the device.
  Under Linux, drivers can be loadable modules so there may be a significant
  (or infinite) delay before setting this bit.
 \end_layout
 
 \begin_layout Description
-DRIVER_OK\InsetSpace ~
-(3) Indicates that the driver is set up and ready to drive the
- device.
+DRIVER_OK
+\begin_inset space ~
+\end_inset
+
+(3) Indicates that the driver is set up and ready to drive the device.
 \end_layout
 
 \begin_layout Description
-FAILED\InsetSpace ~
-(128) Indicates that something went wrong in the guest, and it has
- given up on the device.
+FAILED
+\begin_inset space ~
+\end_inset
+
+(128) Indicates that something went wrong in the guest, and it has given
+ up on the device.
  This could be an internal error, or the driver didn't like the device for
  some reason, or even a fatal error during device operation.
  The device must be reset before attempting to re-initialize.
@@ -1113,14 +1148,26 @@ The least significant 31 bits of the first configuration field indicates
 \end_layout
 
 \begin_layout Description
-0\InsetSpace ~
-to\InsetSpace ~
+0
+\begin_inset space ~
+\end_inset
+
+to
+\begin_inset space ~
+\end_inset
+
 23 Feature bits for the specific device type
 \end_layout
 
 \begin_layout Description
-24\InsetSpace \space{}
-to\InsetSpace ~
+24
+\begin_inset space \space{}
+\end_inset
+
+to
+\begin_inset space ~
+\end_inset
+
 30 Feature bits reserved for extensions to the queue mechanism
 \end_layout
 
@@ -1191,7 +1238,7 @@ Allocate and zero virtqueue in contiguous physical memory, on a 4096 byte
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The 4096 is based on the x86 page size, but it's also large enough to ensure
  that the separate parts of the virtqueue are on separate cache lines.
 \end_layout
@@ -1211,32 +1258,32 @@ The Queue Size field controls the total number of bytes required for the
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define ALIGN(x) (((x) + 4095) & ~4095)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 static inline unsigned vring_size(unsigned int qsz)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
      return ALIGN(sizeof(struct vring_desc)*qsz + sizeof(u16)*(2 + qsz))
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
           + ALIGN(sizeof(struct vring_used_elem)*qsz);
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 }
 \end_layout
@@ -1257,65 +1304,65 @@ This currently wastes some space with padding, but also allows future extensions
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     /* The actual descriptors (16 bytes each) */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     struct vring_desc desc[qsz];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     /* A ring of available descriptor heads with free-running index.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     struct vring_avail avail;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     // Padding to the next 4096 boundary.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     char pad[];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     // A ring of used descriptor heads with free-running index.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     struct vring_used used;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 };
 \end_layout
@@ -1366,77 +1413,77 @@ No descriptor chain may be more than 2^32 bytes long in total.
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring_desc {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     /* Address (guest-physical).
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     u64 addr;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     /* Length.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     u32 len;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* This marks a buffer as continuing via the next field.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VRING_DESC_F_NEXT   1
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* This marks a buffer as write-only (otherwise read-only).
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VRING_DESC_F_WRITE     2 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     /* The flags as indicated above.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     u16 flags;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     /* Next field if flags & NEXT */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     u16 next;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 }; 
 \end_layout
@@ -1494,32 +1541,32 @@ next
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring_avail {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VRING_AVAIL_F_NO_INTERRUPT      1
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
    u16 flags;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
    u16 idx;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
    u16 ring[qsz]; /* qsz is the Queue Size field read from device */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 }; 
 \end_layout
@@ -1558,74 +1605,74 @@ Each entry in the ring is a pair: the head entry of the descriptor chain
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* u32 is used here for ids for padding reasons.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring_used_elem {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     /* Index of start of used descriptor chain.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     u32 id;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     /* Total length of the descriptor chain which was used (written to)
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     u32 len;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 };
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring_used {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VRING_USED_F_NO_NOTIFY  1 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     u16 flags;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     u16 idx;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     struct vring_used_elem ring[qsz];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 };
 \end_layout
@@ -1681,7 +1728,7 @@ If there are no free descriptors, the guest may choose to notify the device
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The Linux drivers do this only for read-only buffers: for write-only buffers,
  it is assumed that the driver is merely trying to keep the receive buffer
  ring full, and no notification of this expected condition is necessary.
@@ -1860,7 +1907,7 @@ d
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 avail->ring[avail->idx % qsz] = head;
 \end_layout
@@ -1888,7 +1935,7 @@ idx
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 avail->ring[(avail->idx + added++) % qsz] = head;
 \end_layout
@@ -1919,7 +1966,7 @@ The idx field always increments, and we let it wrap naturally at 65536:
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 avail->idx += added;
 \end_layout
@@ -2000,27 +2047,27 @@ The guest interrupt handler should read the ISR Status field, which will
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 while (vq->last_seen_used != vring->used.idx) {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     struct vring_used_elem *e = vring.used->ring[vq->last_seen_used%vsz];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     process_buffer(e);
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     vq->last_seen_used++;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 }
 \end_layout
@@ -2047,7 +2094,7 @@ Some virtio PCI devices can change the device configuration state, as reflected
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VIRTIO_PCI_ISR_CONFIG 0x2
 \end_layout
@@ -2084,7 +2131,8 @@ FIXME:
 \end_layout
 
 \begin_layout Standard
-\begin_inset LatexCommand printnomenclature
+\begin_inset CommandInset nomencl_print
+LatexCommand printnomenclature
 
 \end_inset
 
@@ -2100,528 +2148,528 @@ Appendix A: virtio_ring.h
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #ifndef VIRTIO_RING_H
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VIRTIO_RING_H
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* An interface for efficient virtio implementation.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * This header is BSD licensed so anyone can use the definitions
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * to implement compatible drivers/servers.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * Copyright Rusty Russell IBM Corporation 2007, 2009.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* This marks a buffer as continuing via the next field.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VRING_DESC_F_NEXT       1
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* This marks a buffer as write-only (otherwise read-only).
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VRING_DESC_F_WRITE      2
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* The Host uses this in used->flags to advise the Guest: don't kick me
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * when you add a buffer.
   It's unreliable, so it's simply an
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * optimization.
   Guest will still kick if it's out of buffers.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VRING_USED_F_NO_NOTIFY  1
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* The Guest uses this in avail->flags to advise the Host: don't
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * interrupt me when you consume a buffer.
   It's unreliable, so it's
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * simply an optimization.
   */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #define VRING_AVAIL_F_NO_INTERRUPT      1
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* Virtio ring descriptors: 16 bytes.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * These can chain together via "next".
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring_desc {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         /* Address (guest-physical).
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint64_t addr;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         /* Length.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint32_t len;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         /* The flags as indicated above.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint16_t flags;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         /* We chain unused descriptors via this, too */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint16_t next;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 };
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring_avail {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint16_t flags;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint16_t idx;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint16_t ring[];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 };
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* u32 is used here for ids for padding reasons.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring_used_elem {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         /* Index of start of used descriptor chain.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint32_t id;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         /* Total length of the descriptor chain which was written to.
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint32_t len;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 };
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring_used {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint16_t flags;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         uint16_t idx;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         struct vring_used_elem ring[];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 };
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct vring {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         unsigned int num;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         struct vring_desc *desc;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         struct vring_avail *avail;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         struct vring_used *used;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 };
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 /* The standard layout for the ring is a continuous chunk of memory which
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * looks like this.
   We assume num is a power of 2.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * struct vring {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      // The actual descriptors (16 bytes each)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      struct vring_desc desc[num];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      // A ring of available descriptor heads with free-running index.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      __u16 avail_flags;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      __u16 avail_idx;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      __u16 available[num];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      // Padding to the next align boundary.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      char pad[];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      // A ring of used descriptor heads with free-running index.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      __u16 used_flags;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      __u16 used_idx;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  *      struct vring_used_elem used[num];
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * };
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  * Note: for virtio PCI, align is 4096.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  */
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 static inline void vring_init(struct vring *vr, unsigned int num, void *p,
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
                               unsigned long align)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         vr->num = num;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         vr->desc = p;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         vr->avail = p + num*sizeof(struct vring_desc);
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         vr->used = (void *)(((unsigned long)&vr->avail->ring[num]
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
                               + align-1)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
                             & ~(align - 1));
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 }
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 static inline unsigned vring_size(unsigned int num, unsigned long align)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
         return ((sizeof(struct vring_desc)*num + sizeof(uint16_t)*(2+num)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
                  + align - 1) & ~(align - 1))
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
                 + sizeof(uint16_t)*2 + sizeof(struct vring_used_elem)*num;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 }
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 #endif /* VIRTIO_RING_H */
 \end_layout
@@ -2640,20 +2688,592 @@ Currently there is only one device-independent feature bit defined:
 \end_layout
 
 \begin_layout Description
-VIRTIO_F_NOTIFY_ON_EMPTY\InsetSpace ~
-(24) This feature indicates that the driver wants
- an interrupt if the device runs out of available descriptors on a virtqueue,
- even though interrupts are suppressed using the VRING_AVAIL_F_NO_INTERRUPT
- flag.
+VIRTIO_F_NOTIFY_ON_EMPTY
+\begin_inset space ~
+\end_inset
+
+(24) 
+\change_inserted 0 1241504443
+Negotiating 
+\change_deleted 0 1241504444
+T
+\change_inserted 0 1241504444
+t
+\change_unchanged
+his feature indicates that the driver wants an interrupt if the device runs
+ out of available descriptors on a virtqueue, even though interrupts are
+ suppressed using the VRING_AVAIL_F_NO_INTERRUPT flag.
  An example of this is the networking driver: it doesn't need to know every
  time a packet is transmitted, but it does need to free the transmitted
  packets a finite time after they are transmitted.
  It can avoid using a timer if the device interrupts it when all the packets
  are transmitted.
+\change_inserted 0 1239171426
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1241504455
+VIRTIO_F_BAD_FEATURE(30) This feature should never be negotiated by the
+ guest; doing so is an indication that the guest is faulty
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1239171660
+An experimental virtio PCI driver contained in Linux version 2.6.25 had this
+ problem, and this feature bit can be used to detect it.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter*
 Appendix C: Virtio Network Device
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1239172659
+The virtio network device is a virtual ethernet card, and is the most complex
+ of the devices supported so far by virtio.
+ It has enhanced rapidly and demonstrates clearly how support for new features
+ should be added to an existing device.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1239171817
+Configuration
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239171817
+Subsystem
+\begin_inset space ~
+\end_inset
+
+Device
+\begin_inset space ~
+\end_inset
+
+ID 1
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1241502454
+Virtqueues 0:receiveq.
+ 1:transmitq.
+ 2:controlq
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1241502468
+Only if VIRTIO_NET_F_CTRL_VQ set
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239171920
+Feature
+\begin_inset space ~
+\end_inset
+
+bits 
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+
+\change_inserted 0 1239172938
+VIRTIO_NET_F_CSUM
+\begin_inset space ~
+\end_inset
+
+(0) Device handles packets with partial checksum
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239171998
+VIRTIO_NET_F_GUEST_CSUM
+\begin_inset space ~
+\end_inset
+
+(1) Guest handles packets with partial checksum
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239173280
+VIRTIO_NET_F_MAC
+\begin_inset space ~
+\end_inset
+
+(5) Device has given MAC address.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1241505707
+VIRTIO_NET_F_GSO
+\begin_inset space ~
+\end_inset
+
+(6) (Deprecated) device handles packets with any GSO type.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1241505707
+It was supposed to indicate segmentation offload support, but upon further
+ investigation it became clear that multiple bits were required.
+\end_layout
+
+\end_inset
+
+ 
+\change_unchanged
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172149
+VIRTIO_NET_F_GUEST_TSO4
+\begin_inset space ~
+\end_inset
+
+(7) Guest can receive TSOv4.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172157
+VIRTIO_NET_F_GUEST_TSO6
+\begin_inset space ~
+\end_inset
+
+(8) Guest can receive TSOv6.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172167
+VIRTIO_NET_F_GUEST_ECN
+\begin_inset space ~
+\end_inset
+
+(9) Guest can receive TSO with ECN.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172172
+VIRTIO_NET_F_GUEST_UFO
+\begin_inset space ~
+\end_inset
+
+(10) Guest can receive UFO.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172985
+VIRTIO_NET_F_HOST_TSO4
+\begin_inset space ~
+\end_inset
+
+(11) Device can receive TSOv4.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172986
+VIRTIO_NET_F_HOST_TSO6
+\begin_inset space ~
+\end_inset
+
+(12) Device can receive TSOv6.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172987
+VIRTIO_NET_F_HOST_ECN
+\begin_inset space ~
+\end_inset
+
+(13) Device can receive TSO with ECN.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172988
+VIRTIO_NET_F_HOST_UFO
+\begin_inset space ~
+\end_inset
+
+(14) Device can receive UFO.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172278
+VIRTIO_NET_F_MRG_RXBUF
+\begin_inset space ~
+\end_inset
+
+(15) Guest can merge receive buffers.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172310
+VIRTIO_NET_F_STATUS
+\begin_inset space ~
+\end_inset
+
+(16) Configuration status field is available.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172326
+VIRTIO_NET_F_CTRL_VQ
+\begin_inset space ~
+\end_inset
+
+(17) Control channel is available.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172351
+VIRTIO_NET_F_CTRL_RX
+\begin_inset space ~
+\end_inset
+
+(18) Control channel RX mode support.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1239172349
+VIRTIO_NET_F_CTRL_VLAN
+\begin_inset space ~
+\end_inset
+
+(19) Control channel VLAN filtering.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+
+\change_inserted 0 1241502937
+Device
+\begin_inset space ~
+\end_inset
+
+configuration
+\begin_inset space ~
+\end_inset
+
+layout Two configuration fields are currently defined.
+ The mac address field always exists (though is only valid if VIRTIO_NET_F_MAC
+ is set), and the status field only exists if VIRTIO_NET_F_STATUS is set.
+ 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1241502920
+
+#define VIRTIO_NET_S_LINK_UP	1
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1241502913
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1239172455
+
+struct virtio_net_config {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1239172467
+
+    u8 mac[6];
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1239172483
+
+    u16 status;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1239171817
+
+};
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Only one bit is currently defined for the status field: VIRTIO_NET_S_LINK_UP.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1239173440
+Device Initialization
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1239193411
+The initialization routine should identify the receive and transmission
+ virtqueues.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1241504496
+If the VIRTIO_NET_F_MAC feature bit is set, the configuration space 
+\begin_inset Quotes eld
+\end_inset
+
+mac
+\begin_inset Quotes erd
+\end_inset
+
+ entry indicates the 
+\begin_inset Quotes eld
+\end_inset
+
+physical
+\begin_inset Quotes erd
+\end_inset
+
+ address of the the network card, otherwise a private MAC address should
+ be assigned.
+ All guests are expected to negotiate this feature if it is set.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1241504528
+If the VIRTIO_NET_F_CTRL_VQ feature bit is negotiated, identify the control
+ virtqueue.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1241504533
+If the VIRTIO_NET_F_STATUS feature bit is negotiated, the link status can
+ be read from the bottom bit of the 
+\begin_inset Quotes eld
+\end_inset
+
+status
+\begin_inset Quotes erd
+\end_inset
+
+ config field.
+ Otherwise, the link should be assumed active.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1241503802
+The receive virtqueue should be filled with receive buffers.
+ This is described in detail below in 
+\begin_inset Quotes eld
+\end_inset
+
+Setting Up Receive Buffers
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1241504551
+A driver can indicate that it will generate checksumless packets by negotating
+ the VIRTIO_NET_F_CSUM feature.
+ This 
+\begin_inset Quotes eld
+\end_inset
+
+checksum offload
+\begin_inset Quotes erd
+\end_inset
+
+ is a common feature on modern network cards.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1241504661
+Similarly, a driver can use TCP or UDP segmentation offload by negotiating
+ the VIRTIO_NET_F_HOST_TSO4 (IPv4 TCP), VIRTIO_NET_F_HOST_TSO6 (IPv6 TCP)
+ and VIRTIO_NET_F_HOST_UFO (UDP fragmentation) features.
+ It should not send TCP packets requiring segmentation offload which have
+ the Explicit Congestion Notification bit set, unless the VIRTIO_NET_F_HOST_ECN
+ feature is negotiated.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1241504672
+This is a common restriction in real, older network cards.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1241504885
+The converse features are also available: a driver can save the virtual
+ device some work by negotiating these features.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1241504782
+For example, a network packet transported between two guests on the same
+ system may not require checksumming at all, nor segmentation, if both guests
+ are amenable.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+ The VIRTIO_NET_F_GUEST_CSUM feature indicates that partially checksummed
+ packets can be received, and the VIRTIO_NET_F_GUEST_TSO4, VIRTIO_NET_F_GUEST_TS
+O6, VIRTIO_NET_F_GUEST_UFO and VIRTIO_NET_F_GUEST_ECN are the input equivalents
+ of the features described above.
+ See 
+\begin_inset Quotes eld
+\end_inset
+
+Receiving Packets
+\begin_inset Quotes erd
+\end_inset
+
+ below.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1241505534
+Packet Transmission
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1241505536
+FIXME
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1241505557
+Packet Transmission Interrupt
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1241505558
+FIXME
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1241505639
+Setting Up Receive Buffers
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1241505639
+It is generally a good idea to keep the receive virtqueue as fully populated
+ as possible: if it runs out, network performance will suffer.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1241505639
+If the VIRTIO_NET_F_GUEST_TSO4, VIRTIO_NET_F_GUEST_TSO6 or VIRTIO_NET_F_GUEST_UF
+O features are used, the Guest will need to accept packets of up to 65550
+ bytes long (the maximum size of a TCP or UDP packet, plus the 14 byte ethernet
+ header), otherwise 1514 bytes.
+ So unless VIRTIO_NET_F_MRG_RXBUF is negotiated, every buffer in the receive
+ queue needs to be at least this length (obviously each one can be split
+ across multiple descriptors).
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1241505639
+If VIRTIO_NET_F_MRG_RXBUF is negotiated, each buffer must be at least the
+ size of the mrg_rxbuf header.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1241505630
+Packet Receive Interrupt
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1241505647
+FIXME
 \end_layout
 
 \begin_layout Chapter*
@@ -2681,8 +3301,14 @@ Configuration
 \end_layout
 
 \begin_layout Description
-Subsystem\InsetSpace ~
-Device\InsetSpace ~
+Subsystem
+\begin_inset space ~
+\end_inset
+
+Device
+\begin_inset space ~
+\end_inset
+
 ID 10
 \end_layout
 
@@ -2692,17 +3318,28 @@ Virtqueues 0:requestq.
 \end_layout
 
 \begin_layout Description
-Feature\InsetSpace ~
+Feature
+\begin_inset space ~
+\end_inset
+
 bits None defined
 \end_layout
 
 \begin_layout Description
-Device\InsetSpace ~
-configuration\InsetSpace ~
-layout Only one configuration parameter is defined: the
- size of the buffers which the guest should place in the requestq, in bytes.
+Device
+\begin_inset space ~
+\end_inset
+
+configuration
+\begin_inset space ~
+\end_inset
+
+layout Only one configuration parameter is defined: the size of the buffers
+ which the guest should place in the requestq, in bytes.
  This will be the limit on the command message size.
-\newline
+\begin_inset Newline newline
+\end_inset
+
 
 \series bold
 FIXME: should the guest inform the client about max requests in flight?
@@ -2712,17 +3349,17 @@ FIXME: should the guest inform the client about max requests in flight?
 inline false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 struct virtio_dcp_server_config {
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
     u32 request_size;
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 };
 \end_layout
