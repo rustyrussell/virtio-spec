@@ -36,7 +36,7 @@
 \paperpagestyle default
 \tracking_changes true
 \output_changes true
-\author "Rusty Russell,,," 
+\author "" 
 \author "" 
 \end_header
 
@@ -47,23 +47,13 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.0.
-\change_inserted 0 1239171397
-4
-\change_deleted 0 1239171390
-3
-\change_unchanged
- pre-release incomplete
+v0.0.4 pre-release incomplete
 \begin_inset Newline newline
 \end_inset
 
 (
 \noun on
-Contains 
-\change_deleted 0 1239171394
-Some 
-\change_unchanged
-Truthiness
+Contains Truthiness
 \noun default
 )
 \end_layout
@@ -77,13 +67,7 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-
-\change_deleted 0 1239190279
-27/03
-\change_inserted 0 1241505745
-4/05
-\change_unchanged
-/09
+4/05/09
 \end_layout
 
 \begin_layout Chapter
@@ -2692,47 +2676,29 @@ VIRTIO_F_NOTIFY_ON_EMPTY
 \begin_inset space ~
 \end_inset
 
-(24) 
-\change_inserted 0 1241504443
-Negotiating 
-\change_deleted 0 1241504444
-T
-\change_inserted 0 1241504444
-t
-\change_unchanged
-his feature indicates that the driver wants an interrupt if the device runs
- out of available descriptors on a virtqueue, even though interrupts are
- suppressed using the VRING_AVAIL_F_NO_INTERRUPT flag.
+(24) Negotiating this feature indicates that the driver wants an interrupt
+ if the device runs out of available descriptors on a virtqueue, even though
+ interrupts are suppressed using the VRING_AVAIL_F_NO_INTERRUPT flag.
  An example of this is the networking driver: it doesn't need to know every
  time a packet is transmitted, but it does need to free the transmitted
  packets a finite time after they are transmitted.
  It can avoid using a timer if the device interrupts it when all the packets
  are transmitted.
-\change_inserted 0 1239171426
-
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1241504455
 VIRTIO_F_BAD_FEATURE(30) This feature should never be negotiated by the
  guest; doing so is an indication that the guest is faulty
 \begin_inset Foot
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1239171660
 An experimental virtio PCI driver contained in Linux version 2.6.25 had this
  problem, and this feature bit can be used to detect it.
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -2741,8 +2707,6 @@ Appendix C: Virtio Network Device
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1239172659
 The virtio network device is a virtual ethernet card, and is the most complex
  of the devices supported so far by virtio.
  It has enhanced rapidly and demonstrates clearly how support for new features
@@ -2750,14 +2714,10 @@ The virtio network device is a virtual ethernet card, and is the most complex
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 0 1239171817
 Configuration
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239171817
 Subsystem
 \begin_inset space ~
 \end_inset
@@ -2770,8 +2730,6 @@ ID 1
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1241502454
 Virtqueues 0:receiveq.
  1:transmitq.
  2:controlq
@@ -2779,11 +2737,7 @@ Virtqueues 0:receiveq.
 status collapsed
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1241502468
 Only if VIRTIO_NET_F_CTRL_VQ set
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -2792,8 +2746,6 @@ Only if VIRTIO_NET_F_CTRL_VQ set
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239171920
 Feature
 \begin_inset space ~
 \end_inset
@@ -2803,8 +2755,6 @@ bits
 
 \begin_deeper
 \begin_layout Description
-
-\change_inserted 0 1239172938
 VIRTIO_NET_F_CSUM
 \begin_inset space ~
 \end_inset
@@ -2813,8 +2763,6 @@ VIRTIO_NET_F_CSUM
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239171998
 VIRTIO_NET_F_GUEST_CSUM
 \begin_inset space ~
 \end_inset
@@ -2823,8 +2771,6 @@ VIRTIO_NET_F_GUEST_CSUM
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239173280
 VIRTIO_NET_F_MAC
 \begin_inset space ~
 \end_inset
@@ -2833,8 +2779,6 @@ VIRTIO_NET_F_MAC
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1241505707
 VIRTIO_NET_F_GSO
 \begin_inset space ~
 \end_inset
@@ -2844,8 +2788,6 @@ VIRTIO_NET_F_GSO
 status collapsed
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1241505707
 It was supposed to indicate segmentation offload support, but upon further
  investigation it became clear that multiple bits were required.
 \end_layout
@@ -2853,13 +2795,9 @@ It was supposed to indicate segmentation offload support, but upon further
 \end_inset
 
  
-\change_unchanged
-
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172149
 VIRTIO_NET_F_GUEST_TSO4
 \begin_inset space ~
 \end_inset
@@ -2868,8 +2806,6 @@ VIRTIO_NET_F_GUEST_TSO4
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172157
 VIRTIO_NET_F_GUEST_TSO6
 \begin_inset space ~
 \end_inset
@@ -2878,8 +2814,6 @@ VIRTIO_NET_F_GUEST_TSO6
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172167
 VIRTIO_NET_F_GUEST_ECN
 \begin_inset space ~
 \end_inset
@@ -2888,8 +2822,6 @@ VIRTIO_NET_F_GUEST_ECN
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172172
 VIRTIO_NET_F_GUEST_UFO
 \begin_inset space ~
 \end_inset
@@ -2898,8 +2830,6 @@ VIRTIO_NET_F_GUEST_UFO
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172985
 VIRTIO_NET_F_HOST_TSO4
 \begin_inset space ~
 \end_inset
@@ -2908,8 +2838,6 @@ VIRTIO_NET_F_HOST_TSO4
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172986
 VIRTIO_NET_F_HOST_TSO6
 \begin_inset space ~
 \end_inset
@@ -2918,8 +2846,6 @@ VIRTIO_NET_F_HOST_TSO6
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172987
 VIRTIO_NET_F_HOST_ECN
 \begin_inset space ~
 \end_inset
@@ -2928,8 +2854,6 @@ VIRTIO_NET_F_HOST_ECN
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172988
 VIRTIO_NET_F_HOST_UFO
 \begin_inset space ~
 \end_inset
@@ -2938,8 +2862,6 @@ VIRTIO_NET_F_HOST_UFO
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172278
 VIRTIO_NET_F_MRG_RXBUF
 \begin_inset space ~
 \end_inset
@@ -2948,8 +2870,6 @@ VIRTIO_NET_F_MRG_RXBUF
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172310
 VIRTIO_NET_F_STATUS
 \begin_inset space ~
 \end_inset
@@ -2958,8 +2878,6 @@ VIRTIO_NET_F_STATUS
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172326
 VIRTIO_NET_F_CTRL_VQ
 \begin_inset space ~
 \end_inset
@@ -2968,8 +2886,6 @@ VIRTIO_NET_F_CTRL_VQ
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172351
 VIRTIO_NET_F_CTRL_RX
 \begin_inset space ~
 \end_inset
@@ -2978,8 +2894,6 @@ VIRTIO_NET_F_CTRL_RX
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1239172349
 VIRTIO_NET_F_CTRL_VLAN
 \begin_inset space ~
 \end_inset
@@ -2989,8 +2903,6 @@ VIRTIO_NET_F_CTRL_VLAN
 
 \end_deeper
 \begin_layout Description
-
-\change_inserted 0 1241502937
 Device
 \begin_inset space ~
 \end_inset
@@ -3002,6 +2914,7 @@ configuration
 layout Two configuration fields are currently defined.
  The mac address field always exists (though is only valid if VIRTIO_NET_F_MAC
  is set), and the status field only exists if VIRTIO_NET_F_STATUS is set.
+ Only one bit is currently defined for the status field: VIRTIO_NET_S_LINK_UP.
  
 \begin_inset listings
 inline false
@@ -3009,41 +2922,29 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1241502920
-
 #define VIRTIO_NET_S_LINK_UP	1
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1241502913
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1239172455
 
 struct virtio_net_config {
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1239172467
-
     u8 mac[6];
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1239172483
-
     u16 status;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1239171817
 
 };
 \end_layout
@@ -3051,28 +2952,18 @@ struct virtio_net_config {
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-Only one bit is currently defined for the status field: VIRTIO_NET_S_LINK_UP.
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 0 1239173440
 Device Initialization
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 0 1239193411
 The initialization routine should identify the receive and transmission
  virtqueues.
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 0 1241504496
 If the VIRTIO_NET_F_MAC feature bit is set, the configuration space 
 \begin_inset Quotes eld
 \end_inset
@@ -3095,15 +2986,11 @@ physical
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 0 1241504528
 If the VIRTIO_NET_F_CTRL_VQ feature bit is negotiated, identify the control
  virtqueue.
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 0 1241504533
 If the VIRTIO_NET_F_STATUS feature bit is negotiated, the link status can
  be read from the bottom bit of the 
 \begin_inset Quotes eld
@@ -3118,8 +3005,6 @@ status
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 0 1241503802
 The receive virtqueue should be filled with receive buffers.
  This is described in detail below in 
 \begin_inset Quotes eld
@@ -3133,8 +3018,6 @@ Setting Up Receive Buffers
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 0 1241504551
 A driver can indicate that it will generate checksumless packets by negotating
  the VIRTIO_NET_F_CSUM feature.
  This 
@@ -3149,8 +3032,6 @@ checksum offload
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 0 1241504661
 Similarly, a driver can use TCP or UDP segmentation offload by negotiating
  the VIRTIO_NET_F_HOST_TSO4 (IPv4 TCP), VIRTIO_NET_F_HOST_TSO6 (IPv6 TCP)
  and VIRTIO_NET_F_HOST_UFO (UDP fragmentation) features.
@@ -3161,11 +3042,7 @@ Similarly, a driver can use TCP or UDP segmentation offload by negotiating
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1241504672
 This is a common restriction in real, older network cards.
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -3174,21 +3051,15 @@ This is a common restriction in real, older network cards.
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 0 1241504885
 The converse features are also available: a driver can save the virtual
  device some work by negotiating these features.
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1241504782
 For example, a network packet transported between two guests on the same
  system may not require checksumming at all, nor segmentation, if both guests
  are amenable.
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -3209,45 +3080,31 @@ Receiving Packets
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 0 1241505534
 Packet Transmission
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1241505536
 FIXME
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 0 1241505557
 Packet Transmission Interrupt
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1241505558
 FIXME
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 0 1241505639
 Setting Up Receive Buffers
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1241505639
 It is generally a good idea to keep the receive virtqueue as fully populated
  as possible: if it runs out, network performance will suffer.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1241505639
 If the VIRTIO_NET_F_GUEST_TSO4, VIRTIO_NET_F_GUEST_TSO6 or VIRTIO_NET_F_GUEST_UF
 O features are used, the Guest will need to accept packets of up to 65550
  bytes long (the maximum size of a TCP or UDP packet, plus the 14 byte ethernet
@@ -3258,21 +3115,15 @@ O features are used, the Guest will need to accept packets of up to 65550
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1241505639
 If VIRTIO_NET_F_MRG_RXBUF is negotiated, each buffer must be at least the
  size of the mrg_rxbuf header.
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 0 1241505630
 Packet Receive Interrupt
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1241505647
 FIXME
 \end_layout
 
