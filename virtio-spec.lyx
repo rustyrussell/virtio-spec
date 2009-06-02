@@ -36,7 +36,7 @@
 \paperpagestyle default
 \tracking_changes true
 \output_changes true
-\author "" 
+\author "Rusty Russell,,," 
 \author "" 
 \end_header
 
@@ -47,15 +47,27 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.0.4 pre-release incomplete
+v0.
+\change_deleted 0 1243931604
+0.4 pre-release incomplete
+\change_inserted 0 1243931608
+8 DRAFT
+\change_unchanged
+
 \begin_inset Newline newline
 \end_inset
 
+
+\change_deleted 0 1243931617
 (
 \noun on
 Contains Truthiness
 \noun default
 )
+\change_inserted 0 1243931617
+-
+\change_unchanged
+
 \end_layout
 
 \begin_layout Author
@@ -67,7 +79,15 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
+
+\change_deleted 0 1243931648
 4/05/09
+\change_inserted 0 1243931668
+2009 June 2.
+ A Tuesday.
+ Around dinner time.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter
@@ -455,7 +475,13 @@ entropy source
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\change_inserted 0 1243928202
+Appendix F
+\change_deleted 0 1243928200
 -
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -484,7 +510,13 @@ memory ballooning
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\change_inserted 0 1243928206
+Appendix G
+\change_deleted 0 1243928203
 -
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -613,8 +645,11 @@ The DRIVER status bit is set: we know how to drive the device.
 \end_layout
 
 \begin_layout Enumerate
-Device-specific setup, including reading the Device Feature Bits and reading
- and possibly writing the virtio configuration space.
+Device-specific setup, including reading the Device Feature Bits
+\change_inserted 0 1243313610
+, discovery of virtqueues for the device,
+\change_unchanged
+ and reading and possibly writing the virtio configuration space.
 \end_layout
 
 \begin_layout Enumerate
@@ -624,6 +659,33 @@ The subset of Device Feature Bits understood by the driver is written to
 
 \begin_layout Enumerate
 The DRIVER_OK status bit is set.
+\change_inserted 0 1243313571
+
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243313652
+The device can now be used (ie.
+ buffers added to the virtqueues)
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243313797
+Historically, drivers have used the device before steps 5 and 6.
+ This is only allowed if the driver does not use any features which would
+ alter this early use of the device.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -1961,6 +2023,16 @@ avail->idx += added;
 \end_layout
 
 \begin_layout Subsubsection
+
+\change_inserted 0 1243318282
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Notifying-The-Device"
+
+\end_inset
+
+
+\change_unchanged
 Notifying The Device
 \end_layout
 
@@ -1985,6 +2057,16 @@ If the VRING_USED_F_NOTIFY flag is not set, we go ahead and write to the
 \end_layout
 
 \begin_layout Subsection
+
+\change_inserted 0 1243318420
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Receiving-Used-Buffers"
+
+\end_inset
+
+
+\change_unchanged
 Receiving Used Buffers From The Device
 \end_layout
 
@@ -2099,19 +2181,188 @@ Creating New Device Types
 \end_layout
 
 \begin_layout Standard
-FIXME:
+
+\change_deleted 0 1243930058
+FIXME
+\change_inserted 0 1243930133
+Various considerations are necessary when creating a new device type:
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243930312
+How Many Virtqueues?
+\change_deleted 0 1243930111
+:
+\change_inserted 0 1243930163
+
 \end_layout
 
 \begin_layout Standard
+
+\change_inserted 0 1243930279
+It is possible that a very simple device will operate entirely through its
+ configuration space, but most will need at least one virtqueue in which
+ it will place requests.
+ A device with both input and output (eg.
+ console and network devices described here) need two queues: one which
+ the driver fills with buffers to receive input, and one which the driver
+ places buffers to transmit output.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243930315
+What Configuration Space Layout?
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243930440
+Configuration space is generally used for rarely-changing or initialization-time
+ parameters.
+ But it is a limited resource, so it might be better to use a virtqueue
+ to update configuration information (the network device does this for filtering
+, otherwise the table in the config space could potentially be very large).
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243930465
+Note that this space is generally the guest's native endian, rather than
+ PCI's little-endian.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243930497
+What Device Number?
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243930641
+Currently device numbers are assigned quite freely: a simple request mail
+ to the author of this document or the Linux virtualization mailing list
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243930623
+https://lists.linux-foundation.org/mailman/listinfo/virtualization
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+ will be sufficient to secure a unique one.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243930751
+Meanwhile for experimental drivers, use 65535 and work backwards.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243930799
+Message Framing
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243931195
+The descriptors used for a buffer should not effect the semantics of the
+ message, except for the total length of the buffer.
+ For example, a network buffer consists of a 10 byte header followed by
+ the network packet.
+ Whether this is presented in the ring descriptor chain as (say) a 10 byte
+ buffer and a 1514 byte buffer, or a single 1524 byte buffer, or even three
+ buffers, should have no effect.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243931335
+In particular, no implementation should use the descriptor boundaries to
+ determine the size of any header in a request.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243931331
+The current qemu device implementations mistakenly insist that the first
+ descriptor cover the header in these cases exactly, so a cautious driver
+ should arrange it so.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243931349
+Device Improvements
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243931464
+Any change to configuration space, or new virtqueues, or behavioural changes,
+ should be indicated be negotiation of a new feature bit.
+ This establishes clarity
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243931416
+Even if it does mean documenting design or implementation mistakes!
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+ and avoids future expansion problems.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243931546
+Clusters of functionality which are always implemented together can use
+ a single bit, but if one feature makes sense without the others they should
+ not be gratuitously grouped together to conserve feature bits.
+ We can always extend the spec when the first person needs more than 24
+ feature bits for their device.
+\end_layout
+
+\begin_layout Standard
+
+\change_deleted 0 1243931553
 1) Independence of framing from message.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1243931553
 2) Endianness of config space
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1243931553
 3) Assignment of device numbers
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -2668,7 +2919,17 @@ Appendix B: Reserved Feature Bits
 \end_layout
 
 \begin_layout Standard
-Currently there is only one device-independent feature bit defined:
+Currently there 
+\change_deleted 0 1243313907
+is only one
+\change_inserted 0 1243313909
+are only two
+\change_unchanged
+ device-independent feature bit
+\change_inserted 0 1243313912
+s
+\change_unchanged
+ defined:
 \end_layout
 
 \begin_layout Description
@@ -2703,7 +2964,11 @@ An experimental virtio PCI driver contained in Linux version 2.6.25 had this
 \end_layout
 
 \begin_layout Chapter*
-Appendix C: Virtio Network Device
+Appendix C: 
+\change_deleted 0 1243928326
+Virtio 
+\change_unchanged
+Network Device
 \end_layout
 
 \begin_layout Standard
@@ -2711,6 +2976,13 @@ The virtio network device is a virtual ethernet card, and is the most complex
  of the devices supported so far by virtio.
  It has enhanced rapidly and demonstrates clearly how support for new features
  should be added to an existing device.
+
+\change_inserted 0 1243928500
+ Empty buffers are placed in one virtqueue for receiving packets, and outgoing
+ packets are enqueued into another for transmission in that order.
+ A third command queue is used to control advanced filtering features.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Section*
@@ -3032,9 +3304,15 @@ checksum offload
 \end_layout
 
 \begin_layout Enumerate
-Similarly, a driver can use TCP or UDP segmentation offload by negotiating
- the VIRTIO_NET_F_HOST_TSO4 (IPv4 TCP), VIRTIO_NET_F_HOST_TSO6 (IPv6 TCP)
- and VIRTIO_NET_F_HOST_UFO (UDP fragmentation) features.
+
+\change_deleted 0 1243316921
+Similarly
+\change_inserted 0 1243316926
+If that feature is negotiated
+\change_unchanged
+, a driver can use TCP or UDP segmentation offload by negotiating the VIRTIO_NET
+_F_HOST_TSO4 (IPv4 TCP), VIRTIO_NET_F_HOST_TSO6 (IPv6 TCP) and VIRTIO_NET_F_HOST
+_UFO (UDP fragmentation) features.
  It should not send TCP packets requiring segmentation offload which have
  the Explicit Congestion Notification bit set, unless the VIRTIO_NET_F_HOST_ECN
  feature is negotiated.
@@ -3065,9 +3343,15 @@ For example, a network packet transported between two guests on the same
 \end_inset
 
  The VIRTIO_NET_F_GUEST_CSUM feature indicates that partially checksummed
- packets can be received, and the VIRTIO_NET_F_GUEST_TSO4, VIRTIO_NET_F_GUEST_TS
-O6, VIRTIO_NET_F_GUEST_UFO and VIRTIO_NET_F_GUEST_ECN are the input equivalents
- of the features described above.
+ packets can be received, and 
+\change_inserted 0 1243316971
+if it can do that then the 
+\change_deleted 0 1243316960
+the
+\change_unchanged
+ VIRTIO_NET_F_GUEST_TSO4, VIRTIO_NET_F_GUEST_TSO6, VIRTIO_NET_F_GUEST_UFO
+ and VIRTIO_NET_F_GUEST_ECN are the input equivalents of the features described
+ above.
  See 
 \begin_inset Quotes eld
 \end_inset
@@ -3080,22 +3364,376 @@ Receiving Packets
 \end_layout
 
 \begin_layout Section*
+
+\change_inserted 0 1243315141
+Device Operation
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243315418
+Packets are transmitted by placing them in the transmitq, and buffers for
+ incoming packets are placed in the receiveq.
+ In each case, the packet itself is preceeded by a header:
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243315772
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315489
+
+struct virtio_net_hdr {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315616
+
+#define VIRTIO_NET_HDR_F_NEEDS_CSUM    1
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315504
+
+	u8 flags;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315614
+
+#define VIRTIO_NET_HDR_GSO_NONE        0
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315609
+
+#define VIRTIO_NET_HDR_GSO_TCPV4       1
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315649
+
+#define VIRTIO_NET_HDR_GSO_UDP		 3
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315650
+
+#define VIRTIO_NET_HDR_GSO_TCPV6       4
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315657
+
+#define VIRTIO_NET_HDR_GSO_ECN      0x80
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315548
+
+	u8 gso_type;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315556
+
+	u16 hdr_len;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315561
+
+	u16 gso_size;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315566
+
+	u16 csum_start;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315704
+
+	u16 csum_offset;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315738
+
+/* Only if VIRTIO_NET_F_MRG_RXBUF: */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315754
+
+	u16 num_buffers
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243315485
+
+};
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243315796
+The controlq is used to control device features such as filtering.
+\end_layout
+
+\begin_layout Subsection*
 Packet Transmission
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1243314030
 FIXME
+\change_inserted 0 1243314993
+Transmitting a single packet is simple, but varies depending on the different
+ features the driver negotiated.
 \end_layout
 
-\begin_layout Section*
+\begin_layout Enumerate
+
+\change_inserted 0 1243317995
+If the driver negotiated VIRTIO_NET_F_CSUM, and the packet has not been
+ fully checksummed, then the virtio_net_hdr's fields are set as follows.
+ Otherwise, the packet must be fully checksummed, and flags is zero.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\change_inserted 0 1243316653
+flags has the VIRTIO_NET_HDR_F_NEEDS_CSUM set,
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted 0 1243320054
+\begin_inset CommandInset label
+LatexCommand label
+name "ite:csum_start-is-set"
+
+\end_inset
+
+csum_start is set to the offset within the packet to begin checksumming,
+ and
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted 0 1243316744
+csum_offset indicates how many bytes after the csum_start the new (16 bit
+ ones' complement) checksum should be placed.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243316566
+For example, consider a partially checksummed TCP (IPv4) packet.
+ It will have a 14 byte ethernet header and 20 byte IP header followed by
+ the TCP header (with the TCP checksum field 16 bytes into that header).
+ csum_start will be 14+20 = 34 (the TCP checksum includes the header), and
+ csum_offset will be 16.
+ The value in the TCP checksum field will be the sum of the TCP pseudo header,
+ so that replacing it by the ones' complement checksum of the TCP header
+ and body will give the correct result.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted 0 1243320246
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:If-the-driver"
+
+\end_inset
+
+If the driver negotiated VIRTIO_NET_F_HOST_TSO4, TSO6 or UFO, and the packet
+ requires TCP segmentation or UDP fragmentation, then the 
+\begin_inset Quotes eld
+\end_inset
+
+gso_type
+\begin_inset Quotes erd
+\end_inset
+
+ field is set to VIRTIO_NET_HDR_GSO_TCPV4, TCPV6 or UDP.
+ (Otherwise, it is set to VIRTIO_NET_HDR_GSO_NONE).
+ In this case, packets larger than 1514 bytes can be transmitted: the metadata
+ indicates how to replicate the packet header to cut it into smaller packets.
+ The other gso fields are set:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\change_inserted 0 1243317768
+hdr_len is set to the length of the headers, including the transport header.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243317859
+Note that UFO is in fact IP fragmentation, so the inclusion of the UDP header
+ in this number is not particularly logical.
+ But it's always 8 bytes long, so compensation is easy.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted 0 1243320285
+gso_size is the size of the packet beyond that header (ie.
+ MSS).
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted 0 1243320411
+If the driver negotiated the VIRTIO_NET_F_HOST_ECN feature, the VIRTIO_NET_HDR_G
+SO_ECN bit may be set in 
+\begin_inset Quotes eld
+\end_inset
+
+gso_type
+\begin_inset Quotes erd
+\end_inset
+
+ as well, indicating that the TCP packet has the ECN bit set.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243320435
+This case is not handled by some older hardware, so is called out specifically
+ in the protocol.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted 0 1243318049
+If the driver negotiated the VIRTIO_NET_F_MRG_RXBUF feature, the num_buffers
+ field is set to zero.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243318321
+The header and packet are added as one output buffer to the transmitq, and
+ the device is notified of the new entry (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Notifying-The-Device"
+
+\end_inset
+
+).
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243318197
+Note that the header will be two bytes longer for the VIRTIO_NET_F_MRG_RXBUF
+ case.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
 Packet Transmission Interrupt
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1243318214
 FIXME
+\change_inserted 0 1243318596
+Often a driver will suppress transmission interrupts using the VRING_AVAIL_F_NO_
+INTERRUPT flag (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Receiving-Used-Buffers"
+
+\end_inset
+
+) and check for used packets in the transmit path of following packets.
+ However, it will still receive interrupts if the VIRTIO_F_NOTIFY_ON_EMPTY
+ feature is negotiated, indicating that the transmission queue is completely
+ emptied.
 \end_layout
 
-\begin_layout Section*
+\begin_layout Standard
+
+\change_inserted 0 1243318668
+The normal behavior in this interrupt handler is to retrieve and new descriptors
+ from the used ring and free the corresponding headers and packets.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Subsection*
 Setting Up Receive Buffers
 \end_layout
 
@@ -3110,29 +3748,1527 @@ O features are used, the Guest will need to accept packets of up to 65550
  bytes long (the maximum size of a TCP or UDP packet, plus the 14 byte ethernet
  header), otherwise 1514 bytes.
  So unless VIRTIO_NET_F_MRG_RXBUF is negotiated, every buffer in the receive
- queue needs to be at least this length (obviously each one can be split
- across multiple descriptors).
+ queue needs to be at least this length 
+\change_deleted 0 1243318712
+(obviously each one can be split across multiple descriptors)
+\change_inserted 0 1243318712
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243318727
+Obviously each one can be split across multiple descriptor elements.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Standard
 If VIRTIO_NET_F_MRG_RXBUF is negotiated, each buffer must be at least the
- size of the mrg_rxbuf header.
+ size of the 
+\change_deleted 0 1243318737
+mrg_rxbuf
+\change_unchanged
+ 
+\change_inserted 0 1243319790
+
+\family typewriter
+struct virtio_net_hdr
+\change_deleted 0 1243318751
+
+\family default
+header
+\change_unchanged
+.
 \end_layout
 
-\begin_layout Section*
+\begin_layout Subsection*
 Packet Receive Interrupt
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1243318761
 FIXME
+\change_inserted 0 1243319033
+When a packet is copied into a buffer in the receiveq, the optimal path
+ is to disable further interrupts for the receiveq (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Receiving-Used-Buffers"
+
+\end_inset
+
+) and process packets until no more are found, then re-enable them.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243319043
+Processing packet involves:
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243319626
+If the driver negotiated the VIRTIO_NET_F_MRG_RXBUF feature, then the 
+\begin_inset Quotes eld
+\end_inset
+
+num_buffers
+\begin_inset Quotes erd
+\end_inset
+
+ field indicates how many descriptors this packet is spread over (including
+ this one).
+ This allows receipt of large packets without having to allocate large buffers.
+ In this case, there will be at least 
+\begin_inset Quotes eld
+\end_inset
+
+num_buffers
+\begin_inset Quotes erd
+\end_inset
+
+ in the used ring, and they should be chained together to form a single
+ packet.
+ The other buffers will 
+\emph on
+not
+\emph default
+ begin with a 
+\family typewriter
+struct virtio_net_hdr
+\family default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243319842
+If the VIRTIO_NET_F_MRG_RXBUF feature was not negotiated, or the 
+\begin_inset Quotes eld
+\end_inset
+
+num_buffers
+\begin_inset Quotes erd
+\end_inset
+
+ field is one, then the entire packet will be contained within this buffer,
+ immediately following the 
+\family typewriter
+struct virtio_net_hdr
+\family default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243320096
+If the VIRTIO_NET_F_GUEST_CSUM feature was negotiated, the VIRTIO_NET_HDR_F_NEED
+S_CSUM bit in the 
+\begin_inset Quotes eld
+\end_inset
+
+flags
+\begin_inset Quotes erd
+\end_inset
+
+ field may be set: if so, the checksum on the packet is incomplete and the
+ 
+\begin_inset Quotes eld
+\end_inset
+
+csum_start
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+csum_offset
+\begin_inset Quotes erd
+\end_inset
+
+ fields indicate how to calculate it (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ite:csum_start-is-set"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243320265
+If the VIRTIO_NET_F_GUEST_TSO4, TSO6 or UFO options were negotiated, then
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+gso_type
+\begin_inset Quotes erd
+\end_inset
+
+ may be something other than VIRTIO_NET_HDR_GSO_NONE, and the 
+\begin_inset Quotes eld
+\end_inset
+
+gso_size
+\begin_inset Quotes erd
+\end_inset
+
+ field indicates the desired MSS (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:If-the-driver"
+
+\end_inset
+
+).
+\change_deleted 0 1243319625
+
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243320587
+Control Virtqueue
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243320949
+The driver uses the control virtqueue (if VIRTIO_NET_F_VTRL_VQ is negotiated)
+ to send commands to manipulate various features of the device which would
+ not easily map into the configuration space.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243320960
+All commands are of the following form:
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243321701
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243320895
+
+struct virtio_net_ctrl {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243320901
+
+	u8 class;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321865
+
+	u8 command;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321839
+
+	u8 command-specific-data[];
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243320926
+
+	u8 ack;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243320988
+
+};
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243320988
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243320993
+
+/* ack values */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243320981
+
+#define VIRTIO_NET_OK     0
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243320984
+
+#define VIRTIO_NET_ERR    1 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243321877
+The class, command and command-specific-data are set by the driver, and
+ the device sets the ack byte.
+ There is little it can do except issue a diagnostic if the ack byte is
+ not VIRTIO_NET_OK.
+\end_layout
+
+\begin_layout Subsection*
+
+\change_inserted 0 1243321252
+Packet Receive Filtering
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243321680
+If the VIRTIO_NET_F_CTRL_RX feature is negotiated, the driver can send control
+ commands for promiscuous mode, multicast receiving, and filtering of MAC
+ addresses.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243321803
+Note that in general, these commands are best-effort: unwanted packets may
+ still arrive.
+ 
+\end_layout
+
+\begin_layout Subsubsection*
+
+\change_inserted 0 1243321473
+Setting Promiscuous Mode
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243321582
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321575
+
+#define VIRTIO_NET_CTRL_RX    0
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321578
+
+ #define VIRTIO_NET_CTRL_RX_PROMISC      0
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321573
+
+ #define VIRTIO_NET_CTRL_RX_ALLMULTI     1 
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243321900
+The class VIRTIO_NET_CTRL_RX has two commands: VIRTIO_NET_CTRL_RX_PROMISC
+ turns promiscuous mode on and off, and VIRTIO_NET_CTRL_RX_ALLMULTI turns
+ all-multicast receive on and off.
+ The command-specific-data is one byte containing 0 (off) or 1 (on).
+\end_layout
+
+\begin_layout Subsubsection*
+
+\change_inserted 0 1243321924
+Setting MAC Address Filtering
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243322029
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321955
+
+struct virtio_net_ctrl_mac {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321961
+
+	u32 entries;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243322343
+
+	u8 macs[entries][ETH_ALEN];
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321974
+
+};
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321980
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321979
+
+#define VIRTIO_NET_CTRL_MAC    1
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243321953
+
+ #define VIRTIO_NET_CTRL_MAC_TABLE_SET        0 
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243322348
+The device can filter incoming packets by any number of destination MAC
+ addresses.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243322187
+Since there are no guarentees, it can use a hash filter orsilently switch
+ to allmulti or promiscuous mode if it is given too many addresses.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+ This table is set using the class VIRTIO_NET_CTRL_MAC and the command VIRTIO_NE
+T_CTRL_MAC_TABLE_SET.
+ The command-specific-data is two variable length tables of 6-byte MAC addresses.
+ The first table contains unicast addresses, and the second contains multicast
+ addresses.
+\end_layout
+
+\begin_layout Subsection*
+
+\change_inserted 0 1243322406
+VLAN Filtering
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243322452
+If the driver negotiates the VIRTION_NET_F_CTRL_VLAN feature, it can control
+ a VLAN filter table in the device.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243322513
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243322400
+
+#define VIRTIO_NET_CTRL_VLAN       2
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243322403
+
+ #define VIRTIO_NET_CTRL_VLAN_ADD             0
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243322397
+
+ #define VIRTIO_NET_CTRL_VLAN_DEL             1 
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243322554
+Both the VIRTIO_NET_CTRL_VLAN_ADD and VIRTIO_NET_CTRL_VLAN_DEL command take
+ a 16-bit VLAN id as the command-specific-data.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter*
-Appendix D: Virtio Block Device
+Appendix D: 
+\change_deleted 0 1243928313
+Virtio 
+\change_unchanged
+Block Device
+\change_inserted 0 1243928345
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243928421
+The virtio block device is a simple virtual block device (ie.
+ disk).
+ Read and write requests (and other exotic requests) are placed in the queue,
+ and serviced (probably out of order) by the device except where noted.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243338809
+Configuration
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243338937
+Subsystem
+\begin_inset space ~
+\end_inset
+
+Device
+\begin_inset space ~
+\end_inset
+
+ID 2
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243338828
+Virtqueues 0:requestq.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243338987
+Feature
+\begin_inset space ~
+\end_inset
+
+bits
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+
+\change_inserted 0 1243339087
+VIRTIO_BLK_F_BARRIER
+\begin_inset space ~
+\end_inset
+
+(0) Host supports request barriers.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243339575
+VIRTIO_BLK_F_SIZE_MAX
+\begin_inset space ~
+\end_inset
+
+(1) Maximum request size is in 
+\begin_inset Quotes eld
+\end_inset
+
+size_max
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243339604
+VIRTIO_BLK_F_SEG_MAX
+\begin_inset space ~
+\end_inset
+
+(2) Maximum number of segments in a request is in 
+\begin_inset Quotes eld
+\end_inset
+
+seg_max
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243339627
+VIRTIO_BLK_F_GEOMETRY
+\begin_inset space ~
+\end_inset
+
+(4) Disk-style geometry specified in 
+\begin_inset Quotes eld
+\end_inset
+
+geometry
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243339263
+VIRTIO_BLK_F_RO
+\begin_inset space \space{}
+\end_inset
+
+(5) Device is read-only.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243339650
+VIRTIO_BLK_F_BLK_SIZE
+\begin_inset space ~
+\end_inset
+
+(6) Block size of disk is in 
+\begin_inset Quotes eld
+\end_inset
+
+blk_size
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+
+\change_inserted 0 1243339813
+Device
+\begin_inset space ~
+\end_inset
+
+configuration
+\begin_inset space ~
+\end_inset
+
+layout The capacity of the device (expressed in 512-byte sectors) is always
+ present.
+ The availability of the others all depend on various feature bits as indicated
+ above.
+ 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339389
+
+struct virtio_blk_config {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339401
+
+	u64 capacity;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339412
+
+	u32 size_max;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339421
+
+	u32 seg_max;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339424
+
+	struct virtio_blk_geometry {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339429
+
+		u16 cylinders;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339433
+
+		u8 heads;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339440
+
+		u8 sectors;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339445
+
+	} geometry;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339455
+
+	u32 blk_size;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243339364
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243339821
+Device Initialization
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243340571
+The device size should be read from the 
+\begin_inset Quotes eld
+\end_inset
+
+capacity
+\begin_inset Quotes erd
+\end_inset
+
+ configuration field.
+ No requests should be submitted which goes beyond this limit.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243348918
+If the VIRTIO_BLK_F_BLK_SIZE feature is negotiated, the blk_size field can
+ be read to determine the optimal sector size for the driver to use.
+ This does not effect the units used in the protocol (always 512 bytes),
+ but awareness of the correct value can effect performance.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243348950
+If the VIRTIO_BLK_F_RO feature is set by the device, any write requests
+ will fail.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243341263
+Device Operation
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243341416
+The driver queues requests to the virtqueue, and they are used by the device
+ (not necessarily in order).
+ Each request is of form:
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243341754
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341463
+
+struct virtio_blk_req {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341530
+
+#define VIRTIO_BLK_T_IN          0
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341529
+
+#define VIRTIO_BLK_T_OUT         1
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341547
+
+#define VIRTIO_BLK_T_BARRIER	 0x80000000
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341551
+
+	u32 type;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341560
+
+	u32 ioprio;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341567
+
+	u64 sector;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341658
+
+	char data[][512];
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341682
+
+#define VIRTIO_BLK_S_OK        0
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341676
+
+#define VIRTIO_BLK_S_IOERR     1
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341652
+
+	u8 status;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243341653
+
+};
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243341920
+The type of the request is either a read (VIRTIO_BLK_T_IN) or a write (VIRTIO_BL
+K_T_OUT); the high bit indicates that this request acts as a barrier and
+ that all preceeding requests must be complete before this one, and all
+ following requests must not be started until this is complete.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243342032
+The ioprio field is a hint about the relative priorities of requests to
+ the device: higher numbers indicate more important requests.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243348967
+The sector number indicates the offset (multiplied by 512) where the read
+ or write is to occur.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243349005
+Note that these first three fields are always read-only: the data field
+ is either read-only or write-only, depending on the type of the request.
+ The size of the read or write can be derived from the total size of the
+ request buffer.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243342693
+The final byte is written by the device: either VIRTIO_BLK_S_OK or VIRTIO_BLK_S_
+IOERR.
 \end_layout
 
 \begin_layout Chapter*
-Appendix E: Virtio Console Device
+Appendix E: 
+\change_deleted 0 1243928307
+Virtio 
+\change_unchanged
+Console Device
+\change_inserted 0 1243928531
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243928625
+The virtio console device is a simple device for text input and output.
+ One or more empty buffers are placed in the receive queue for incoming
+ keystrokes, and outgoing characters are placed in the transmit queue.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243349053
+Configuration
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243349547
+Subsystem
+\begin_inset space ~
+\end_inset
+
+Device
+\begin_inset space ~
+\end_inset
+
+ID 3
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243349557
+Virtqueues 0:receiveq.
+ 1:transmitq.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243349053
+Feature
+\begin_inset space ~
+\end_inset
+
+bits
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+
+\change_inserted 0 1243349602
+VIRTIO_CONSOLE_F_SIZE
+\begin_inset space ~
+\end_inset
+
+(0) Configuration cols and rows fields are valid.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+
+\change_inserted 0 1243349986
+Device
+\begin_inset space ~
+\end_inset
+
+configuration
+\begin_inset space ~
+\end_inset
+
+layout The size of the console is supplied in the configuration space if
+ the VIRTIO_CONSOLE_F_SIZE feature is set:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243349707
+
+struct virtio_console_config {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243349717
+
+	u16 cols;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243349724
+
+	u16 rows;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243349725
+
+};
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243350023
+Device Initialization
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243350066
+If the VIRTIO_CONSOLE_F_SIZE feature is negotiated, the driver can read
+ the console dimensions from the configuration fields.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243350088
+The receiveq is populated with one or more receive buffers.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243350099
+Device Operation
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243350237
+For console output, a buffer containing the characters is placed in the
+ transmitq.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243350226
+Because this is high importance and low bandwidth, the current Linux implementat
+ion polls for the buffer to be used, rather than waiting for an interrupt,
+ simplifying the implementation significantly.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243350296
+When a buffer is used in the receiveq, the contents is the input to the
+ console.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243350374
+If the driver negotiated the VIRTIO_CONSOLE_F_SIZE feature, a configuration
+ change interrupt may occur.
+ The updated size can be read from the configuration fields.
+\end_layout
+
+\begin_layout Chapter*
+
+\change_inserted 0 1243928630
+Appendix F: Entropy Device
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243928663
+The virtio entropy device supplies high-quality randomness for guest use.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243928707
+Configuration
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243928718
+Subsystem
+\begin_inset space ~
+\end_inset
+
+Device
+\begin_inset space ~
+\end_inset
+
+ID 4
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243928723
+Virtqueues 0:requestq.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243928735
+Feature
+\begin_inset space ~
+\end_inset
+
+bits None currently defined
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243928745
+Device
+\begin_inset space ~
+\end_inset
+
+configuration
+\begin_inset space ~
+\end_inset
+
+layout None currently defined.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243928707
+Device Initialization
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243928786
+The virtqueue is initialized
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243928793
+Device Operation
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243928881
+When the driver requires random bytes, it places the descriptor of one or
+ more buffers in the queue.
+ It will be completely filled by random data by the device.
+\end_layout
+
+\begin_layout Chapter*
+
+\change_inserted 0 1243928898
+Appendix G: Memory Balloon Device
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243929067
+The virtio memory balloon device is a primitive device for managing guest
+ memory: the device asks for a certain amount of memory, and the guest supplies
+ it (or withdraws it, if the device has more than it asks for).
+ This allows the guest to adapt to changes in allowance of underlying physical
+ memory.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243926003
+Configuration
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243926043
+Subsystem
+\begin_inset space ~
+\end_inset
+
+Device
+\begin_inset space ~
+\end_inset
+
+ID 5
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243926150
+Virtqueues 0:inflateq.
+ 1:deflateq.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 0 1243926003
+Feature
+\begin_inset space ~
+\end_inset
+
+bits
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+
+\change_inserted 0 1243926195
+VIRTIO_BALLOON_F_MUST_TELL_HOST
+\begin_inset space ~
+\end_inset
+
+(0) Host must be told before pages from the balloon are used.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+
+\change_inserted 0 1243927828
+Device
+\begin_inset space ~
+\end_inset
+
+configuration
+\begin_inset space ~
+\end_inset
+
+layout Both fields of this configuration are always available.
+ Note that they are little endian, despite convention that device fields
+ are guest endian:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243926003
+
+struct virtio_console_config {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243927585
+
+	u32 num_pages;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243927591
+
+	u32 actual;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243926003
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243926003
+Device Initialization
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243928120
+The two virtqueues are identified.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243928136
+Device operation begins immediately.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted 0 1243928139
+Device Operation
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1243929121
+The device is driven by the receipt of a configuration change interrupt:
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243929189
+The 
+\begin_inset Quotes eld
+\end_inset
+
+num_pages
+\begin_inset Quotes erd
+\end_inset
+
+ configuration field is examined.
+ If this is greater than the 
+\begin_inset Quotes eld
+\end_inset
+
+actual
+\begin_inset Quotes erd
+\end_inset
+
+ number of pages, memory must be given to the balloon.
+ If it is less than the 
+\begin_inset Quotes eld
+\end_inset
+
+actual
+\begin_inset Quotes erd
+\end_inset
+
+ number of pages, memory may be taken back from the balloon for general
+ use.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243929230
+To supply memory to the balloon (aka.
+ inflate):
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted 0 1243929494
+The driver constructs an array of addresses of unused memory pages.
+ These addresses are divided by 4096
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243929410
+This is historical, and independent of the guest page size
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+ and the descriptor describing the resulting 32-bit array is added to the
+ inflateq.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted 0 1243929539
+To remove memory from the balloon (aka.
+ deflate):
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted 0 1243929629
+The driver constructs an array of addresses of memory pages it has previously
+ given to the balloon, as described above.
+ This descriptor is added to the deflateq.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243929640
+If the VIRTIO_BALLOON_F_MUST_TELL_HOST feature is set, the guest may not
+ use these requested pages until that descriptor in the deflateq has been
+ used by the device.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 0 1243929830
+Otherwise, the guest may begin to re-use pages previously given to the balloon
+ before the device has acknowledged their withdrawl.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243929761
+In this case, deflation advice is merely a courtesy
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted 0 1243929945
+In either case, once the device has completed the inflation or deflation,
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+actual
+\begin_inset Quotes erd
+\end_inset
+
+ field of the configuration should be updated to reflect the new number
+ of pages in the balloon.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1243930003
+As updates to configuration space are not atomic, this field isn't particularly
+ reliable, but can be used to diagnose buggy guests.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter*
