@@ -47,7 +47,11 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8 DRAFT
+v0.8
+\change_inserted 0 1244603797
+.1
+\change_unchanged
+ DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -63,9 +67,49 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2009 June 2.
- A Tuesday.
- Around dinner time.
+2009 June 
+\change_deleted 0 1244603814
+2
+\change_inserted 0 1244603819
+10
+\change_unchanged
+.
+ A 
+\change_deleted 0 1244603822
+Tu
+\change_inserted 0 1244603824
+Wedn
+\change_unchanged
+esday.
+ Around 
+\change_inserted 0 1244603810
+lunch
+\change_deleted 0 1244603809
+dinner
+\change_unchanged
+ time.
+\change_inserted 0 1244603836
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1244603854
+FIXME: virtio block scsi passthrough section
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1244603931
+FIXME: MSI-X documentation
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 0 1244603938
+FIXME: Indirect buffers
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter
@@ -309,11 +353,11 @@ The Subsystem Device ID indicates which virtio device is supported by the
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="3">
+<lyxtabular version="3" rows="7" columns="3">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="bottom" width="0">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -489,7 +533,7 @@ Appendix G
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -498,7 +542,7 @@ Appendix G
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -507,40 +551,11 @@ Appendix G
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-10
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-DCP server
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Appendix X
+-
 \end_layout
 
 \end_inset
@@ -3398,14 +3413,26 @@ gso_type
 
 \begin_deeper
 \begin_layout Itemize
-hdr_len is set to the length of the headers, including the transport header.
+hdr_len is 
+\change_inserted 0 1244211983
+a hint to the device as to how much of the header needs to be kept to copy
+ into each packet, usually 
+\change_unchanged
+set to the length of the headers, including the transport header.
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
+
+\change_deleted 0 1244211988
 Note that UFO is in fact IP fragmentation, so the inclusion of the UDP header
  in this number is not particularly logical.
  But it's always 8 bytes long, so compensation is easy.
+\change_inserted 0 1244212025
+Due to various bugs in implementations, this field is not useful as a guarantee
+ of the transport header size.
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -4670,10 +4697,14 @@ As updates to configuration space are not atomic, this field isn't particularly
 \end_layout
 
 \begin_layout Chapter*
+
+\change_deleted 0 1244604072
 Appendix X: DCP Server
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604072
 The intent of this virtio device is that the guest act as a Dual Core Protocol
  server, performing I/O operations on an underlying device.
  To this end, it receives requests from the environment/client, sends them
@@ -4682,10 +4713,14 @@ The intent of this virtio device is that the guest act as a Dual Core Protocol
 \end_layout
 
 \begin_layout Section*
+
+\change_deleted 0 1244604072
 Configuration
 \end_layout
 
 \begin_layout Description
+
+\change_deleted 0 1244604072
 Subsystem
 \begin_inset space ~
 \end_inset
@@ -4698,11 +4733,15 @@ ID 10
 \end_layout
 
 \begin_layout Description
+
+\change_deleted 0 1244604072
 Virtqueues 0:requestq.
  1:responseq.
 \end_layout
 
 \begin_layout Description
+
+\change_deleted 0 1244604072
 Feature
 \begin_inset space ~
 \end_inset
@@ -4711,6 +4750,8 @@ bits None defined
 \end_layout
 
 \begin_layout Description
+
+\change_deleted 0 1244604072
 Device
 \begin_inset space ~
 \end_inset
@@ -4728,8 +4769,12 @@ layout Only one configuration parameter is defined: the size of the buffers
 
 \series bold
 FIXME: should the guest inform the client about max requests in flight?
+\change_unchanged
+
 \series default
  
+\change_deleted 0 1244604079
+
 \begin_inset listings
 inline false
 status open
@@ -4755,10 +4800,14 @@ struct virtio_dcp_server_config {
 \end_layout
 
 \begin_layout Section*
+
+\change_deleted 0 1244604079
 Device Initialization
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604079
 The device initialization should identify both virtqueues, and read the
  request size.
  It must then place at least one buffer of request size bytes into the requestq,
@@ -4766,16 +4815,24 @@ The device initialization should identify both virtqueues, and read the
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604079
 Note that there can be more requests in flight than there are entries in
  the requestq, as requests are removed from the requestq as they are processed,
  not as they are completed.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Section*
+
+\change_deleted 0 1244604087
 Device Operation
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604087
 Upon receiving a request from the requestq, the device should dispatch it
  for servicing.
  If it can service more requests than there are entries in the requestq,
@@ -4783,6 +4840,8 @@ Upon receiving a request from the requestq, the device should dispatch it
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604087
 On request completion (by the underlying device), the driver should queue
  the response message on the responseq.
  This response may even reuse the same buffer as the requestq.
@@ -4791,19 +4850,27 @@ On request completion (by the underlying device), the driver should queue
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604087
 When a responseq buffer is used, it can be freed or recycled.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604087
 Note that the exact format of the DCP requests and responses is defined
  in the Dual Core Protocol Specification.
 \end_layout
 
 \begin_layout Section*
+
+\change_deleted 0 1244604044
 Implementation Details
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604044
 Note that the implementation can be simplified significantly if the driver
  limits the number of requests in flight at any time to the qsz of the responseq.
  If a request is considered 
@@ -4819,6 +4886,8 @@ in flight
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604044
 In addition, if the qsz of the responseq is less than or equal to the qsz
  of the requestq, then all the request buffers can be pre-allocated, and
  placed in the requestq descriptor table ahead of time, which then need
@@ -4828,10 +4897,14 @@ In addition, if the qsz of the responseq is less than or equal to the qsz
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted 0 1244604044
 Finally, the request buffers can be reused as response buffers (assuming
  they will always be of sufficient length): the descriptor table of the
  responseq can precisely match that of the requestq, and also remain unaltered
  after initialization.
+\change_unchanged
+
 \end_layout
 
 \end_body
