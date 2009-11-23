@@ -36,7 +36,8 @@
 \paperpagestyle default
 \tracking_changes true
 \output_changes true
-\author "Michael S. Tsirkin" 
+\author "" 
+\author "" 
 \author "" 
 \end_header
 
@@ -47,7 +48,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.1 DRAFT
+v0.8.2 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -63,9 +64,7 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2009 June 10.
- A Wednesday.
- Around lunch time.
+2009 November 23.
 \end_layout
 
 \begin_layout Standard
@@ -1971,13 +1970,8 @@ Notifying The Device
 
 \begin_layout Standard
 Device notification occurs by writing the 16-bit virtqueue index of this
- virtqueue to the Queue Notify field of the virtio header in the 
-\change_inserted 0 1257776268
-first I/O region of the PCI device
-\change_deleted 0 1257776222
-PCI configuration space
-\change_unchanged
-.
+ virtqueue to the Queue Notify field of the virtio header in the first I/O
+ region of the PCI device.
  This can be expensive, however, so the device can suppress such notifications
  if it doesn't need them.
  We have to be careful to expose the new idx value 
@@ -4434,6 +4428,8 @@ The virtio memory balloon device is a primitive device for managing guest
  it (or withdraws it, if the device has more than it asks for).
  This allows the guest to adapt to changes in allowance of underlying physical
  memory.
+ If the feature is negotiated, the device can also be used to communicate
+ guest memory statistics to the host.
 \end_layout
 
 \begin_layout Section*
@@ -4455,6 +4451,17 @@ ID 5
 \begin_layout Description
 Virtqueues 0:inflateq.
  1:deflateq.
+ 2:statsq.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Only if VIRTIO_BALLON_F_STATS_VQ set
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Description
@@ -4472,6 +4479,14 @@ VIRTIO_BALLOON_F_MUST_TELL_HOST
 \end_inset
 
 (0) Host must be told before pages from the balloon are used.
+\end_layout
+
+\begin_layout Description
+VIRTIO_BALLOON_F_STATS_VQ
+\begin_inset space \space{}
+\end_inset
+
+(1) A virtqueue for reporting guest memory statistics is present.
 \end_layout
 
 \end_deeper
@@ -4521,9 +4536,23 @@ Device Initialization
 \end_layout
 
 \begin_layout Enumerate
-The two virtqueues are identified.
+The inflate and deflate virtqueues are identified.
 \end_layout
 
+\begin_layout Enumerate
+If the VIRTIO_BALLOON_F_STATS_VQ feature bit is negotiated:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Identify the stats virtqueue.
+\end_layout
+
+\begin_layout Enumerate
+Add one empty buffer to the stats virtqueue and notify the host.
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 Device operation begins immediately.
 \end_layout
@@ -4532,8 +4561,13 @@ Device operation begins immediately.
 Device Operation
 \end_layout
 
-\begin_layout Standard
-The device is driven by the receipt of a configuration change interrupt:
+\begin_layout Description
+Memory
+\begin_inset space \space{}
+\end_inset
+
+Ballooning The device is driven by the receipt of a configuration change
+ interrupt.
 \end_layout
 
 \begin_layout Enumerate
@@ -4638,7 +4672,7 @@ actual
  field of the configuration should be updated to reflect the new number
  of pages in the balloon.
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 As updates to configuration space are not atomic, this field isn't particularly
@@ -4648,6 +4682,152 @@ As updates to configuration space are not atomic, this field isn't particularly
 \end_inset
 
 
+\end_layout
+
+\begin_layout Description
+Memory
+\begin_inset space \space{}
+\end_inset
+
+Statistics
+\end_layout
+
+\begin_layout Standard
+The stats virtqueue is atypical because communication is driven by the device
+ (not the driver).
+ The channel becomes active at driver initialization time when the driver
+ adds an empty buffer and notifies the device.
+ A request for memory statistics proceeds as follows:
+\end_layout
+
+\begin_layout Enumerate
+The device pushes the buffer onto the used ring and sends an interrupt.
+\end_layout
+
+\begin_layout Enumerate
+The driver pops the used buffer and discards it.
+\end_layout
+
+\begin_layout Enumerate
+The driver collects memory statistics and writes them into a new buffer.
+\end_layout
+
+\begin_layout Enumerate
+The driver adds the buffer to the virtqueue and notifies the device.
+\end_layout
+
+\begin_layout Enumerate
+The device pops the buffer (retaining it to initiate a subsequent request)
+ and consumes the statistics.
+\end_layout
+
+\begin_layout Description
+Memory
+\begin_inset space \space{}
+\end_inset
+
+Statistics
+\begin_inset space \space{}
+\end_inset
+
+Format Each statistic consists of a 16 bit tag and a 64 bit value.
+ Both quantities are represented in the native endian of the guest.
+ All statistics are optional and the driver may choose which ones to supply.
+ To guarantee backwards compatibility, unsupported statistics should be
+ omitted.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+struct virtio_balloon_stat {
+\end_layout
+
+\begin_layout Plain Layout
+
+#define VIRTIO_BALLOON_S_SWAP_IN  0
+\end_layout
+
+\begin_layout Plain Layout
+
+#define VIRTIO_BALLOON_S_SWAP_OUT 1
+\end_layout
+
+\begin_layout Plain Layout
+
+#define VIRTIO_BALLOON_S_MAJFLT   2
+\end_layout
+
+\begin_layout Plain Layout
+
+#define VIRTIO_BALLOON_S_MINFLT   3
+\end_layout
+
+\begin_layout Plain Layout
+
+#define VIRTIO_BALLOON_S_MEMFREE  4
+\end_layout
+
+\begin_layout Plain Layout
+
+#define VIRTIO_BALLOON_S_MEMTOT   5
+\end_layout
+
+\begin_layout Plain Layout
+
+	u16 tag;
+\end_layout
+
+\begin_layout Plain Layout
+
+	u64 val;
+\end_layout
+
+\begin_layout Plain Layout
+
+} __attribute__((packed));
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Description
+Tags
+\end_layout
+
+\begin_layout Description
+VIRTIO_BALLOON_S_SWAP_IN The amount of memory that has been swapped in (in
+ bytes).
+\end_layout
+
+\begin_layout Description
+VIRTIO_BALLOON_S_SWAP_OUT The amount of memory that has been swapped out
+ to disk (in bytes).
+\end_layout
+
+\begin_layout Description
+VIRTIO_BALLOON_S_MAJFLT The number of major page faults that have occurred.
+\end_layout
+
+\begin_layout Description
+VIRTIO_BALLOON_S_MINFLT The number of minor page faults that have occurred.
+\end_layout
+
+\begin_layout Description
+VIRTIO_BALLOON_S_MEMFREE The amount of memory not being used for any purpose
+ (in bytes).
+\end_layout
+
+\begin_layout Description
+VIRTIO_BALLOON_S_MEMTOT The total amount of memory available (in bytes).
 \end_layout
 
 \end_body
