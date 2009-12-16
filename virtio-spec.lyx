@@ -36,7 +36,7 @@
 \paperpagestyle default
 \tracking_changes true
 \output_changes true
-\author "Rusty Russell,,," 
+\author "" 
 \author "" 
 \end_header
 
@@ -47,13 +47,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.
-\change_deleted 0 1260938726
-2
-\change_inserted 0 1260938726
-3
-\change_unchanged
- DRAFT
+v0.8.3 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -69,13 +63,7 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2009 
-\change_deleted 0 1260938729
-November 23
-\change_inserted 0 1260938732
-December 16
-\change_unchanged
-.
+2009 December 16.
 \end_layout
 
 \begin_layout Standard
@@ -2282,62 +2270,44 @@ status open
 \begin_layout Plain Layout
 
  * to implement compatible drivers/servers.
-\change_inserted 0 1260939146
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260939147
 
  *
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260939233
 
  * Copyright 2007, 2009, IBM Corporation
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939196
-
  * All rights reserved.
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260938979
 
  *
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260938985
-
  * Redistribution and use in source and binary forms, with or without
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260938988
 
  * modification, are permitted provided that the following conditions
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260938991
-
  * are met:
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260938996
 
  * 1.
  Redistributions of source code must retain the above copyright
@@ -2345,14 +2315,10 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939002
-
  *    notice, this list of conditions and the following disclaimer.
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260939007
 
  * 2.
  Redistributions in binary form must reproduce the above copyright
@@ -2360,21 +2326,15 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939009
-
  *    notice, this list of conditions and the following disclaimer in the
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939011
-
  *    documentation and/or other materials provided with the distribution.
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260939089
 
  * 3.
  Neither the name of IBM nor the names of its contributors
@@ -2382,21 +2342,15 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939016
-
  *    may be used to endorse or promote products derived from this software
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939018
-
  *    without specific prior written permission.
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260939204
 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
  IS'' AND
@@ -2404,21 +2358,15 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939206
-
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939210
-
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260939212
 
  * ARE DISCLAIMED.
   IN NO EVENT SHALL IBM OR CONTRIBUTORS BE LIABLE
@@ -2426,35 +2374,25 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939214
-
  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260939215
 
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939217
-
  * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939218
-
  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260939220
 
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY
@@ -2462,35 +2400,17 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939222
-
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1260939370
 
  * SUCH DAMAGE.
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1260939372
-
  */
-\change_deleted 0 1260939361
- *
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_deleted 0 1260939378
-
- * Copyright Rusty Russell IBM Corporation 2007, 2009.
- */
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
