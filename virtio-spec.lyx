@@ -36,8 +36,7 @@
 \paperpagestyle default
 \tracking_changes true
 \output_changes true
-\author "" 
-\author "" 
+\author "Rusty Russell,,," 
 \author "" 
 \end_header
 
@@ -3934,7 +3933,15 @@ VIRTIO_BLK_F_SIZE_MAX
 \begin_inset space ~
 \end_inset
 
-(1) Maximum request size is in 
+(1) Maximum 
+\change_deleted 0 1260251223
+request 
+\change_unchanged
+size 
+\change_inserted 0 1260251227
+of any single segment 
+\change_unchanged
+is in 
 \begin_inset Quotes eld
 \end_inset
 
@@ -3999,6 +4006,24 @@ blk_size
 \end_inset
 
 .
+\change_inserted 1 1259672174
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 1 1259672252
+VIRTIO_BLK_F_SECTOR_MAX
+\begin_inset space ~
+\end_inset
+
+(10) Maximum 
+\change_inserted 0 1260251048
+total 
+\change_inserted 1 1259672252
+sectors in an I/O.
+\change_unchanged
+
 \end_layout
 
 \end_deeper
@@ -4068,6 +4093,17 @@ struct virtio_blk_config {
 \begin_layout Plain Layout
 
 	u32 blk_size;
+\change_inserted 1 1259672274
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1 1259672305
+
+	u32 sectors_max;
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -4107,6 +4143,18 @@ If the VIRTIO_BLK_F_BLK_SIZE feature is negotiated, the blk_size field can
 \begin_layout Enumerate
 If the VIRTIO_BLK_F_RO feature is set by the device, any write requests
  will fail.
+\change_inserted 1 1259672345
+
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1 1259672454
+If the VIRTIO_BLK_F_SECTOR_MAX feature is negotiated, the sectors_max field
+ should be read to determine the maximum I/O size for the driver to use.
+ No requests should be submitted which go beyond this limit.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Section*
