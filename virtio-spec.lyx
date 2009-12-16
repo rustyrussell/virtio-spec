@@ -47,7 +47,13 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.2 DRAFT
+v0.8.
+\change_deleted 0 1260938726
+2
+\change_inserted 0 1260938726
+3
+\change_unchanged
+ DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -63,7 +69,13 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2009 November 23.
+2009 
+\change_deleted 0 1260938729
+November 23
+\change_inserted 0 1260938732
+December 16
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Standard
@@ -2270,17 +2282,215 @@ status open
 \begin_layout Plain Layout
 
  * to implement compatible drivers/servers.
+\change_inserted 0 1260939146
+
 \end_layout
 
 \begin_layout Plain Layout
+
+\change_inserted 0 1260939147
 
  *
 \end_layout
 
 \begin_layout Plain Layout
 
+\change_inserted 0 1260939233
+
+ * Copyright 2007, 2009, IBM Corporation
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939196
+
+ * All rights reserved.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260938979
+
+ *
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260938985
+
+ * Redistribution and use in source and binary forms, with or without
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260938988
+
+ * modification, are permitted provided that the following conditions
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260938991
+
+ * are met:
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260938996
+
+ * 1.
+ Redistributions of source code must retain the above copyright
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939002
+
+ *    notice, this list of conditions and the following disclaimer.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939007
+
+ * 2.
+ Redistributions in binary form must reproduce the above copyright
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939009
+
+ *    notice, this list of conditions and the following disclaimer in the
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939011
+
+ *    documentation and/or other materials provided with the distribution.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939089
+
+ * 3.
+ Neither the name of IBM nor the names of its contributors
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939016
+
+ *    may be used to endorse or promote products derived from this software
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939018
+
+ *    without specific prior written permission.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939204
+
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+ IS'' AND
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939206
+
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939210
+
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939212
+
+ * ARE DISCLAIMED.
+  IN NO EVENT SHALL IBM OR CONTRIBUTORS BE LIABLE
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939214
+
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939215
+
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939217
+
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939218
+
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939220
+
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939222
+
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939370
+
+ * SUCH DAMAGE.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 0 1260939372
+
+ */
+\change_deleted 0 1260939361
+ *
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_deleted 0 1260939378
+
  * Copyright Rusty Russell IBM Corporation 2007, 2009.
  */
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -3933,15 +4143,7 @@ VIRTIO_BLK_F_SIZE_MAX
 \begin_inset space ~
 \end_inset
 
-(1) Maximum 
-\change_deleted 0 1260251223
-request 
-\change_unchanged
-size 
-\change_inserted 0 1260251227
-of any single segment 
-\change_unchanged
-is in 
+(1) Maximum size of any single segment is in 
 \begin_inset Quotes eld
 \end_inset
 
@@ -4006,24 +4208,14 @@ blk_size
 \end_inset
 
 .
-\change_inserted 1 1259672174
-
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1 1259672252
 VIRTIO_BLK_F_SECTOR_MAX
 \begin_inset space ~
 \end_inset
 
-(10) Maximum 
-\change_inserted 0 1260251048
-total 
-\change_inserted 1 1259672252
-sectors in an I/O.
-\change_unchanged
-
+(10) Maximum total sectors in an I/O.
 \end_layout
 
 \end_deeper
@@ -4093,17 +4285,11 @@ struct virtio_blk_config {
 \begin_layout Plain Layout
 
 	u32 blk_size;
-\change_inserted 1 1259672274
-
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1259672305
-
 	u32 sectors_max;
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -4143,18 +4329,12 @@ If the VIRTIO_BLK_F_BLK_SIZE feature is negotiated, the blk_size field can
 \begin_layout Enumerate
 If the VIRTIO_BLK_F_RO feature is set by the device, any write requests
  will fail.
-\change_inserted 1 1259672345
-
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 1 1259672454
 If the VIRTIO_BLK_F_SECTOR_MAX feature is negotiated, the sectors_max field
  should be read to determine the maximum I/O size for the driver to use.
  No requests should be submitted which go beyond this limit.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Section*
