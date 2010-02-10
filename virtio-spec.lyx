@@ -36,8 +36,8 @@
 \paperpagestyle default
 \tracking_changes true
 \output_changes true
-\author "Rusty Russell,,," 
-\author "Michael S. Tsirkin" 
+\author "" 
+\author "" 
 \author "" 
 \end_header
 
@@ -48,13 +48,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.
-\change_deleted 0 1265843940
-4
-\change_inserted 0 1265843940
-5
-\change_unchanged
- DRAFT
+v0.8.5 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -70,13 +64,7 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2010 
-\change_deleted 0 1265843949
-January 25
-\change_inserted 0 1265843952
-February 11
-\change_unchanged
-.
+2010 February 11.
 \end_layout
 
 \begin_layout Standard
@@ -85,14 +73,6 @@ FIXME: virtio block scsi passthrough section
 
 \begin_layout Standard
 FIXME: MSI-X documentation
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted 0 1265843201
-FIXME: Indirect buffers
-\change_unchanged
-
 \end_layout
 
 \begin_layout Chapter
@@ -1173,8 +1153,6 @@ to
 For example, feature bit 0 for a network device (i.e.
  Subsystem Device ID 1) indicates that the device supports checksumming
  of packets.
-\change_inserted 0 1265843316
-
 \end_layout
 
 \begin_layout Standard
@@ -1460,15 +1438,9 @@ struct vring_desc {
 \begin_layout Plain Layout
 
 #define VRING_DESC_F_WRITE     2
-\change_deleted 1 1265802057
- 
-\change_inserted 1 1265802048
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265802054
 
 /* This means the buffer contains a list of buffer descriptors.
  */
@@ -1476,11 +1448,7 @@ struct vring_desc {
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1265802049
-
 #define VRING_DESC_F_INDIRECT   4 
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -1517,32 +1485,20 @@ struct vring_desc {
 \begin_layout Standard
 The number of descriptors in the table is specified by the Queue Size field
  for this virtqueue.
-\change_deleted 1 1265801065
-
-\end_layout
-
-\begin_layout Subsubsection
-
-\change_inserted 0 1265843818
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Indirect-Descriptors"
 
 \end_inset
 
-
-\change_inserted 1 1265801341
 Indirect Descriptors
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1265805736
 Some devices benefit by concurrently dispatching a large number of large
  requests.
+ The VIRTIO_RING_F_INDIRECT_DESC feature can be used to allow this (see
  
-\change_inserted 0 1265843714
-The VIRTIO_RING_F_INDIRECT_DESC feature can be used to allow this (see 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "cha:Reserved-Feature-Bits"
@@ -1550,9 +1506,7 @@ reference "cha:Reserved-Feature-Bits"
 \end_inset
 
 ).
- 
-\change_inserted 1 1265805736
-To increase ring capacity it is possible to store a table of 
+ To increase ring capacity it is possible to store a table of 
 \emph on
 indirect descriptors
 \emph default
@@ -1576,36 +1530,26 @@ len
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1265804397
 \begin_inset listings
 inline false
 status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1265804526
-
 struct indirect_descriptor_table {
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265804397
 
     /* The actual descriptors (16 bytes each) */
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1265804473
-
     struct vring_desc desc[len / 16];
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265804397
 
 };
 \end_layout
@@ -1616,8 +1560,6 @@ struct indirect_descriptor_table {
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1265805219
 The first indirect descriptor is located at start of the indirect descriptor
  table (index 0), additional indirect descriptors are chained by next field.
  An indirect descriptor without next field (with flags&NEXT off) signals
@@ -3055,27 +2997,17 @@ static inline unsigned vring_size(unsigned int num, unsigned long align)
 \end_layout
 
 \begin_layout Chapter*
-
-\change_inserted 0 1265843695
 \begin_inset CommandInset label
 LatexCommand label
 name "cha:Reserved-Feature-Bits"
 
 \end_inset
 
-
-\change_unchanged
 Appendix B: Reserved Feature Bits
 \end_layout
 
 \begin_layout Standard
-Currently there are 
-\change_inserted 0 1265843736
-three
-\change_deleted 0 1265843735
-only two
-\change_unchanged
- device-independent feature bits defined:
+Currently there are three device-independent feature bits defined:
 \end_layout
 
 \begin_layout Description
@@ -3091,13 +3023,9 @@ VIRTIO_F_NOTIFY_ON_EMPTY
  packets a finite time after they are transmitted.
  It can avoid using a timer if the device interrupts it when all the packets
  are transmitted.
-\change_inserted 0 1265843743
-
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 0 1265843883
 VIRTIO_F_RING_INDIRECT_DESC
 \begin_inset space ~
 \end_inset
@@ -3111,8 +3039,6 @@ reference "sub:Indirect-Descriptors"
 \end_inset
 
 .
-\change_unchanged
-
 \end_layout
 
 \begin_layout Description
