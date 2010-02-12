@@ -36,8 +36,8 @@
 \paperpagestyle default
 \tracking_changes true
 \output_changes false
-\author "Rusty Russell,,," 
-\author "Michael S. Tsirkin" 
+\author "" 
+\author "" 
 \author "" 
 \end_header
 
@@ -48,13 +48,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.
-\change_deleted 0 1265966182
-5
-\change_inserted 0 1265966182
-6
-\change_unchanged
- DRAFT
+v0.8.6 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -70,29 +64,7 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2010 February 1
-\change_deleted 0 1265966188
-1
-\change_inserted 0 1265966188
-2
-\change_unchanged
-.
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted 0 1265966192
-FIXME: virtio block scsi passthrough section
-\change_unchanged
-
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted 1 1265908736
-FIXME: MSI-X documentation
-\change_unchanged
-
+2010 February 12.
 \end_layout
 
 \begin_layout Chapter
@@ -610,11 +582,8 @@ The DRIVER status bit is set: we know how to drive the device.
 
 \begin_layout Enumerate
 Device-specific setup, including reading the Device Feature Bits, discovery
- of virtqueues for the device, 
-\change_inserted 1 1265905891
-optional MSI-X setup, 
-\change_unchanged
-and reading and possibly writing the virtio configuration space.
+ of virtqueues for the device, optional MSI-X setup, and reading and possibly
+ writing the virtio configuration space.
 \end_layout
 
 \begin_layout Enumerate
@@ -759,8 +728,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265895519
 16 (optional)
 \end_layout
 
@@ -770,8 +737,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265895525
 16 (optional)
 \end_layout
 
@@ -873,8 +838,6 @@ R
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265895422
 R+W
 \end_layout
 
@@ -884,8 +847,6 @@ R+W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265895531
 R+W
 \end_layout
 
@@ -1003,8 +964,6 @@ ISR
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265895579
 Configuration
 \end_layout
 
@@ -1014,8 +973,6 @@ Configuration
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265895618
 Queue
 \end_layout
 
@@ -1135,8 +1092,6 @@ Status
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265895695
 Vector
 \end_layout
 
@@ -1146,8 +1101,6 @@ Vector
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265895623
 Vector
 \end_layout
 
@@ -1294,19 +1247,13 @@ This allows for forwards and backwards compatibility: if the device is enhanced
  support, it will not see that feature bit in the Device Features field
  and can go into backwards compatibility mode (or, for poor implementations,
  set the FAILED Device Status bit).
-\change_inserted 1 1265896046
-
 \end_layout
 
 \begin_layout Subsubsection
-
-\change_inserted 1 1265896301
 Configuration/Queue Vectors
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1265908336
 When MSI-X capability is present and enabled in the device (through standard
  PCI configuration space) 4 bytes at byte offset 20 are used to map configuratio
 n change and queue interrupts to MSI-X vectors.
@@ -1317,8 +1264,6 @@ n change and queue interrupts to MSI-X vectors.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1265907969
 Writing a valid MSI-X Table entry number, 0 to 0x7FF, to one of Configuration/Qu
 eue Vector registers, 
 \emph on
@@ -1331,22 +1276,16 @@ maps
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1265902253
 \begin_inset listings
 inline false
 status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1265902147
-
 /* Vector value used to disable MSI for queue */
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1265902136
 
 #define VIRTIO_MSI_NO_VECTOR            0xffff 
 \end_layout
@@ -1357,61 +1296,21 @@ status open
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1265905829
 Reading these registers returns vector mapped to a given event, or NO_VECTOR
  if unmapped.
  All queue and configuration change events are unmapped by default.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1265907870
 Note that mapping an event to vector might require allocating internal device
  resources, and might fail.
- Devices report such failures by returning 
-\change_inserted 0 1265966352
-the 
-\change_inserted 1 1265907870
-NO_VECTOR value when the relevant Vector field is read.
- After mapping an event to vector, 
-\change_inserted 0 1265966357
-the 
-\change_inserted 1 1265907870
-driver must verify success by reading the Vector field value
-\change_inserted 0 1265966362
-: 
-\change_inserted 1 1265907870
-on success, 
-\change_inserted 0 1265966364
-the 
-\change_inserted 1 1265907870
-previously written value is returned
-\change_deleted 0 1265966367
-;
-\change_inserted 0 1265966369
-, and
-\change_inserted 1 1265907870
- on failure, NO_VECTOR 
-\change_deleted 0 1265966375
-value 
-\change_inserted 1 1265907870
-is returned.
- If 
-\change_inserted 0 1265966378
-a 
-\change_inserted 1 1265907870
-mapping failure is detected, 
-\change_inserted 0 1265966381
-the 
-\change_inserted 1 1265907870
-driver can retry mapping with 
-\change_inserted 0 1265966385
-fewer
-\change_deleted 0 1265966384
-less 
-\change_inserted 1 1265907870
-vectors, or disable MSI-X.
+ Devices report such failures by returning the NO_VECTOR value when the
+ relevant Vector field is read.
+ After mapping an event to vector, the driver must verify success by reading
+ the Vector field value: on success, the previously written value is returned,
+ and on failure, NO_VECTOR is returned.
+ If a mapping failure is detected, the driver can retry mapping with fewervector
+s, or disable MSI-X.
 \end_layout
 
 \begin_layout Section
@@ -1455,13 +1354,9 @@ The 4096 is based on the x86 page size, but it's also large enough to ensure
 \end_inset
 
 
-\change_inserted 1 1265902802
-
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 1 1265907664
 Optionally, if MSI-X capability is present and enabled on the device, select
  a vector to use to request interrupts triggered by virtqueue events.
  Write the MSI-X Table entry number corresponding to this vector in Queue
@@ -2351,17 +2246,11 @@ Update the used ring idx.
 
 \begin_layout Enumerate
 If the VRING_AVAIL_F_NO_INTERRUPT flag is not set in avail->flags:
-\change_inserted 1 1265903387
-
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
-
-\change_inserted 1 1265903435
 If MSI-X capability is disabled:
-\change_unchanged
-
 \end_layout
 
 \begin_deeper
@@ -2371,66 +2260,43 @@ Set the lower bit of the ISR Status field for the device.
 
 \begin_layout Enumerate
 Send the appropriate PCI interrupt for the device.
-\change_inserted 1 1265904154
-
 \end_layout
 
 \end_deeper
 \begin_layout Enumerate
-
-\change_inserted 1 1265903452
 If MSI-X capability is enabled:
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
-
-\change_inserted 1 1265907522
 Request the appropriate MSI-X interrupt message for the device, Queue Vector
  field sets the MSI-X Table entry number.
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 1 1265907541
 If Queue Vector field value is NO_VECTOR, no interrupt message is requested
  for this event.
-\change_unchanged
-
 \end_layout
 
 \end_deeper
 \end_deeper
 \begin_layout Standard
-The guest interrupt handler should
-\change_inserted 1 1265904434
-:
+The guest interrupt handler should:
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 1 1265904449
-If MSI-X capability is disabled: 
-\change_deleted 1 1265904425
- 
-\change_unchanged
-read the ISR Status field, which will reset it to zero.
+If MSI-X capability is disabled: read the ISR Status field, which will reset
+ it to zero.
  If the lower bit is zero, the interrupt was not for this device.
  Otherwise, the guest driver should look through the used rings of each
  virtqueue for the device, to see if any progress has been made by the device
  which requires servicing.
-\change_inserted 1 1265904489
-
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 1 1265904546
 If MSI-X capability is enabled: look through the used rings of each virtqueue
  mapped to the specific MSI-X vector for the device, to see if any progress
  has been made by the device which requires servicing.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Standard
@@ -2475,60 +2341,23 @@ Dealing With Configuration Changes
 \begin_layout Standard
 Some virtio PCI devices can change the device configuration state, as reflected
  in the virtio header in the PCI configuration space.
- In this case
-\change_inserted 1 1265904732
-:
+ In this case:
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 1 1265904810
-If MSI-X capability is disabled:
-\change_deleted 1 1265904811
-,
-\change_unchanged
- an interrupt is delivered and the second highest bit is set in the ISR
- Status field to indicate that the driver should re-examine the configuration
- space.
-\change_deleted 1 1265905023
-
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-#define VIRTIO_PCI_ISR_CONFIG 0x2
-\end_layout
-
-\end_inset
-
-
-\change_inserted 1 1265905350
-Note that a single interrupt can indicate both that one or more virtqueue
- has been used and that the configuration space has changed: even if the
- config bit is set, virtqueues must be scanned.
+If MSI-X capability is disabled: an interrupt is delivered and the second
+ highest bit is set in the ISR Status field to indicate that the driver
+ should re-examine the configuration space.Note that a single interrupt can
+ indicate both that one or more virtqueue has been used and that the configurati
+on space has changed: even if the config bit is set, virtqueues must be
+ scanned.
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 1 1265907476
 If MSI-X capability is enabled: an interrupt message is requested.
  The Configuration Vector field sets the MSI-X Table entry number to use.
  If Configuration Vector field value is NO_VECTOR, no interrupt message
  is requested for this event.
-\change_unchanged
-
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted 1 1265905342
-Note that a single interrupt can indicate both that one or more virtqueue
- has been used and that the configuration space has changed: even if the
- config bit is set, virtqueues must be scanned.
-\change_inserted 1 1265905057
-
 \end_layout
 
 \begin_layout Chapter
@@ -2594,14 +2423,10 @@ Meanwhile for experimental drivers, use 65535 and work backwards.
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 1 1265906688
 How many MSI-X vectors?
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1265907268
 Using the optional MSI-X capability devices can speed up interrupt processing
  by removing the need to read ISR Status register by guest driver (which
  might be an expensive operation), reducing interrupt sharing between devices
