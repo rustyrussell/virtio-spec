@@ -35,8 +35,8 @@
 \papersides 1
 \paperpagestyle default
 \tracking_changes true
-\output_changes false
-\author "Rusty Russell,,," 
+\output_changes true
+\author "" 
 \author "" 
 \end_header
 
@@ -47,13 +47,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.
-\change_deleted 0 1271744894
-6
-\change_inserted 0 1271744894
-7
-\change_unchanged
- DRAFT
+v0.8.7 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -69,13 +63,7 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2010 
-\change_deleted 0 1271744900
-February 12
-\change_inserted 0 1271744901
-April 20
-\change_unchanged
-.
+2010 April 20.
 \end_layout
 
 \begin_layout Chapter
@@ -638,517 +626,10 @@ Virtio Header
 \end_layout
 
 \begin_layout Standard
-
-\change_deleted 0 1271744348
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="12">
-<features>
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Bits
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-32
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-32
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-32
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-16
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-16
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-16
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-16 (optional)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-16 (optional)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Device specific
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Read/Write
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R+W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R+W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R+W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R+W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R+W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R+W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-R+W
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Device specific
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Purpose
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Device
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Guest
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Queue
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Queue
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Queue
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Queue
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Device
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-ISR
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Configuration
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Queue
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Device
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Features
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Features
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Address
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Size
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Select
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Notify
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Status
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Status
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Vector
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Vector
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Configuration...
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\change_inserted 0 1271744395
-
-\end_layout
-
-\begin_layout Standard
-
-\change_inserted 0 1271744411
 The virtio header looks as follows:
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1271744453
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="9">
 <features>
@@ -1166,8 +647,6 @@ The virtio header looks as follows:
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 Bits
 \end_layout
 
@@ -1177,8 +656,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 32
 \end_layout
 
@@ -1188,8 +665,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 32
 \end_layout
 
@@ -1199,8 +674,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 32
 \end_layout
 
@@ -1210,8 +683,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 16
 \end_layout
 
@@ -1221,8 +692,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 16
 \end_layout
 
@@ -1232,8 +701,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 16
 \end_layout
 
@@ -1243,8 +710,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 8
 \end_layout
 
@@ -1254,8 +719,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 8
 \end_layout
 
@@ -1267,8 +730,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 Read/Write
 \end_layout
 
@@ -1278,8 +739,6 @@ Read/Write
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 R
 \end_layout
 
@@ -1289,8 +748,6 @@ R
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 R+W
 \end_layout
 
@@ -1300,8 +757,6 @@ R+W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 R+W
 \end_layout
 
@@ -1311,8 +766,6 @@ R+W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 R
 \end_layout
 
@@ -1322,8 +775,6 @@ R
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 R+W
 \end_layout
 
@@ -1333,8 +784,6 @@ R+W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 R+W
 \end_layout
 
@@ -1344,8 +793,6 @@ R+W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 R+W
 \end_layout
 
@@ -1355,8 +802,6 @@ R+W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 R
 \end_layout
 
@@ -1368,8 +813,6 @@ R
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 Purpose
 \end_layout
 
@@ -1379,8 +822,6 @@ Purpose
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 
 \size footnotesize
 Device
@@ -1392,8 +833,6 @@ Device
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 
 \size footnotesize
 Guest
@@ -1406,7 +845,16 @@ Guest
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744361
+\size footnotesize
+Queue
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 
 \size footnotesize
 Queue
@@ -1419,8 +867,6 @@ Queue
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744361
-
 \size footnotesize
 Queue
 \end_layout
@@ -1432,8 +878,6 @@ Queue
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744361
-
 \size footnotesize
 Queue
 \end_layout
@@ -1444,21 +888,6 @@ Queue
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
-
-\size footnotesize
-Queue
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 
 \size footnotesize
 Device
@@ -1470,8 +899,6 @@ Device
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 
 \size footnotesize
 ISR
@@ -1486,8 +913,6 @@ ISR
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744361
-
 \end_layout
 
 \end_inset
@@ -1496,8 +921,6 @@ ISR
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 
 \size footnotesize
 Features
@@ -1510,8 +933,6 @@ Features
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744361
-
 \size footnotesize
 Features
 \end_layout
@@ -1522,8 +943,6 @@ Features
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 
 \size footnotesize
 Address
@@ -1536,8 +955,6 @@ Address
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744361
-
 \size footnotesize
 Size
 \end_layout
@@ -1548,8 +965,6 @@ Size
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 
 \size footnotesize
 Select
@@ -1562,8 +977,6 @@ Select
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744361
-
 \size footnotesize
 Notify
 \end_layout
@@ -1575,8 +988,6 @@ Notify
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744361
-
 \size footnotesize
 Status
 \end_layout
@@ -1587,8 +998,6 @@ Status
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744361
 
 \size footnotesize
 Status
@@ -1605,15 +1014,11 @@ Status
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1271744508
 If MSI-X is enabled for the device, two additional fields immediately follow
  this header:
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1271744767
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="3">
 <features>
@@ -1625,11 +1030,7 @@ If MSI-X is enabled for the device, two additional fields immediately follow
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744580
 Bits
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1638,11 +1039,7 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744643
 16
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1651,11 +1048,7 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744645
 16
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1666,11 +1059,7 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744583
 Read/Write
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1679,11 +1068,7 @@ Read/Write
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744647
 R+W
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1692,11 +1077,7 @@ R+W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744648
 R+W
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1707,11 +1088,7 @@ R+W
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744598
 Purpose
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1720,13 +1097,9 @@ Purpose
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744671
 
 \size footnotesize
 Configuration
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1736,12 +1109,8 @@ Configuration
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744688
-
 \size footnotesize
 Queue
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1752,11 +1121,7 @@ Queue
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744698
 (MSI-X)
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1766,12 +1131,8 @@ Queue
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744684
-
 \size footnotesize
 Vector
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1781,12 +1142,8 @@ Vector
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744690
-
 \size footnotesize
 Vector
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -1800,15 +1157,11 @@ Vector
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1271744795
 Immediately following these general headers, there may be device-specific
  headers:
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 0 1271744805
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
 <features>
@@ -1819,8 +1172,6 @@ Immediately following these general headers, there may be device-specific
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744805
 Bits
 \end_layout
 
@@ -1830,8 +1181,6 @@ Bits
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744811
 Device Specific
 \end_layout
 
@@ -1843,8 +1192,6 @@ Device Specific
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744805
 Read/Write
 \end_layout
 
@@ -1854,8 +1201,6 @@ Read/Write
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744825
 Device Specific
 \end_layout
 
@@ -1867,8 +1212,6 @@ Device Specific
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744805
 Purpose
 \end_layout
 
@@ -1878,8 +1221,6 @@ Purpose
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744834
 
 \size footnotesize
 Device Specific...
@@ -1894,8 +1235,6 @@ Device Specific...
 
 \begin_layout Plain Layout
 
-\change_inserted 0 1271744805
-
 \end_layout
 
 \end_inset
@@ -1904,8 +1243,6 @@ Device Specific...
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1271744805
 
 \end_layout
 
@@ -1916,8 +1253,6 @@ Device Specific...
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
