@@ -36,8 +36,8 @@
 \paperpagestyle default
 \tracking_changes true
 \output_changes true
-\author "Rusty Russell,,," 
-\author "Amit Shah" 
+\author "" 
+\author "" 
 \author "" 
 \end_header
 
@@ -48,13 +48,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.
-\change_deleted 0 1272544129
-7
-\change_inserted 0 1272544130
-8
-\change_unchanged
- DRAFT
+v0.8.8 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -70,7 +64,7 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2010 April 20.
+2010 April 29.
 \end_layout
 
 \begin_layout Chapter
@@ -4815,20 +4809,9 @@ The virtio console device is a simple device for data input and output.
  The control virtqueues are used to communicate information between the
  device and the driver about ports being opened and closed on either side
  of the connection, indication from the host about whether a particular
- port is a console port, 
-\change_inserted 1 1271399891
-adding new ports, 
-\change_unchanged
-port hot
-\change_inserted 1 1271399887
--plug/
-\change_unchanged
-unplug, etc.
-\change_inserted 1 1271399946
-, and indication from the guest about whether a port or a device was successfull
-y added, port open/close, etc..
-
-\change_unchanged
+ port is a console port, adding new ports, port hot-plug/unplug, etc., and
+ indication from the guest about whether a port or a device was successfully
+ added, port open/close, etc..
  For data IO, one or more empty buffers are placed in the receive queue
  for incoming data and outgoing characters are placed in the transmit queue.
 \end_layout
@@ -4891,11 +4874,7 @@ configuration
 layout The size of the console is supplied in the configuration space if
  the VIRTIO_CONSOLE_F_SIZE feature is set.
  Furthermore, if the VIRTIO_CONSOLE_F_MULTIPORT feature is set, the maximum
- number of ports supported by the device
-\change_deleted 1 1271400029
- and the number of ports currently active
-\change_unchanged
- can be fetched.
+ number of ports supported by the device can be fetched.
 \begin_inset listings
 inline false
 status open
@@ -4922,17 +4901,6 @@ struct virtio_console_config {
 \begin_layout Plain Layout
 
 	u32 max_nr_ports;
-\change_deleted 1 1271399998
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_deleted 1 1271399993
-
-	u32 nr_ports;
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -4958,30 +4926,14 @@ If the VIRTIO_CONSOLE_F_SIZE feature is negotiated, the driver can read
 If the VIRTIO_CONSOLE_F_MULTIPORT feature is negotiated, the driver can
  spawn multiple ports, not all of which may be attached to a console.
  Some could be generic ports.
- In this case, the control virtqueues are enabled and according to the 
-\change_inserted 1 1271400055
-max_
-\change_unchanged
-nr_ports configuration-space value, the appropriate number of 
-\change_deleted 1 1271400070
-ports and corresponding 
-\change_unchanged
-virtqueues are 
-\change_deleted 1 1271400075
-spawned
-\change_inserted 1 1271400076
-created
-\change_unchanged
-.
- 
-\change_inserted 1 1271400112
-A control message indicating the driver is ready is sent to the host.
+ In this case, the control virtqueues are enabled and according to the max_nr_po
+rts configuration-space value, the appropriate number of virtqueues are
+ created.
+ A control message indicating the driver is ready is sent to the host.
  The host can then send control messages for adding new ports to the device.
- 
-\change_unchanged
-After creating and initializing each port, a VIRTIO_CONSOLE_PORT_READY control
- message is sent to the host for that port so the host can let us know of
- any additional configuration options set for that port.
+ After creating and initializing each port, a VIRTIO_CONSOLE_PORT_READY
+ control message is sent to the host for that port so the host can let us
+ know of any additional configuration options set for that port.
 \end_layout
 
 \begin_layout Enumerate
@@ -5001,13 +4953,9 @@ status open
 Because this is high importance and low bandwidth, the current Linux implementat
 ion polls for the buffer to be used, rather than waiting for an interrupt,
  simplifying the implementation significantly.
-
-\change_inserted 1 1271400345
  However, for generic serial ports with the O_NONBLOCK flag set, the polling
  limitation is relaxed and the consumed buffers are freed upon the next
  write or poll call or when a port is closed or hot-unplugged.
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -5025,17 +4973,9 @@ on was received.
 If the driver negotiated the VIRTIO_CONSOLE_F_SIZE feature, a configuration
  change interrupt may occur.
  The updated size can be read from the configuration fields.
-\change_deleted 1 1271400359
-If the driver negotiated the VIRTIO_CONSOLE_F_MULTIPORT feature, a configuration
- change interrupt may occur that bumps up the value of nr_ports.
- In this case, ports are hot-added.
-\change_inserted 1 1271400879
-
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 1 1271401808
 If the driver negotiated the VIRTIO_CONSOLE_F_MULTIPORT feature, active
  ports are announced by the host using the VIRTIO_CONSOLE_PORT_ADD control
  message.
@@ -5043,14 +4983,10 @@ If the driver negotiated the VIRTIO_CONSOLE_F_MULTIPORT feature, active
 \end_layout
 
 \begin_layout Enumerate
-
-\change_inserted 1 1271401905
 If the host specified a port 'name', a sysfs attribute is created with the
  name filled in, so that udev rules can be written that can create a symlink
  from the port's name to the char device for port discovery by applications
  in the guest.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Enumerate
@@ -5098,100 +5034,44 @@ struct virtio_console_control {
 
 \begin_layout Plain Layout
 
-\change_deleted 1 1271400377
-
-#define VIRTIO_CONSOLE_PORT_READY       0
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_deleted 1 1271400377
-
-#define VIRTIO_CONSOLE_CONSOLE_PORT     1
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_deleted 1 1271400377
-
-#define VIRTIO_CONSOLE_RESIZE           2
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_deleted 1 1271400377
-
-#define VIRTIO_CONSOLE_PORT_OPEN        3
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_deleted 1 1271400377
-
-#define VIRTIO_CONSOLE_PORT_NAME        4
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_deleted 1 1271400377
-
-#define VIRTIO_CONSOLE_PORT_REMOVE      5
-\change_inserted 1 1271400378
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_inserted 1 1271400814
 
 #define VIRTIO_CONSOLE_DEVICE_READY     0
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1271400820
-
 #define VIRTIO_CONSOLE_PORT_ADD         1
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1271400823
 
 #define VIRTIO_CONSOLE_PORT_REMOVE      2
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1271400827
-
 #define VIRTIO_CONSOLE_PORT_READY       3
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1271400830
 
 #define VIRTIO_CONSOLE_CONSOLE_PORT     4
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1271400835
-
 #define VIRTIO_CONSOLE_RESIZE           5
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1271400839
-
 #define VIRTIO_CONSOLE_PORT_OPEN        6
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1271400842
 
 #define VIRTIO_CONSOLE_PORT_NAME        7
 \end_layout
