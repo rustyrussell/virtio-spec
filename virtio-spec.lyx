@@ -47,13 +47,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.
-\change_deleted 0 1275298442
-8
-\change_inserted 0 1275298442
-9
-\change_unchanged
- DRAFT
+v0.8.9 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -69,13 +63,7 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2010 
-\change_deleted 0 1275298446
-April 29
-\change_inserted 0 1285550029
-September 27
-\change_unchanged
-.
+2010 September 27.
 \end_layout
 
 \begin_layout Chapter
@@ -503,8 +491,6 @@ Appendix G
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1285549919
 6
 \end_layout
 
@@ -514,8 +500,6 @@ Appendix G
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1285549926
 ioMemory
 \end_layout
 
@@ -525,8 +509,6 @@ ioMemory
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 0 1285549933
 -
 \end_layout
 
@@ -2388,13 +2370,7 @@ Device notification occurs by writing the 16-bit virtqueue index of this
 before
 \emph default
  checking the suppression flag: it's OK to notify gratuitously, but not
- to 
-\change_deleted 0 1275298277
-skip a 
-\change_inserted 0 1275298282
-omit a required 
-\change_unchanged
-notification.
+ to omit a required notification.
  So again, we use a memory barrier here before reading the flags.
 \end_layout
 
@@ -4611,22 +4587,14 @@ blk_size
 \end_inset
 
 .
-\change_inserted 1 1266444580
-
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1 1266471229
 VIRTIO_BLK_F_SCSI (7) Device supports scsi packet commands.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1 1266444605
 VIRTIO_BLK_F_FLUSH (9) Cache flush command support.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Description
@@ -4778,25 +4746,6 @@ struct virtio_blk_req {
 
 \begin_layout Plain Layout
 
-\change_deleted 1 1266472188
-
-#define VIRTIO_BLK_T_IN          0
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_deleted 1 1266472188
-
-#define VIRTIO_BLK_T_OUT         1
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_deleted 1 1266472188
-
-#define VIRTIO_BLK_T_BARRIER	 0x80000000
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -4821,20 +4770,6 @@ struct virtio_blk_req {
 
 \begin_layout Plain Layout
 
-\change_deleted 1 1266472204
-
-#define VIRTIO_BLK_S_OK        0
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_deleted 1 1266472204
-
-#define VIRTIO_BLK_S_IOERR     1
-\end_layout
-
-\begin_layout Plain Layout
-
 	u8 status;
 \end_layout
 
@@ -4849,8 +4784,6 @@ struct virtio_blk_req {
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1266472490
 If the device has VIRTIO_BLK_F_SCSI feature, it can also support scsi packet
  command requests, each of these requests is of form:
 \begin_inset listings
@@ -4859,106 +4792,76 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266472395
-
 struct virtio_scsi_pc_req {
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266472375
 
 	u32 type;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266472375
-
 	u32 ioprio;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266474298
 
 	u64 sector;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266474308
-
     char cmd[];
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266505809
 
 	char data[][512];
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266505825
-
 #define SCSI_SENSE_BUFFERSIZE   96
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266505848
 
     u8 sense[SCSI_SENSE_BUFFERSIZE];
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266472969
-
     u32 errors;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266472979
 
     u32 data_len;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266472984
-
     u32 sense_len;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266472987
 
     u32 residual;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266472375
-
 	u8 status;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266472375
 
 };
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -4967,27 +4870,18 @@ The
 \emph on
 type
 \emph default
- of the request is either a read (VIRTIO_BLK_T_IN)
-\change_inserted 1 1266495815
-,
-\change_unchanged
+ of the request is either a read (VIRTIO_BLK_T_IN),
+\change_deleted 0 1285634492
  
-\change_deleted 1 1266495817
-or
 \change_unchanged
- a write (VIRTIO_BLK_T_OUT)
-\change_inserted 1 1266497316
-, a scsi packet command (VIRTIO_BLK_T_SCSI_CMD or VIRTIO_BLK_T_SCSI_CMD_OUT
+ a write (VIRTIO_BLK_T_OUT), a scsi packet command (VIRTIO_BLK_T_SCSI_CMD
+ or VIRTIO_BLK_T_SCSI_CMD_OUT
 \begin_inset Foot
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266497390
 the SCSI_CMD and SCSI_CMD_OUT types are equivalent, the device does not
  distinguish between them
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -4997,99 +4891,61 @@ the SCSI_CMD and SCSI_CMD_OUT types are equivalent, the device does not
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266497402
 the FLUSH and FLUSH_OUT types are equivalent, the device does not distinguish
  between them
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-)
-\change_deleted 1 1266503753
-;
-\change_inserted 1 1266503758
-.
-
-\change_unchanged
- 
-\change_inserted 1 1266497301
-If the device has VIRTIO_BLK_F_BARRIER feature
+).
+ If the device has VIRTIO_BLK_F_BARRIER feature
 \begin_inset space ~
 \end_inset
 
-
-\change_unchanged
-the high bit
-\change_inserted 1 1266497301
- (VIRTIO_BLK_T_BARRIER)
-\change_unchanged
- indicates that this request acts as a barrier and that all preceeding requests
- must be complete before this one, and all following requests must not be
- started until this is complete.
-
-\change_inserted 1 1266504385
+the high bit (VIRTIO_BLK_T_BARRIER) indicates that this request acts as
+ a barrier and that all preceeding requests must be complete before this
+ one, and all following requests must not be started until this is complete.
  Note that a barrier does not flush caches in the underlying backend device
  in host, and thus does not serve as data consistency guarantee.
  Driver must use FLUSH request to flush the host cache.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1266472135
 \begin_inset listings
 inline false
 status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266495783
-
 #define VIRTIO_BLK_T_IN           0
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266495782
 
 #define VIRTIO_BLK_T_OUT          1
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266495781
-
 #define VIRTIO_BLK_T_SCSI_CMD     2
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266495799
 
 #define VIRTIO_BLK_T_SCSI_CMD_OUT 3
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266497225
-
 #define VIRTIO_BLK_T_FLUSH        4
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266497237
-
 #define VIRTIO_BLK_T_FLUSH_OUT    5
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266472135
 
 #define VIRTIO_BLK_T_BARRIER	 0x80000000
 \end_layout
@@ -5115,15 +4971,11 @@ sector
 \emph default
  number indicates the offset (multiplied by 512) where the read or write
  is to occur.
-
-\change_inserted 1 1266504683
  This field is unused and set to 0 for scsi packet commands and for flush
  commands.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1266527996
 The 
 \emph on
 cmd
@@ -5133,37 +4985,24 @@ cmd
  This field must reside in a single, separate read-only buffer; command
  length can be derived from the length of this buffer.
  
-\change_unchanged
-
 \end_layout
 
 \begin_layout Standard
-Note that these first three
-\change_inserted 1 1266504407
- (four for scsi packet commands)
-\change_unchanged
- fields are always read-only: the 
+Note that these first three (four for scsi packet commands) fields are always
+ read-only: the 
 \emph on
 data
 \emph default
- field is either read-only or write-only, depending on 
-\change_deleted 1 1266505122
-the type of
+ field is either read-only or write-only, depending on
+\change_deleted 0 1285634492
+ 
 \change_unchanged
  the request.
  The size of the read or write can be derived from the total size of the
- request buffer
-\change_inserted 1 1266504916
-s
-\change_unchanged
-.
-\change_inserted 1 1266506030
-
+ request buffers.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1266528308
 The
 \emph on
  sense
@@ -5173,8 +5012,6 @@ The
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1266528658
 The 
 \emph on
 data_len
@@ -5185,8 +5022,6 @@ d, and should be ignored by the driver.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1266528675
 The 
 \emph on
 sense_len
@@ -5200,66 +5035,39 @@ sense
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1266528717
 The 
 \emph on
 residual
 \emph default
  field is only present for scsi packet command requests and indicates the
  residual size, calculated as data length - number of bytes actually transferred.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Standard
 The final 
-\change_inserted 1 1266471813
-
 \emph on
 status
 \emph default
- 
-\change_unchanged
-byte is written by the device: either VIRTIO_BLK_S_OK
-\change_inserted 1 1266528888
- for success,
-\change_deleted 1 1266528889
- or
-\change_unchanged
- VIRTIO_BLK_S_IOERR
-\change_inserted 1 1266529171
- for host or guest error or VIRTIO_BLK_S_UNSUPP for a request unsupported
+ byte is written by the device: either VIRTIO_BLK_S_OK for success, VIRTIO_BLK_S
+_IOERR for host or guest error or VIRTIO_BLK_S_UNSUPP for a request unsupported
  by host:
-\change_deleted 1 1266471769
-.
-\change_inserted 1 1266471782
-
 \begin_inset listings
 inline false
 status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266471782
-
 #define VIRTIO_BLK_S_OK        0
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1 1266528846
 
 #define VIRTIO_BLK_S_IOERR     1
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1 1266528863
-
 #define VIRTIO_BLK_S_UNSUPP    2
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -5268,8 +5076,6 @@ status open
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1 1266528247
 Historically, devices assumed that the fields 
 \emph on
 type
