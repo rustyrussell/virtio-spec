@@ -47,7 +47,13 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.9 DRAFT
+v0.8.
+\change_deleted 0 1286354405
+9
+\change_inserted 0 1286354406
+10
+\change_unchanged
+ DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -63,7 +69,13 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2010 September 27.
+2010 
+\change_deleted 0 1286354459
+September 27
+\change_inserted 0 1286354462
+October 6
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Chapter
@@ -1784,6 +1796,9 @@ struct vring_desc {
 \begin_layout Standard
 The number of descriptors in the table is specified by the Queue Size field
  for this virtqueue.
+\end_layout
+
+\begin_layout Subsection
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Indirect-Descriptors"
@@ -2076,8 +2091,8 @@ There are two parts to device operation: supplying new buffers to the device,
  and processing used buffers from the device.
  As an example, the virtio network device has two virtqueues: the transmit
  virtqueue and the receive virtqueue.
- The driver adds outgoing (read-only) packets are added to the transmit
- virtqueue, and then frees them after they are used.
+ The driver adds outgoing (read-only) packets to the transmit virtqueue,
+ and then frees them after they are used.
  Similarly, incoming (write-only) buffers are added to the receive virtqueue,
  and processed after they are used.
 \end_layout
@@ -2405,7 +2420,8 @@ Update the used ring idx.
 \end_layout
 
 \begin_layout Enumerate
-If the VRING_AVAIL_F_NO_INTERRUPT flag is not set in avail->flags:
+If the VRING_AVAIL_F_NO_INTERRUPT flag is not set in avail\SpecialChar \nobreakdash-
+>flags:
 \end_layout
 
 \begin_deeper
@@ -2639,7 +2655,7 @@ Device Improvements
 
 \begin_layout Standard
 Any change to configuration space, or new virtqueues, or behavioural changes,
- should be indicated be negotiation of a new feature bit.
+ should be indicated by negotiation of a new feature bit.
  This establishes clarity
 \begin_inset Foot
 status open
@@ -4870,12 +4886,8 @@ The
 \emph on
 type
 \emph default
- of the request is either a read (VIRTIO_BLK_T_IN),
-\change_deleted 0 1285634492
- 
-\change_unchanged
- a write (VIRTIO_BLK_T_OUT), a scsi packet command (VIRTIO_BLK_T_SCSI_CMD
- or VIRTIO_BLK_T_SCSI_CMD_OUT
+ of the request is either a read (VIRTIO_BLK_T_IN), a write (VIRTIO_BLK_T_OUT),
+ a scsi packet command (VIRTIO_BLK_T_SCSI_CMD or VIRTIO_BLK_T_SCSI_CMD_OUT
 \begin_inset Foot
 status open
 
@@ -4993,11 +5005,7 @@ Note that these first three (four for scsi packet commands) fields are always
 \emph on
 data
 \emph default
- field is either read-only or write-only, depending on
-\change_deleted 0 1285634492
- 
-\change_unchanged
- the request.
+ field is either read-only or write-only, depending on the request.
  The size of the read or write can be derived from the total size of the
  request buffers.
 \end_layout
@@ -5169,8 +5177,17 @@ ID 3
 
 \begin_layout Description
 Virtqueues 0:receiveq(port0).
- 1:transmitq(port0), 2:control receiveq, 3:control transmitq, 4:receiveq(port1),
- 5:transmitq(port1), ...
+ 1:transmitq(port0), 2:control receiveq
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Ports 2 onwards only if VIRTIO_CONSOLE_F_MULTIPORT is set
+\end_layout
+
+\end_inset
+
+, 3:control transmitq, 4:receiveq(port1), 5:transmitq(port1), ...
 \end_layout
 
 \begin_layout Description
@@ -5318,7 +5335,7 @@ If the driver negotiated the VIRTIO_CONSOLE_F_MULTIPORT feature, active
 \end_layout
 
 \begin_layout Enumerate
-If the host specified a port 'name', a sysfs attribute is created with the
+If the host specified a port `name', a sysfs attribute is created with the
  name filled in, so that udev rules can be written that can create a symlink
  from the port's name to the char device for port discovery by applications
  in the guest.
