@@ -1,4 +1,4 @@
-#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -36,7 +36,7 @@
 \paperpagestyle default
 \tracking_changes true
 \output_changes true
-\author "Rusty Russell,,," 
+\author "" 
 \author "" 
 \end_header
 
@@ -47,13 +47,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.
-\change_deleted 0 1286354405
-9
-\change_inserted 0 1286354406
-10
-\change_unchanged
- DRAFT
+v0.8.10 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -69,13 +63,7 @@ IBM Corporation
 \end_layout
 
 \begin_layout Date
-2010 
-\change_deleted 0 1286354459
-September 27
-\change_inserted 0 1286354462
-October 6
-\change_unchanged
-.
+2010 October 6.
 \end_layout
 
 \begin_layout Chapter
