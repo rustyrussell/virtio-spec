@@ -67,7 +67,13 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.8.10 DRAFT
+v0.
+\change_deleted -608949062 1306978879
+8.10
+\change_inserted -608949062 1306978879
+9
+\change_unchanged
+ DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -76,14 +82,28 @@ v0.8.10 DRAFT
 
 \begin_layout Author
 Rusty Russell <rusty@rustcorp.com.au>
+\change_deleted -608949062 1306978916
+
 \begin_inset Newline newline
 \end_inset
 
+
+\change_unchanged
 IBM Corporation
+\change_inserted -608949062 1306978920
+ (Editor)
+\change_unchanged
+
 \end_layout
 
 \begin_layout Date
+
+\change_deleted -608949062 1306978900
 2010 October 6.
+\change_inserted -608949062 1306978909
+2011 June 1.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter
