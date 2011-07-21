@@ -56,6 +56,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -608949062 "Rusty Russell,,," 
 \end_header
 
 \begin_body
@@ -65,7 +66,11 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.9 DRAFT
+v0.9
+\change_inserted -608949062 1311234371
+.1
+\change_unchanged
+ DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -77,7 +82,15 @@ Rusty Russell <rusty@rustcorp.com.au>IBM Corporation (Editor)
 \end_layout
 
 \begin_layout Date
-2011 June 1.
+2011 Ju
+\change_inserted -608949062 1311234383
+ly
+\change_deleted -608949062 1311234378
+ne 1
+\change_inserted -608949062 1311234385
+21
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Chapter
@@ -1490,8 +1503,12 @@ FAILED
 \begin_inset space ~
 \end_inset
 
-(128) Indicates that something went wrong in the guest, and it has given
- up on the device.
+(
+\change_deleted -608949062 1307489688
+12
+\change_unchanged
+8) Indicates that something went wrong in the guest, and it has given up
+ on the device.
  This could be an internal error, or the driver didn't like the device for
  some reason, or even a fatal error during device operation.
  The device must be reset before attempting to re-initialize.
