@@ -82,13 +82,11 @@ Rusty Russell <rusty@rustcorp.com.au>IBM Corporation (Editor)
 \end_layout
 
 \begin_layout Date
-2011 Ju
-\change_inserted -608949062 1311234383
-ly
-\change_deleted -608949062 1311234378
-ne 1
-\change_inserted -608949062 1311234385
-21
+2011 
+\change_deleted -608949062 1312174138
+June 1
+\change_inserted -608949062 1312174139
+August 1
 \change_unchanged
 .
 \end_layout
@@ -5098,11 +5096,15 @@ VIRTIO_BLK_F_FLUSH (9) Cache flush command support.
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -608949062 1312174124
 VIRTIO_BLK_F_SECTOR_MAX
 \begin_inset space ~
 \end_inset
 
 (10) Maximum total sectors in an I/O.
+\change_unchanged
+
 \end_layout
 
 \end_deeper
@@ -5176,7 +5178,11 @@ struct virtio_blk_config {
 
 \begin_layout Plain Layout
 
+\change_deleted -608949062 1312174156
+
 	u32 sectors_max;
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -5219,9 +5225,13 @@ If the VIRTIO_BLK_F_RO feature is set by the device, any write requests
 \end_layout
 
 \begin_layout Enumerate
+
+\change_deleted -608949062 1312174165
 If the VIRTIO_BLK_F_SECTOR_MAX feature is negotiated, the sectors_max field
  should be read to determine the maximum I/O size for the driver to use.
  No requests should be submitted which go beyond this limit.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Section*
