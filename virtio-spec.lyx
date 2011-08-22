@@ -1493,7 +1493,13 @@ DRIVER_OK
 \begin_inset space ~
 \end_inset
 
-(3) Indicates that the driver is set up and ready to drive the device.
+(
+\change_deleted -608949062 1313971637
+3
+\change_inserted -608949062 1313971638
+4
+\change_unchanged
+) Indicates that the driver is set up and ready to drive the device.
 \end_layout
 
 \begin_layout Description
@@ -1502,10 +1508,12 @@ FAILED
 \end_inset
 
 (
-\change_deleted -608949062 1307489688
-12
+\change_deleted -608949062 1313971513
+128
+\change_inserted -608949062 1313971643
+128
 \change_unchanged
-8) Indicates that something went wrong in the guest, and it has given up
+) Indicates that something went wrong in the guest, and it has given up
  on the device.
  This could be an internal error, or the driver didn't like the device for
  some reason, or even a fatal error during device operation.
