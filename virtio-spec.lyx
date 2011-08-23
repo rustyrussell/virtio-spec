@@ -56,7 +56,6 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
-\author -608949062 "Rusty Russell,,," 
 \end_header
 
 \begin_body
@@ -66,11 +65,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.9
-\change_inserted -608949062 1311234371
-.1
-\change_unchanged
- DRAFT
+v0.9.1 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -82,13 +77,7 @@ Rusty Russell <rusty@rustcorp.com.au>IBM Corporation (Editor)
 \end_layout
 
 \begin_layout Date
-2011 
-\change_deleted -608949062 1312174138
-June 1
-\change_inserted -608949062 1313992336
-August 22
-\change_unchanged
-.
+2011 August 22.
 \end_layout
 
 \begin_layout Chapter
@@ -291,55 +280,12 @@ Used Ring
 \end_layout
 
 \begin_layout Standard
-When the driver wants to send 
-\change_inserted -608949062 1313991188
-a 
-\change_unchanged
-buffer
-\change_deleted -608949062 1313991186
-s
-\change_unchanged
- to the device, it 
-\change_deleted -608949062 1313991215
-puts them in
-\change_inserted -608949062 1313991285
-fills in a
-\change_unchanged
- 
-\change_deleted -608949062 1313991284
-one or more 
-\change_unchanged
-slot
-\change_deleted -608949062 1313991280
-s
-\change_unchanged
- in the descriptor table
-\change_inserted -608949062 1313991296
- (or chains several together)
-\change_unchanged
-, and writes the descriptor ind
-\change_deleted -608949062 1313991300
-ices
-\change_inserted -608949062 1313991300
-ex
-\change_unchanged
- into the available ring.
+When the driver wants to send a buffer to the device, it fills in a slot
+ in the descriptor table (or chains several together), and writes the descriptor
+ index into the available ring.
  It then notifies the device.
- When the device has finished 
-\change_deleted -608949062 1313991309
-with the
-\change_inserted -608949062 1313991309
-a
-\change_unchanged
- buffer
-\change_deleted -608949062 1313991312
-s
-\change_unchanged
-, it writes the descriptor
-\change_deleted -608949062 1313991317
-s
-\change_unchanged
- into the used ring, and sends an interrupt.
+ When the device has finished a buffer, it writes the descriptor into the
+ used ring, and sends an interrupt.
 \end_layout
 
 \begin_layout Chapter
@@ -1113,14 +1059,10 @@ Status
 \begin_layout Standard
 If MSI-X is enabled for the device, two additional fields immediately follow
  this header:
-\change_inserted -608949062 1314071356
-
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-
-\change_inserted -608949062 1314071356
 ie.
  once you enable MSI-X on the device, the other fields move.
  If you turn it off again, they move back!
@@ -1128,8 +1070,6 @@ ie.
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -1554,13 +1494,7 @@ DRIVER_OK
 \begin_inset space ~
 \end_inset
 
-(
-\change_deleted -608949062 1313971637
-3
-\change_inserted -608949062 1313971638
-4
-\change_unchanged
-) Indicates that the driver is set up and ready to drive the device.
+(4) Indicates that the driver is set up and ready to drive the device.
 \end_layout
 
 \begin_layout Description
@@ -1568,14 +1502,8 @@ FAILED
 \begin_inset space ~
 \end_inset
 
-(
-\change_deleted -608949062 1313971513
-128
-\change_inserted -608949062 1313971643
-128
-\change_unchanged
-) Indicates that something went wrong in the guest, and it has given up
- on the device.
+(128) Indicates that something went wrong in the guest, and it has given
+ up on the device.
  This could be an internal error, or the driver didn't like the device for
  some reason, or even a fatal error during device operation.
  The device must be reset before attempting to re-initialize.
@@ -4302,14 +4230,10 @@ checksum offload
 
 \begin_layout Enumerate
 If that feature is negotiated
-\change_inserted -608949062 1313991835
-
 \begin_inset Foot
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted -608949062 1313992054
 ie.
  VIRTIO_NET_F_HOST_TSO* and VIRTIO_NET_F_HOST_UFO are dependent on VIRTIO_NET_F_
 CSUM; a dvice which offers the offload features must offer the checksum
@@ -4317,14 +4241,10 @@ CSUM; a dvice which offers the offload features must offer the checksum
  checksum feature.
  Similar logic applies to the VIRTIO_NET_F_GUEST_TSO4 features depending
  on VIRTIO_NET_F_GUEST_CSUM.
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 , a driver can use TCP or UDP segmentation offload by negotiating the VIRTIO_NET
 _F_HOST_TSO4 (IPv4 TCP), VIRTIO_NET_F_HOST_TSO6 (IPv6 TCP) and VIRTIO_NET_F_HOST
 _UFO (UDP fragmentation) features.
@@ -4519,18 +4439,9 @@ For example, consider a partially checksummed TCP (IPv4) packet.
  the TCP header (with the TCP checksum field 16 bytes into that header).
  csum_start will be 14+20 = 34 (the TCP checksum includes the header), and
  csum_offset will be 16.
- The value in the TCP checksum field 
-\change_deleted -608949062 1313991657
-will
-\change_inserted -608949062 1313991659
-should
-\change_unchanged
- be 
-\change_inserted -608949062 1313991676
-initialized to 
-\change_unchanged
-the sum of the TCP pseudo header, so that replacing it by the ones' complement
- checksum of the TCP header and body will give the correct result.
+ The value in the TCP checksum field should be initialized to the sum of
+ the TCP pseudo header, so that replacing it by the ones' complement checksum
+ of the TCP header and body will give the correct result.
 \end_layout
 
 \end_inset
@@ -4581,17 +4492,7 @@ Due to various bugs in implementations, this field is not useful as a guarantee
 \end_layout
 
 \begin_layout Itemize
-gso_size is the 
-\change_inserted -608949062 1313992210
-maximum 
-\change_unchanged
-size of 
-\change_deleted -608949062 1313992213
-the
-\change_inserted -608949062 1313992216
-each
-\change_unchanged
- packet beyond that header (ie.
+gso_size is the maximum size of each packet beyond that header (ie.
  MSS).
 \end_layout
 
@@ -5207,18 +5108,6 @@ VIRTIO_BLK_F_SCSI (7) Device supports scsi packet commands.
 VIRTIO_BLK_F_FLUSH (9) Cache flush command support.
 \end_layout
 
-\begin_layout Description
-
-\change_deleted -608949062 1312174124
-VIRTIO_BLK_F_SECTOR_MAX
-\begin_inset space ~
-\end_inset
-
-(10) Maximum total sectors in an I/O.
-\change_unchanged
-
-\end_layout
-
 \end_deeper
 \begin_layout Description
 Device
@@ -5290,11 +5179,6 @@ struct virtio_blk_config {
 
 \begin_layout Plain Layout
 
-\change_deleted -608949062 1312174156
-
-	u32 sectors_max;
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -5334,16 +5218,6 @@ If the VIRTIO_BLK_F_BLK_SIZE feature is negotiated, the blk_size field can
 \begin_layout Enumerate
 If the VIRTIO_BLK_F_RO feature is set by the device, any write requests
  will fail.
-\end_layout
-
-\begin_layout Enumerate
-
-\change_deleted -608949062 1312174165
-If the VIRTIO_BLK_F_SECTOR_MAX feature is negotiated, the sectors_max field
- should be read to determine the maximum I/O size for the driver to use.
- No requests should be submitted which go beyond this limit.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Section*
