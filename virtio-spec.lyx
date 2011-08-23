@@ -85,8 +85,8 @@ Rusty Russell <rusty@rustcorp.com.au>IBM Corporation (Editor)
 2011 
 \change_deleted -608949062 1312174138
 June 1
-\change_inserted -608949062 1312174139
-August 1
+\change_inserted -608949062 1313992336
+August 22
 \change_unchanged
 .
 \end_layout
@@ -291,11 +291,54 @@ Used Ring
 \end_layout
 
 \begin_layout Standard
-When the driver wants to send buffers to the device, it puts them in one
- or more slots in the descriptor table, and writes the descriptor indices
+When the driver wants to send 
+\change_inserted -608949062 1313991188
+a 
+\change_unchanged
+buffer
+\change_deleted -608949062 1313991186
+s
+\change_unchanged
+ to the device, it 
+\change_deleted -608949062 1313991215
+puts them in
+\change_inserted -608949062 1313991285
+fills in a
+\change_unchanged
+ 
+\change_deleted -608949062 1313991284
+one or more 
+\change_unchanged
+slot
+\change_deleted -608949062 1313991280
+s
+\change_unchanged
+ in the descriptor table
+\change_inserted -608949062 1313991296
+ (or chains several together)
+\change_unchanged
+, and writes the descriptor ind
+\change_deleted -608949062 1313991300
+ices
+\change_inserted -608949062 1313991300
+ex
+\change_unchanged
  into the available ring.
  It then notifies the device.
- When the device has finished with the buffers, it writes the descriptors
+ When the device has finished 
+\change_deleted -608949062 1313991309
+with the
+\change_inserted -608949062 1313991309
+a
+\change_unchanged
+ buffer
+\change_deleted -608949062 1313991312
+s
+\change_unchanged
+, it writes the descriptor
+\change_deleted -608949062 1313991317
+s
+\change_unchanged
  into the used ring, and sends an interrupt.
 \end_layout
 
@@ -1070,6 +1113,24 @@ Status
 \begin_layout Standard
 If MSI-X is enabled for the device, two additional fields immediately follow
  this header:
+\change_inserted -608949062 1314071356
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1314071356
+ie.
+ once you enable MSI-X on the device, the other fields move.
+ If you turn it off again, they move back!
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -4240,9 +4301,33 @@ checksum offload
 \end_layout
 
 \begin_layout Enumerate
-If that feature is negotiated, a driver can use TCP or UDP segmentation
- offload by negotiating the VIRTIO_NET_F_HOST_TSO4 (IPv4 TCP), VIRTIO_NET_F_HOST
-_TSO6 (IPv6 TCP) and VIRTIO_NET_F_HOST_UFO (UDP fragmentation) features.
+If that feature is negotiated
+\change_inserted -608949062 1313991835
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1313992054
+ie.
+ VIRTIO_NET_F_HOST_TSO* and VIRTIO_NET_F_HOST_UFO are dependent on VIRTIO_NET_F_
+CSUM; a dvice which offers the offload features must offer the checksum
+ feature, and a driver which accepts the offload features must accept the
+ checksum feature.
+ Similar logic applies to the VIRTIO_NET_F_GUEST_TSO4 features depending
+ on VIRTIO_NET_F_GUEST_CSUM.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+, a driver can use TCP or UDP segmentation offload by negotiating the VIRTIO_NET
+_F_HOST_TSO4 (IPv4 TCP), VIRTIO_NET_F_HOST_TSO6 (IPv6 TCP) and VIRTIO_NET_F_HOST
+_UFO (UDP fragmentation) features.
  It should not send TCP packets requiring segmentation offload which have
  the Explicit Congestion Notification bit set, unless the VIRTIO_NET_F_HOST_ECN
  feature is negotiated.
@@ -4434,9 +4519,18 @@ For example, consider a partially checksummed TCP (IPv4) packet.
  the TCP header (with the TCP checksum field 16 bytes into that header).
  csum_start will be 14+20 = 34 (the TCP checksum includes the header), and
  csum_offset will be 16.
- The value in the TCP checksum field will be the sum of the TCP pseudo header,
- so that replacing it by the ones' complement checksum of the TCP header
- and body will give the correct result.
+ The value in the TCP checksum field 
+\change_deleted -608949062 1313991657
+will
+\change_inserted -608949062 1313991659
+should
+\change_unchanged
+ be 
+\change_inserted -608949062 1313991676
+initialized to 
+\change_unchanged
+the sum of the TCP pseudo header, so that replacing it by the ones' complement
+ checksum of the TCP header and body will give the correct result.
 \end_layout
 
 \end_inset
@@ -4487,7 +4581,17 @@ Due to various bugs in implementations, this field is not useful as a guarantee
 \end_layout
 
 \begin_layout Itemize
-gso_size is the size of the packet beyond that header (ie.
+gso_size is the 
+\change_inserted -608949062 1313992210
+maximum 
+\change_unchanged
+size of 
+\change_deleted -608949062 1313992213
+the
+\change_inserted -608949062 1313992216
+each
+\change_unchanged
+ packet beyond that header (ie.
  MSS).
 \end_layout
 
