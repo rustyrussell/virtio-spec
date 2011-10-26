@@ -56,6 +56,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -608949062 "Rusty Russell,,," 
 \end_header
 
 \begin_body
@@ -65,7 +66,13 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.9.1 DRAFT
+v0.9.
+\change_deleted -608949062 1318992915
+1
+\change_inserted -608949062 1318992915
+2
+\change_unchanged
+ DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -73,11 +80,25 @@ v0.9.1 DRAFT
 \end_layout
 
 \begin_layout Author
-Rusty Russell <rusty@rustcorp.com.au>IBM Corporation (Editor)
+Rusty Russell <rusty@rustcorp.com.au>
+\change_inserted -608949062 1319600881
+
+\begin_inset Newline newline
+\end_inset
+
+
+\change_unchanged
+IBM Corporation (Editor)
 \end_layout
 
 \begin_layout Date
-2011 August 22.
+2011 
+\change_deleted -608949062 1318992925
+August 22
+\change_inserted -608949062 1319600463
+October 26
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Chapter
@@ -602,6 +623,17 @@ Note that this is possible because while the virtio header is PCI (i.e.
 
 \begin_layout Subsection
 Device Initialization Sequence
+\change_inserted -608949062 1318986531
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Device-Initialization-Sequence"
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -1511,6 +1543,17 @@ FAILED
 
 \begin_layout Subsubsection
 Feature Bits
+\change_inserted -608949062 1318986393
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Feature-Bits"
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -1673,6 +1716,17 @@ s, or disable MSI-X.
 
 \begin_layout Section
 Virtqueue Configuration
+\change_inserted -608949062 1318986626
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Virtqueue-Configuration"
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -2353,6 +2407,17 @@ The Linux Kernel Source code contains the definitions above and helper routines
 
 \begin_layout Section
 Device Operation
+\change_inserted -608949062 1318992710
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Device-Operation"
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -2897,6 +2962,17 @@ for (;;) {
 
 \begin_layout Subsection
 Dealing With Configuration Changes
+\change_inserted -608949062 1318992887
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Dealing-With-Configuration"
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -6389,6 +6465,696 @@ VIRTIO_BALLOON_S_MEMFREE The amount of memory not being used for any purpose
 
 \begin_layout Description
 VIRTIO_BALLOON_S_MEMTOT The total amount of memory available (in bytes).
+\change_inserted -608949062 1318985550
+
+\end_layout
+
+\begin_layout Chapter*
+
+\change_inserted -608949062 1318986227
+Appendix X: virtio-mmio
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318986301
+Virtual environments without PCI support (a common situation in embedded
+ devices models) might use simple memory mapped device (
+\begin_inset Quotes eld
+\end_inset
+
+virtio-mmio
+\begin_inset Quotes erd
+\end_inset
+
+) instead of the PCI device.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318986301
+The memory mapped virtio device behaviour is based on the PCI device specificati
+on.
+ Therefore most of operations like device initialization, queues configuration
+ and buffer transfers are nearly identical.
+ Existing differences are described in the following sections.
+\end_layout
+
+\begin_layout Subsection*
+
+\change_inserted -608949062 1318986301
+Device Initialization
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318986301
+Instead of using the PCI IO space for virtio header, the 
+\begin_inset Quotes eld
+\end_inset
+
+virtio-mmio
+\begin_inset Quotes erd
+\end_inset
+
+ device provides a set of memory mapped control registers, all 32 bits wide,
+ followed by device-specific configuration space.
+ The following list presents their layout:
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+Offset from the device base address | Direction | Name 
+\begin_inset Newline newline
+\end_inset
+
+ Description 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x000 | R | MagicValue 
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+virt
+\begin_inset Quotes erd
+\end_inset
+
+ string.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x004 | R | Version 
+\begin_inset Newline newline
+\end_inset
+
+ Device version number.
+ Currently must be 1.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x008 | R | DeviceID 
+\begin_inset Newline newline
+\end_inset
+
+ Virtio Subsystem Device ID (ie.
+ 1 for network card).
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x00c | R | VendorID 
+\begin_inset Newline newline
+\end_inset
+
+ Virtio Subsystem Vendor ID.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986413
+0x010 | R | HostFeatures 
+\begin_inset Newline newline
+\end_inset
+
+ Flags representing features the device supports.
+\begin_inset Newline newline
+\end_inset
+
+ Reading from this register returns 32 consecutive flag bits, first bit
+ depending on the last value written to HostFeaturesSel register.
+ Access to this register returns bits 
+\begin_inset Formula $HostFeaturesSel*32$
+\end_inset
+
+ to 
+\begin_inset Formula $(HostFeaturesSel*32)+31$
+\end_inset
+
+, eg.
+ feature bits 0 to 31 if HostFeaturesSel is set to 0 and features bits 32
+ to 63 if HostFeaturesSel is set to 1.
+ Also see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Feature-Bits"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x014 | W | HostFeaturesSel 
+\begin_inset Newline newline
+\end_inset
+
+ Device (Host) features word selection.
+\begin_inset Newline newline
+\end_inset
+
+ Writing to this register selects a set of 32 device feature bits accessible
+ by reading from HostFeatures register.
+ Device driver must write a value to the HostFeaturesSel register before
+ reading from the HostFeatures register.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986429
+0x020 | W | GuestFeatures 
+\begin_inset Newline newline
+\end_inset
+
+ Flags representing device features understood and activated by the driver.
+\begin_inset Newline newline
+\end_inset
+
+ Writing to this register sets 32 consecutive flag bits, first bit depending
+ on the last value written to GuestFeaturesSel register.
+ Access to this register sets bits 
+\begin_inset Formula $GuestFeaturesSel*32$
+\end_inset
+
+ to 
+\begin_inset Formula $(GuestFeaturesSel*32)+31$
+\end_inset
+
+, eg.
+ feature bits 0 to 31 if GuestFeaturesSel is set to 0 and features bits
+ 32 to 63 if GuestFeaturesSel is set to 1.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1318986301
+
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1318986301
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1318986301
+
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1318986301
+
+\end_layout
+
+\end_inset
+
+ Also see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Feature-Bits"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x024 | W | GuestFeaturesSel 
+\begin_inset Newline newline
+\end_inset
+
+ Activated (Guest) features word selection.
+\begin_inset Newline newline
+\end_inset
+
+ Writing to this register selects a set of 32 activated feature bits accessible
+ by writing to the GuestFeatures register.
+ Device driver must write a value to the GuestFeaturesSel register before
+ writing to the GuestFeatures register.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x028 | W | GuestPageSize 
+\begin_inset Newline newline
+\end_inset
+
+ Guest page size.
+\begin_inset Newline newline
+\end_inset
+
+ Device driver must write the guest page size in bytes to the register during
+ initialization, before any queues are used.
+ This value must be a power of 2 and is used by the Host to calculate Guest
+ address of the first queue page (see QueuePFN).
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x030 | W | QueueSel 
+\begin_inset Newline newline
+\end_inset
+
+ Virtual queue index (first queue is 0).
+\begin_inset Newline newline
+\end_inset
+
+ Writing to this register selects the virtual queue that the following operation
+s on QueueNum, QueueAlign and QueuePFN apply to.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x034 | R | QueueNumMax 
+\begin_inset Newline newline
+\end_inset
+
+ Maximum virtual queue size.
+ 
+\begin_inset Newline newline
+\end_inset
+
+ Reading from the register returns the maximum size of the queue the Host
+ is ready to process or zero (0x0) if the queue is not available.
+ This applies to the queue selected by writing to QueueSel.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x038 | W | QueueNum 
+\begin_inset Newline newline
+\end_inset
+
+ Virtual queue size.
+\begin_inset Newline newline
+\end_inset
+
+ Queue size is a number of elements in the queue, therefore size of the
+ descriptor table and both available and used rings.
+\begin_inset Newline newline
+\end_inset
+
+ Writing to this register notifies the Host what size of the queue the Guest
+ will use.
+ This applies to the queue selected by writing to QueueSel.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x03c | W | QueueAlign 
+\begin_inset Newline newline
+\end_inset
+
+ Used Ring alignment in the virtual queue.
+\begin_inset Newline newline
+\end_inset
+
+ Writing to this register notifies the Host about alignment boundary of
+ the Used Ring in bytes.
+ This value must be a power of 2 and applies to the queue selected by writing
+ to QueueSel.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x040 | RW | QueuePFN 
+\begin_inset Newline newline
+\end_inset
+
+ Guest physical page number of the virtual queue.
+\begin_inset Newline newline
+\end_inset
+
+ Writing to this register notifies the host about location of the virtual
+ queue in the Guest's physical address space.
+ This value is the index number of a page starting with the queue Descriptor
+ Table.
+ Value zero (0x0) means physical address zero (0x00000000) and is illegal.
+ When the Guest stops using the queue it must write zero (0x0) to this register.
+\begin_inset Newline newline
+\end_inset
+
+ Reading from this register returns the currently used page number of the
+ queue, therefore a value other than zero (0x0) means that the queue is
+ in use.
+\begin_inset Newline newline
+\end_inset
+
+ Both read and write accesses apply to the queue selected by writing to
+ QueueSel.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1319600559
+0x050 | W | QueueNotify 
+\begin_inset Newline newline
+\end_inset
+
+ Queue notifier.
+\begin_inset Newline newline
+\end_inset
+
+ Writing a queue index to this register notifies the Host that there are
+ new buffers to process in the queue.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1319600665
+0x60 | R | InterruptStatus
+\begin_inset Newline newline
+\end_inset
+
+Interrupt status.
+\begin_inset Newline newline
+\end_inset
+
+Reading from this register returns a bit mask of interrupts asserted by
+ the device.
+ An interrupt is asserted if the corresponding bit is set, ie.
+ equals one (1).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\change_inserted -608949062 1319600698
+Bit 0 | Use Ring Update
+\begin_inset Newline newline
+\end_inset
+
+This interrupt is asserted when the Host has updated the Used Ring in at
+ least one of the active virtual queues.
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1319600714
+Bit 1 | Configuration change
+\begin_inset Newline newline
+\end_inset
+
+This interrupt is asserted when configuration of the device has changed.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\change_inserted -608949062 1319600557
+0x064 | W | InterruptACK 
+\begin_inset Newline newline
+\end_inset
+
+ Interrupt acknowledge.
+ 
+\begin_inset Newline newline
+\end_inset
+
+ Writing to this register notifies the Host that the Guest finished handling
+ interrupts.
+ Every bit of the value clears corresponding bit of the InterruptStatus
+ register.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986556
+0x070 | RW | Status 
+\begin_inset Newline newline
+\end_inset
+
+ Device status.
+ 
+\begin_inset Newline newline
+\end_inset
+
+ Reading from this register returns the current device status flags.
+ 
+\begin_inset Newline newline
+\end_inset
+
+ Writing non-zero values to this register sets the status flags, indicating
+ the Guest progress.
+ Writing zero (0x0) to this register triggers a device reset.
+ 
+\begin_inset Newline newline
+\end_inset
+
+ Also see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Device-Initialization-Sequence"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -608949062 1318986301
+0x100+ | RW | Config 
+\begin_inset Newline newline
+\end_inset
+
+ Device-specific configuration space starts at an offset 0x100 and is accessed
+ with byte alignment.
+ Its meaning and size depends on the device and the driver.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318986301
+Virtual queue size is a number of elements in the queue, therefore size
+ of the descriptor table and both available and used rings.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318986301
+The endianness of the registers follows the native endianness of the Guest.
+ Writing to registers described as 
+\begin_inset Quotes eld
+\end_inset
+
+R
+\begin_inset Quotes erd
+\end_inset
+
+ and reading from registers described as 
+\begin_inset Quotes eld
+\end_inset
+
+W
+\begin_inset Quotes erd
+\end_inset
+
+ is not permitted and can cause undefined behavior.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318986578
+The device initialization is performed as described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Device-Initialization-Sequence"
+
+\end_inset
+
+ with one exception: the Guest must notify the Host about its page size,
+ writing the size in bytes to GuestPageSize register before the initialization
+ is finished.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318986301
+The memory mapped virtio devices generate single interrupt only, therefore
+ no special configuration is required.
+\end_layout
+
+\begin_layout Subsection*
+
+\change_inserted -608949062 1318986301
+Virtqueue Configuration
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318986650
+The virtual queue configuration is performed in a similar way to the one
+ described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Virtqueue-Configuration"
+
+\end_inset
+
+ with a few additional operations: 
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1318986301
+Select the queue writing its index (first queue is 0) to the QueueSel register.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1318986301
+Check if the queue is not already in use: read QueuePFN register, returned
+ value should be zero (0x0).
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1318986301
+Read maximum queue size (number of elements) from the QueueNumMax register.
+ If the returned value is zero (0x0) the queue is not available.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1318986301
+Allocate and zero the queue pages in contiguous virtual memory, aligning
+ the Used Ring to an optimal boundary (usually page size).
+ Size of the allocated queue may be smaller than or equal to the maximum
+ size returned by the Host.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1318986301
+Notify the Host about the queue size by writing the size to QueueNum register.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1318986301
+Notify the Host about the used alignment by writing its value in bytes to
+ QueueAlign register.
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1318986301
+Write the physical number of the first page of the queue to the QueuePFN
+ register.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318986301
+The queue and the device are ready to begin normal operations now.
+\end_layout
+
+\begin_layout Subsection*
+
+\change_inserted -608949062 1318986301
+Device Operation
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1318992741
+The memory mapped virtio device behaves in the same way as described in
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Device-Operation"
+
+\end_inset
+
+, with the following exceptions: 
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1318992789
+The device is notified about new buffers available in a queue by writing
+ the queue index to register QueueNum instead of the virtio header in PCI
+ I/O space (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Notifying-The-Device"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1319600763
+The memory mapped virtio device is using single, dedicated interrupt signal.
+ After receiving an interrupt, the driver must read the InterruptStatus
+ register to check what caused the interrupt (see the register description).
+ After the interrupt is handled, the driver must acknowledge it by writing
+ a bit mask corresponding to the serviced interrupt to the InterruptACK
+ register.
 \end_layout
 
 \end_body
