@@ -81,12 +81,8 @@ v0.9.
 
 \begin_layout Author
 Rusty Russell <rusty@rustcorp.com.au>
-\change_inserted -608949062 1319600881
-
-\begin_inset Newline newline
-\end_inset
-
-
+\change_inserted -608949062 1319601081
+ 
 \change_unchanged
 IBM Corporation (Editor)
 \end_layout
@@ -6662,47 +6658,6 @@ reference "sub:Feature-Bits"
 , eg.
  feature bits 0 to 31 if GuestFeaturesSel is set to 0 and features bits
  32 to 63 if GuestFeaturesSel is set to 1.
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\change_inserted -608949062 1318986301
-
-
-\backslash
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_inserted -608949062 1318986301
-
-\end_layout
-
-\end_inset
-
- 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\change_inserted -608949062 1318986301
-
-
-\backslash
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\change_inserted -608949062 1318986301
-
-\end_layout
-
-\end_inset
-
  Also see 
 \begin_inset CommandInset ref
 LatexCommand ref
