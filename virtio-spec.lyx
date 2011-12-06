@@ -56,6 +56,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -608949062 "Rusty Russell,,," 
 \end_header
 
 \begin_body
@@ -65,7 +66,13 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.9.2 DRAFT
+v0.9.
+\change_deleted -608949062 1323146690
+2
+\change_inserted -608949062 1323146690
+3
+\change_unchanged
+ DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -77,7 +84,13 @@ Rusty Russell <rusty@rustcorp.com.au> IBM Corporation (Editor)
 \end_layout
 
 \begin_layout Date
-2011 October 26.
+2011 
+\change_deleted -608949062 1323146694
+October 26.
+\change_inserted -608949062 1323146699
+December 6.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter
@@ -1219,11 +1232,15 @@ Vector
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -608949062 1323146385
 Finally, if feature bits (VIRTIO_F_FEATURES_HI) this is immediately followed
  by two additional fields:
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -608949062 1323146385
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="3">
 <features tabularvalignment="middle">
@@ -1358,6 +1375,8 @@ Features bits 32:63
 
 \end_inset
 
+
+\change_unchanged
 
 \end_layout
 
@@ -1528,9 +1547,19 @@ name "sub:Feature-Bits"
 \end_layout
 
 \begin_layout Standard
-The least significant 31 bits of the first configuration field indicates
- the features that the device supports (the high bit is reserved, and will
- be used to indicate the presence of future feature bits elsewhere).
+The
+\change_deleted -608949062 1323146421
+ least significant 31 bits of the 
+\change_unchanged
+first configuration field indicates the features that the device supports
+\change_inserted -608949062 1323146432
+.
+
+\change_unchanged
+ 
+\change_deleted -608949062 1323146429
+(the high bit is reserved, and will be used to indicate the presence of
+ future feature bits elsewhere).
  If more than 31 feature bits are supported, the device indicates so by
  setting feature bit 31 (see 
 \begin_inset CommandInset ref
@@ -1540,7 +1569,9 @@ reference "cha:Reserved-Feature-Bits"
 \end_inset
 
 ).
- The bits are allocated as follows:
+ 
+\change_unchanged
+The bits are allocated as follows:
 \end_layout
 
 \begin_layout Description
@@ -1564,11 +1595,19 @@ to
 \begin_inset space ~
 \end_inset
 
-40 Feature bits reserved for extensions to the queue and feature negotiation
+
+\change_inserted -608949062 1323146440
+32
+\change_deleted -608949062 1323146439
+40
+\change_unchanged
+ Feature bits reserved for extensions to the queue and feature negotiation
  mechanisms
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -608949062 1323146445
 41
 \begin_inset space ~
 \end_inset
@@ -1578,6 +1617,8 @@ to
 \end_inset
 
 63 Feature bits reserved for future extensions
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -1615,10 +1656,14 @@ This allows for forwards and backwards compatibility: if the device is enhanced
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -608949062 1323146459
 Access to feature bits 32 to 63 is enabled by Guest by setting feature bit
  31.
  If this bit is unset, Device must assume that all feature bits > 31 are
  unset.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -3910,10 +3955,12 @@ flags
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -608949062 1323146550
 VIRTIO_F_BAD_FEATURE(30) This feature should never be negotiated by the
  guest; doing so is an indication that the guest is faulty
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 An experimental virtio PCI driver contained in Linux version 2.6.25 had this
@@ -3923,12 +3970,18 @@ An experimental virtio PCI driver contained in Linux version 2.6.25 had this
 \end_inset
 
 
+\change_unchanged
+
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -608949062 1323146532
 VIRTIO_F_FEATURES_HIGH(31) This feature indicates that the device supports
  feature bits 32:63.
  If unset, feature bits 32:63 are unset.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter*
@@ -4131,6 +4184,16 @@ VIRTIO_NET_F_CTRL_VLAN
 \end_inset
 
 (19) Control channel VLAN filtering.
+\change_inserted -608949062 1319676671
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted -608949062 1319678725
+VIRTIO_NET_F_GUEST_ANNOUNCE(21) Guest can send gratuitous packets.
+\change_unchanged
+
 \end_layout
 
 \end_deeper
@@ -4146,7 +4209,17 @@ configuration
 layout Two configuration fields are currently defined.
  The mac address field always exists (though is only valid if VIRTIO_NET_F_MAC
  is set), and the status field only exists if VIRTIO_NET_F_STATUS is set.
- Only one bit is currently defined for the status field: VIRTIO_NET_S_LINK_UP.
+ 
+\change_deleted -608949062 1319678765
+Only one bit is
+\change_inserted -608949062 1319678767
+Two bits are
+\change_unchanged
+ currently defined for the status field: VIRTIO_NET_S_LINK_UP
+\change_inserted -608949062 1319678799
+ and VIRTIO_NET_S_ANNOUNCE
+\change_unchanged
+.
  
 \begin_inset listings
 inline false
@@ -4155,6 +4228,17 @@ status open
 \begin_layout Plain Layout
 
 #define VIRTIO_NET_S_LINK_UP	1
+\change_inserted -608949062 1319678801
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1319678806
+
+#define VIRTIO_NET_S_ANNOUNCE	2
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -4777,7 +4861,13 @@ reference "enu:If-the-driver"
 
 \end_inset
 
-).Control Virtqueue
+).
+\change_inserted -608949062 1319678844
+
+\end_layout
+
+\begin_layout Subsection*
+Control Virtqueue
 \end_layout
 
 \begin_layout Standard
@@ -5013,6 +5103,54 @@ status open
 \begin_layout Standard
 Both the VIRTIO_NET_CTRL_VLAN_ADD and VIRTIO_NET_CTRL_VLAN_DEL command take
  a 16-bit VLAN id as the command-specific-data.
+\change_inserted -608949062 1319678869
+
+\end_layout
+
+\begin_layout Subsection*
+
+\change_inserted -608949062 1319678888
+Gratuitous Packet Sending
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1319679064
+If the driver negotiates the VIRTIO_NET_F_GUEST_ANNOUNCE, it can ask the
+ guest to send gratuitous packets; this is usually done after the guest
+ has been physically migrated, and needs to announce its presence on the
+ new network links.
+ (As hypervisor does not have the knowledge of guest network configuration
+ (eg.
+ tagged vlan) it is simplest to prod the guest in this way).
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1319679069
+The Guest needs to check VIRTIO_NET_S_ANNOUNCE bit in status field when
+ it notices the changes of device configuration.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -608949062 1319679064
+Processing this notification involves:
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1319679084
+Clearing VIRTIO_NET_S_ANNOUNCE bit in the status field.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -608949062 1319679064
+Sending the gratuitous packets.
+ 
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter*
@@ -6661,7 +6799,12 @@ s on QueueNum, QueueAlign and QueuePFN apply to.
 
  Reading from the register returns the maximum size of the queue the Host
  is ready to process or zero (0x0) if the queue is not available.
- This applies to the queue selected by writing to QueueSel.
+ This applies to the queue selected by writing to QueueSel
+\change_inserted -608949062 1320196624
+ and is allowed only when QueuePFN is set to zero (0x0), so when the queue
+ is not actively used
+\change_unchanged
+.
  
 \end_layout
 
@@ -6761,7 +6904,11 @@ Reading from this register returns a bit mask of interrupts asserted by
 
 \begin_deeper
 \begin_layout Itemize
-Bit 0 | Use Ring Update
+Bit 0 | Use
+\change_inserted -608949062 1319629823
+d
+\change_unchanged
+ Ring Update
 \begin_inset Newline newline
 \end_inset
 
@@ -6790,8 +6937,13 @@ This interrupt is asserted when configuration of the device has changed.
 
  Writing to this register notifies the Host that the Guest finished handling
  interrupts.
- Every bit of the value clears corresponding bit of the InterruptStatus
- register.
+ 
+\change_inserted -608949062 1320196713
+Set bits in the value clear the corresponding bits
+\change_deleted -608949062 1320196719
+Every bit of the value clears corresponding bit
+\change_unchanged
+ of the InterruptStatus register.
  
 \end_layout
 
@@ -6975,7 +7127,12 @@ reference "sub:Notifying-The-Device"
 \end_layout
 
 \begin_layout Enumerate
-The memory mapped virtio device is using single, dedicated interrupt signal.
+The memory mapped virtio device is using single, dedicated interrupt signal
+\change_inserted -608949062 1320196770
+, which is raised when at least one of the interrupts described in the Interrupt
+Status register description is asserted
+\change_unchanged
+.
  After receiving an interrupt, the driver must read the InterruptStatus
  register to check what caused the interrupt (see the register description).
  After the interrupt is handled, the driver must acknowledge it by writing
