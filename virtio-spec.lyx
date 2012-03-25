@@ -57,7 +57,6 @@
 \html_css_as_file 0
 \html_be_strict false
 \author -608949062 "Rusty Russell,,," 
-\author 1531152142 "pbonzini" 
 \end_header
 
 \begin_body
@@ -67,13 +66,7 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.9.
-\change_inserted -608949062 1328582029
-4
-\change_deleted -608949062 1328582028
-3
-\change_unchanged
- DRAFT
+v0.9.4 DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -85,15 +78,7 @@ Rusty Russell <rusty@rustcorp.com.au> IBM Corporation (Editor)
 \end_layout
 
 \begin_layout Date
-201
-\change_inserted -608949062 1328582035
-2
-\change_deleted -608949062 1328582047
-1 December 6
-\change_inserted -608949062 1328582050
-February 7
-\change_unchanged
-.
+2012February 7.
 \end_layout
 
 \begin_layout Chapter
@@ -337,8 +322,8 @@ The Subsystem Device ID indicates which virtio device is supported by the
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="9" columns="3">
-<features tabularvalignment="middle">
+<lyxtabular version="3" rows="11" columns="3">
+<features tabularvalignment="bottom">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="bottom" width="0">
@@ -550,8 +535,6 @@ ioMemory
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted -608949062 1323409038
 7
 \end_layout
 
@@ -561,8 +544,6 @@ ioMemory
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted -608949062 1323409050
 rpmsg
 \end_layout
 
@@ -572,8 +553,6 @@ rpmsg
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted -608949062 1323409055
 -
 \end_layout
 
@@ -585,8 +564,6 @@ rpmsg
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1328438958
 8
 \end_layout
 
@@ -596,8 +573,6 @@ rpmsg
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322650855
 SCSI host
 \end_layout
 
@@ -607,9 +582,71 @@ SCSI host
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322650861
 Appendix H
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9P transport
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1332123770
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1332123779
+mac80211 wlan
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1332123780
+-
 \end_layout
 
 \end_inset
@@ -6335,14 +6372,10 @@ VIRTIO_BALLOON_S_MEMTOT The total amount of memory available (in bytes).
 \end_layout
 
 \begin_layout Chapter*
-
-\change_inserted 1531152142 1322571716
 Appendix H: SCSI Host Device
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1323090161
 The virtio SCSI host device groups together one or more virtual logical
  units (such as disks), and allows communicating to them using the SCSI
  protocol.
@@ -6351,26 +6384,18 @@ The virtio SCSI host device groups together one or more virtual logical
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322571726
 The virtio SCSI device services two kinds of requests:
 \end_layout
 
 \begin_layout Itemize
-
-\change_inserted 1531152142 1322571726
 command requests for a logical unit;
 \end_layout
 
 \begin_layout Itemize
-
-\change_inserted 1531152142 1322571726
 task management functions related to a logical unit, target or command.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322571726
 The device is also able to send out notifications about added and removed
  logical units.
  Together, these capabilities provide a SCSI transport protocol that uses
@@ -6382,14 +6407,10 @@ The device is also able to send out notifications about added and removed
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 1531152142 1322571697
 Configuration
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322651166
 Subsystem
 \begin_inset space ~
 \end_inset
@@ -6402,14 +6423,10 @@ ID 7
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322571777
 Virtqueues 0:controlq; 1:eventq; 2..n:request queues.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322571813
 Feature
 \begin_inset space ~
 \end_inset
@@ -6419,8 +6436,6 @@ bits
 
 \begin_deeper
 \begin_layout Description
-
-\change_inserted 1531152142 1328438975
 VIRTIO_SCSI_F_INOUT
 \begin_inset space ~
 \end_inset
@@ -6429,8 +6444,6 @@ VIRTIO_SCSI_F_INOUT
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1328439056
 VIRTIO_SCSI_F_HOTPLUG
 \begin_inset space ~
 \end_inset
@@ -6441,8 +6454,6 @@ VIRTIO_SCSI_F_HOTPLUG
 
 \end_deeper
 \begin_layout Description
-
-\change_inserted 1531152142 1322651190
 Device
 \begin_inset space ~
 \end_inset
@@ -6467,84 +6478,60 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322571919
-
 struct virtio_scsi_config {
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322575810
 
     u32 num_queues;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322934205
-
     u32 seg_max;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322934257
 
     u32 max_sectors;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322934350
-
     u32 cmd_per_lun;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322575811
 
     u32 event_info_size;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322575811
-
     u32 sense_size;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322575812
 
     u32 cdb_size;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322576412
-
     u16 max_channel;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322576413
 
     u16 max_target;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322576414
-
     u32 max_lun;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322571878
 
 };
 \end_layout
@@ -6556,16 +6543,12 @@ struct virtio_scsi_config {
 
 \begin_deeper
 \begin_layout Description
-
-\change_inserted 1531152142 1322724976
 num_queues is the total number of request virtqueues exposed by the device.
  The driver is free to use only one request queue, or it can use more to
  achieve better performance.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322934245
 seg_max is the maximum number of segments that can be in a command.
  A bidirectional command can include 
 \series bold
@@ -6579,15 +6562,11 @@ output segments.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322934739
 max_sectors is a hint to the guest about the maximum transfer size it should
  use.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322934845
 cmd_per_lun is a hint to the guest about the maximum number of linked commands
  it should send to one LUN.
  The actual value to be used is the minimum of 
@@ -6595,13 +6574,9 @@ cmd_per_lun is a hint to the guest about the maximum number of linked commands
 cmd_per_lun
 \series default
  and the virtqueue size.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322571959
 event_info_size is the maximum size that the device will fill for buffers
  that the driver places in the eventq.
  The driver should always put buffers at least of this size.
@@ -6609,8 +6584,6 @@ event_info_size is the maximum size that the device will fill for buffers
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322571997
 sense_size is the maximum size of the sense data that the device will write.
  The default value is written by the device and will always be 96, but the
  driver can modify it.
@@ -6618,8 +6591,6 @@ sense_size is the maximum size of the sense data that the device will write.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322575599
 cdb_size is the maximum size of the CDB that the driver will write.
  The default value is written by the device and will always be 32, but the
  driver can likewise modify it.
@@ -6627,8 +6598,6 @@ cdb_size is the maximum size of the CDB that the driver will write.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322724997
 max_channel,
 \begin_inset space \space{}
 \end_inset
@@ -6646,50 +6615,34 @@ and
 
 \series default
 max_lun can be used by the driver as hints to constrain scanning the logical
- units on the host.
-\change_inserted -608949062 1328571688
-h
-\change_unchanged
-
+ units on the host.h
 \end_layout
 
 \end_deeper
 \begin_layout Section*
-
-\change_inserted 1531152142 1322571959
 Device Initialization
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572042
 The initialization routine should first of all discover the device's virtqueues.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572054
 If the driver uses the eventq, it should then place at least a buffer in
  the eventq.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572042
 The driver can immediately issue requests (for example, INQUIRY or REPORT
  LUNS) or task management functions (for example, I_T RESET).
  
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 1531152142 1322572348
 Device Operation: request queues
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322725031
 The driver queues requests to an arbitrary request queue, and they are used
  by the device on that same queue.
  It is the responsibility of the driver to ensure strict request ordering
@@ -6698,264 +6651,188 @@ The driver queues requests to an arbitrary request queue, and they are used
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572395
 Requests have the following format: 
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572526
 \begin_inset listings
 inline false
 status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725766
-
 struct virtio_scsi_req_cmd {
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322725783
 
     // Read-only
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572417
-
     u8 lun[8];
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572419
 
     u64 id;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572420
-
     u8 task_attr;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572422
 
     u8 prio;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572425
-
     u8 crn;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572426
 
     char cdb[cdb_size];
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572410
-
     char dataout[];
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322725797
 
     // Write-only part
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572429
-
     u32 sense_len;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572430
 
     u32 residual;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572432
-
     u16 status_qualifier;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572434
 
     u8 status;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572435
-
     u8 response;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572437
 
     u8 sense[sense_size];
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572439
-
     char datain[];
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572471
 
 };
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572410
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572476
 
 /* command-specific response values */
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572480
-
 #define VIRTIO_SCSI_S_OK                0
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572483
 
 #define VIRTIO_SCSI_S_OVERRUN           1
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572489
-
 #define VIRTIO_SCSI_S_ABORTED           2
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572491
 
 #define VIRTIO_SCSI_S_BAD_TARGET        3
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572494
-
 #define VIRTIO_SCSI_S_RESET             4
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322665324
 
 #define VIRTIO_SCSI_S_BUSY              5
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322665325
-
 #define VIRTIO_SCSI_S_TRANSPORT_FAILURE 6
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322665326
 
 #define VIRTIO_SCSI_S_TARGET_FAILURE    7
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322665326
-
 #define VIRTIO_SCSI_S_NEXUS_FAILURE     8
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322665326
 
 #define VIRTIO_SCSI_S_FAILURE           9
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572502
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572507
 
 /* task_attr */
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572510
-
 #define VIRTIO_SCSI_S_SIMPLE            0
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572513
 
 #define VIRTIO_SCSI_S_ORDERED           1
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322572516
-
 #define VIRTIO_SCSI_S_HEAD              2
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322572504
 
 #define VIRTIO_SCSI_S_ACA               3
 \end_layout
@@ -6966,8 +6843,6 @@ struct virtio_scsi_req_cmd {
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322725062
 The 
 \series bold
 lun
@@ -6982,8 +6857,6 @@ lun
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572562
 The 
 \series bold
 id
@@ -7000,8 +6873,6 @@ tag
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322725122
 
 \series bold
 task_attr
@@ -7030,8 +6901,6 @@ crn
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572647
 All of these fields are defined in SAM.
  They are always read-only, as are the 
 \series bold
@@ -7050,8 +6919,6 @@ cdb_size
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572919
 
 \series bold
 sense
@@ -7085,8 +6952,6 @@ data_length - number_of_transferred_bytes
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572971
 The 
 \series bold
 status
@@ -7095,8 +6960,6 @@ status
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322572971
 The 
 \series bold
 response
@@ -7105,29 +6968,21 @@ response
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322572971
 VIRTIO_SCSI_S_OK when the request was completed and the status byte is filled
  with a SCSI status code (not necessarily "GOOD").
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322572971
 VIRTIO_SCSI_S_OVERRUN if the content of the CDB requires transferring more
  data than is available in the data buffers.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322652973
 VIRTIO_SCSI_S_ABORTED if the request was cancelled due to an ABORT TASK
  or ABORT TASK SET task management function.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322573041
 VIRTIO_SCSI_S_BAD_TARGET if the request was never processed because the
  target indicated by the 
 \series bold
@@ -7137,43 +6992,31 @@ lun
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322653176
 VIRTIO_SCSI_S_RESET if the request was cancelled due to a bus or device
  reset (including a task management function).
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322572971
 VIRTIO_SCSI_S_TRANSPORT_FAILURE if the request failed due to a problem in
  the connection between the host and the target (severed link).
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322572971
 VIRTIO_SCSI_S_TARGET_FAILURE if the target is suffering a failure and the
  guest should not retry on other paths.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322572971
 VIRTIO_SCSI_S_NEXUS_FAILURE if the nexus is suffering a failure but retrying
  on other paths might yield a different result.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322664259
 VIRTIO_SCSI_S_BUSY if the request failed but retrying on the same path should
  work.
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322664258
 VIRTIO_SCSI_S_FAILURE for other host or guest error.
  In particular, if neither dataout nor datain is empty, and the VIRTIO_SCSI_F_IN
 OUT feature has not been negotiated, the request will be immediately returned
@@ -7182,125 +7025,89 @@ OUT feature has not been negotiated, the request will be immediately returned
 \end_layout
 
 \begin_layout Section*
-
-\change_inserted 1531152142 1322573130
 Device Operation: controlq
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322573193
 The controlq is used for other SCSI transport operations.
  Requests have the following format:
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322573233
 \begin_inset listings
 inline false
 status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573243
-
 struct virtio_scsi_ctrl {
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573246
 
     u32 type;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573248
-
     ...
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573250
 
     u8 response;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574229
-
 };
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574230
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574236
 
 /* response values valid for all commands */
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574310
-
 #define VIRTIO_SCSI_S_OK                       0
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322665338
 
 #define VIRTIO_SCSI_S_BAD_TARGET               3
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322665342
-
 #define VIRTIO_SCSI_S_BUSY                     5
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322665355
 
 #define VIRTIO_SCSI_S_TRANSPORT_FAILURE        6
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322665357
-
 #define VIRTIO_SCSI_S_TARGET_FAILURE           7
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322665358
 
 #define VIRTIO_SCSI_S_NEXUS_FAILURE            8
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322665359
-
 #define VIRTIO_SCSI_S_FAILURE                  9
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322665363
 
 #define VIRTIO_SCSI_S_INCORRECT_LUN            12
 \end_layout
@@ -7311,8 +7118,6 @@ struct virtio_scsi_ctrl {
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322573193
 The 
 \series bold
 type
@@ -7321,14 +7126,10 @@ type
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322573193
 The following commands are defined:
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322576973
 Task
 \begin_inset space \space{}
 \end_inset
@@ -7352,179 +7153,127 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 #define VIRTIO_SCSI_T_TMF                      0
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573683
 
 #define VIRTIO_SCSI_T_TMF_ABORT_TASK           0
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 #define VIRTIO_SCSI_T_TMF_ABORT_TASK_SET       1
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573683
 
 #define VIRTIO_SCSI_T_TMF_CLEAR_ACA            2
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 #define VIRTIO_SCSI_T_TMF_CLEAR_TASK_SET       3
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573683
 
 #define VIRTIO_SCSI_T_TMF_I_T_NEXUS_RESET      4
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 #define VIRTIO_SCSI_T_TMF_LOGICAL_UNIT_RESET   5
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573683
 
 #define VIRTIO_SCSI_T_TMF_QUERY_TASK           6
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 #define VIRTIO_SCSI_T_TMF_QUERY_TASK_SET       7
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573683
 
 struct virtio_scsi_ctrl_tmf
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 {
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322725821
 
     // Read-only part
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725810
-
     u32 type;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573683
 
     u32 subtype;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
     u8 lun[8];
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573683
 
     u64 id;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725832
-
     // Write-only part
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573683
 
     u8 response;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 }
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322573683
 
 /* command-specific response values */
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322573683
-
 #define VIRTIO_SCSI_S_FUNCTION_COMPLETE        0
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322665370
-
 #define VIRTIO_SCSI_S_FUNCTION_SUCCEEDED       10
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322665370
 
 #define VIRTIO_SCSI_S_FUNCTION_REJECTED        11
 \end_layout
@@ -7536,8 +7285,6 @@ struct virtio_scsi_ctrl_tmf
 
 \begin_deeper
 \begin_layout Standard
-
-\change_inserted 1531152142 1322725968
 The type is VIRTIO_SCSI_T_TMF; the subtype field defines.
  All fields except 
 \series bold
@@ -7553,8 +7300,6 @@ subtype
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322725982
 Other fields may be irrelevant for the requested TMF; if so, they are ignored
  but they should still be present.
  The 
@@ -7572,8 +7317,6 @@ id
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574270
 The outcome of the task management function is written by the device in
  the response field.
  The command-specific response values map 1-to-1 with those defined in SAM.
@@ -7581,8 +7324,6 @@ The outcome of the task management function is written by the device in
 
 \end_deeper
 \begin_layout Description
-
-\change_inserted 1531152142 1322576979
 Asynchronous
 \begin_inset space \space{}
 \end_inset
@@ -7606,124 +7347,88 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574160
-
 #define VIRTIO_SCSI_T_AN_QUERY                    1
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574160
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574160
 
 struct virtio_scsi_ctrl_an {
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725848
-
     // Read-only part
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322725843
 
     u32 type;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574160
-
     u8  lun[8];
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574160
 
     u32 event_requested;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725838
-
     // Write-only part
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322725838
 
     u32 event_actual;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574160
-
     u8  response;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574160
 
 }
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574160
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574160
 
 #define VIRTIO_SCSI_EVT_ASYNC_OPERATIONAL_CHANGE  2
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574160
-
 #define VIRTIO_SCSI_EVT_ASYNC_POWER_MGMT          4
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574160
 
 #define VIRTIO_SCSI_EVT_ASYNC_EXTERNAL_REQUEST    8
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574160
-
 #define VIRTIO_SCSI_EVT_ASYNC_MEDIA_CHANGE        16
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574160
-
 #define VIRTIO_SCSI_EVT_ASYNC_MULTI_HOST          32
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574160
 
 #define VIRTIO_SCSI_EVT_ASYNC_DEVICE_BUSY         64
 \end_layout
@@ -7735,8 +7440,6 @@ struct virtio_scsi_ctrl_an {
 
 \begin_deeper
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574687
 By sending this command, the driver asks the device which events the given
  LUN can report, as described in paragraphs 6.6 and A.6 of the SCSI MMC specificat
 ion.
@@ -7745,8 +7448,6 @@ ion.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574688
 The 
 \series bold
 type
@@ -7773,15 +7474,11 @@ response
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574345
 No command-specific values are defined for the response byte.
 \end_layout
 
 \end_deeper
 \begin_layout Description
-
-\change_inserted 1531152142 1322576981
 Asynchronous
 \begin_inset space \space{}
 \end_inset
@@ -7805,76 +7502,54 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574354
-
 #define VIRTIO_SCSI_T_AN_SUBSCRIBE                2
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574342
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574342
 
 struct virtio_scsi_ctrl_an {
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725858
-
     // Read-only part
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574342
 
     u32 type;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574342
-
     u8  lun[8];
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574342
 
     u32 event_requested;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725864
-
     // Write-only part
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574342
 
     u32 event_actual;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574342
-
     u8  response;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574342
 
 }
 \end_layout
@@ -7886,8 +7561,6 @@ struct virtio_scsi_ctrl_an {
 
 \begin_deeper
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574708
 By sending this command, the driver asks the specified LUN to report events
  for its physical interface, again as described in the SCSI MMC specification.
  The driver writes the events it is interested in into the event_requested;
@@ -7895,14 +7568,10 @@ By sending this command, the driver asks the specified LUN to report events
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574709
 Event types are the same as for the asynchronous notification query message.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574710
 The 
 \series bold
 type
@@ -7929,21 +7598,15 @@ response
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574419
 No command-specific values are defined for the response byte.
 \end_layout
 
 \end_deeper
 \begin_layout Section*
-
-\change_inserted 1531152142 1322574433
 Device Operation: eventq
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322653610
 The eventq is used by the device to report information on logical units
  that are attached to it.
  The driver should always leave a few buffers ready in the eventq.
@@ -7956,8 +7619,6 @@ The eventq is used by the device to report information on logical units
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574442
 Buffers are placed in the eventq and filled by the device when interesting
  events occur.
  The buffers should be strictly write-only (device-filled) and the size
@@ -7966,64 +7627,46 @@ Buffers are placed in the eventq and filled by the device when interesting
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574487
 Buffers returned by the device on the eventq will be referred to as "events"
  in the rest of this section.
  Events have the following format: 
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574508
 \begin_inset listings
 inline false
 status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574500
-
 #define VIRTIO_SCSI_T_EVENTS_MISSED   0x80000000
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574500
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574500
 
 struct virtio_scsi_event {
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725871
-
     // Write-only part
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574500
 
     u32 event;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574500
-
     ...
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574500
 
 }
 \end_layout
@@ -8034,8 +7677,6 @@ struct virtio_scsi_event {
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574516
 If bit 31 is set in the event field, the device failed to report an event
  due to missing buffers.
  In this case, the driver should poll the logical units for unit attention
@@ -8044,16 +7685,12 @@ If bit 31 is set in the event field, the device failed to report an event
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574521
 Other data that the device writes to the buffer depends on the contents
  of the event field.
  The following events are defined:
 \end_layout
 
 \begin_layout Description
-
-\change_inserted 1531152142 1322653652
 No
 \begin_inset space \space{}
 \end_inset
@@ -8073,8 +7710,6 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574545
-
 #define VIRTIO_SCSI_T_NO_EVENT         0
 \end_layout
 
@@ -8085,14 +7720,10 @@ status open
 
 \begin_deeper
 \begin_layout Standard
-
-\change_inserted 1531152142 1322576984
 This event is fired in the following cases: 
 \end_layout
 
 \begin_layout Itemize
-
-\change_inserted 1531152142 1322574588
 When the device detects in the eventq a buffer that is shorter than what
  is indicated in the configuration field, it might use it immediately and
  put this dummy value in the event field.
@@ -8100,8 +7731,6 @@ When the device detects in the eventq a buffer that is shorter than what
 \end_layout
 
 \begin_layout Itemize
-
-\change_inserted 1531152142 1322574604
 When events are dropped, the device may signal this event as soon as the
  drivers makes a buffer available, in order to request action from the driver.
  In this case, of course, this event will be reported with the VIRTIO_SCSI_T_EVE
@@ -8111,8 +7740,6 @@ NTS_MISSED flag.
 
 \end_deeper
 \begin_layout Description
-
-\change_inserted 1531152142 1322576985
 Transport
 \begin_inset space \space{}
 \end_inset
@@ -8132,82 +7759,58 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574628
-
 #define VIRTIO_SCSI_T_TRANSPORT_RESET  1
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574628
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322725908
 
 struct virtio_scsi_event_reset {
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725876
-
     // Write-only part
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574628
 
     u32 event;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574628
-
     u8  lun[8];
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574628
 
     u32 reason;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574628
-
 }
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574628
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574628
 
 #define VIRTIO_SCSI_EVT_RESET_HARD         0
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322574628
-
 #define VIRTIO_SCSI_EVT_RESET_RESCAN       1
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322574628
 
 #define VIRTIO_SCSI_EVT_RESET_REMOVED      2
 \end_layout
@@ -8219,8 +7822,6 @@ struct virtio_scsi_event_reset {
 
 \begin_deeper
 \begin_layout Standard
-
-\change_inserted 1531152142 1322574756
 By sending this event, the device signals that a logical unit on a target
  has been reset, including the case of a new device appearing or disappearing
  on the bus.The device fills in all fields.
@@ -8237,8 +7838,6 @@ lun
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322577082
 The 
 \series bold
 reason
@@ -8247,8 +7846,6 @@ reason
 \end_layout
 
 \begin_layout Itemize
-
-\change_inserted 1531152142 1322577449
 
 \series bold
 VIRTIO_SCSI_EVT_RESET_REMOVED
@@ -8266,8 +7863,6 @@ LUN/target removed
 
 \begin_layout Itemize
 
-\change_inserted 1531152142 1322577452
-
 \series bold
 VIRTIO_SCSI_EVT_RESET_HARD
 \series default
@@ -8284,8 +7879,6 @@ LUN hard reset
 
 \begin_layout Itemize
 
-\change_inserted 1531152142 1322577446
-
 \series bold
 VIRTIO_SCSI_EVT_RESET_RESCAN
 \series default
@@ -8301,8 +7894,6 @@ rescan LUN/target
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1328439419
 The 
 \begin_inset Quotes eld
 \end_inset
@@ -8331,16 +7922,12 @@ VIRTIO_SCSI_F_HOTPLUG
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322577057
 Events will also be reported via sense codes (this obviously does not apply
  to newly appeared buses or targets, since the application has never discovered
  them):
 \end_layout
 
 \begin_layout Itemize
-
-\change_inserted 1531152142 1322577457
 \begin_inset Quotes eld
 \end_inset
 
@@ -8353,8 +7940,6 @@ LUN/target removed
 \end_layout
 
 \begin_layout Itemize
-
-\change_inserted 1531152142 1322577460
 \begin_inset Quotes eld
 \end_inset
 
@@ -8367,8 +7952,6 @@ LUN hard reset
 \end_layout
 
 \begin_layout Itemize
-
-\change_inserted 1531152142 1322577462
 \begin_inset Quotes eld
 \end_inset
 
@@ -8378,13 +7961,9 @@ rescan LUN/target
 
  maps to sense key UNIT ATTENTION, asc 0x3f, ascq 0x0e (REPORTED LUNS DATA
  HAS CHANGED)
-\change_unchanged
-
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322575482
 The preferred way to detect transport reset is always to use events, because
  sense codes are only seen by the driver when it sends a SCSI command to
  the logical unit or target.
@@ -8399,8 +7978,6 @@ The preferred way to detect transport reset is always to use events, because
 
 \end_deeper
 \begin_layout Description
-
-\change_inserted 1531152142 1322576987
 Asynchronous
 \begin_inset space \space{}
 \end_inset
@@ -8420,55 +7997,39 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322575505
-
 #define VIRTIO_SCSI_T_ASYNC_NOTIFY     2
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322575505
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322725913
 
 struct virtio_scsi_event_an {
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322725880
-
     // Write-only part
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322575505
 
     u32 event;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322575505
-
     u8  lun[8];
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1322575505
-
     u32 reason;
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1531152142 1322575505
 
 }
 \end_layout
@@ -8480,15 +8041,11 @@ struct virtio_scsi_event_an {
 
 \begin_deeper
 \begin_layout Standard
-
-\change_inserted 1531152142 1322575520
 By sending this event, the device signals that an asynchronous event was
  fired from a physical interface.
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322575546
 All fields are written by the device.
  The 
 \series bold
@@ -8509,12 +8066,8 @@ reason
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1531152142 1322575520
 When dropped events are reported, the driver should poll for asynchronous
  events manually using SCSI commands.
-\change_unchanged
-
 \end_layout
 
 \end_deeper
