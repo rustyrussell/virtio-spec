@@ -56,6 +56,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -1096565211 "Ohad,,," 
 \author -608949062 "Rusty Russell,,," 
 \author 2090695081 "Jason" 
 \end_header
@@ -89,8 +90,8 @@ Rusty Russell <rusty@rustcorp.com.au> IBM Corporation (Editor)
 \change_deleted -608949062 1332721284
 February 7.
 
-\change_inserted -608949062 1332721290
- March 26.
+\change_inserted -608949062 1336357342
+ May 7.
 \change_unchanged
 
 \end_layout
@@ -567,7 +568,13 @@ rpmsg
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\change_inserted -608949062 1336357361
+Appendix H
+\change_deleted -608949062 1336357358
 -
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -596,7 +603,13 @@ SCSI host
 \begin_inset Text
 
 \begin_layout Plain Layout
-Appendix H
+Appendix 
+\change_inserted -608949062 1336357363
+I
+\change_deleted -608949062 1336357363
+H
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -6445,10 +6458,482 @@ VIRTIO_BALLOON_S_MEMFREE The amount of memory not being used for any purpose
 
 \begin_layout Description
 VIRTIO_BALLOON_S_MEMTOT The total amount of memory available (in bytes).
+\change_inserted -1096565211 1333519339
+
 \end_layout
 
 \begin_layout Chapter*
-Appendix H: SCSI Host Device
+
+\change_inserted -1096565211 1333519459
+Appendix H: Rpmsg: Remote Processor Messaging
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1096565211 1333519548
+Virtio rpmsg devices represent remote processors on the system which run
+ in asymmetric multi-processing (AMP) configuration, and which are usually
+ used to offload cpu-intensive tasks from the main application processor
+ (a typical SoC methodology).
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1096565211 1333519483
+Virtio is being used to communicate with those remote processors; empty
+ buffers are placed in one virtqueue for receiving messages, and non-empty
+ buffers, containing outbound messages, are enqueued in a second virtqueue
+ for transmission.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1096565211 1333519614
+Numerous communication channels can be multiplexed over those two virtqueues,
+ so different entities, running on the application and remote processor,
+ can directly communicate in a point-to-point fashion.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted -1096565211 1333519460
+Configuration
+\end_layout
+
+\begin_layout Description
+
+\change_inserted -1096565211 1333519622
+Subsystem
+\begin_inset space ~
+\end_inset
+
+Device
+\begin_inset space ~
+\end_inset
+
+ID 7
+\end_layout
+
+\begin_layout Description
+
+\change_inserted -1096565211 1333519647
+Virtqueues 0:receiveq.
+ 1:transmitq.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted -1096565211 1333519460
+Feature
+\begin_inset space ~
+\end_inset
+
+bits
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+
+\change_inserted -1096565211 1333520994
+VIRTIO_RPMSG_F_NS
+\begin_inset space ~
+\end_inset
+
+(0) Device sends (and capable of receiving) name service messages announcing
+ the creation (or destruction) of a channel:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+/**
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * struct rpmsg_ns_msg - dynamic name service announcement message
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * @name: name of remote service that is published
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * @addr: address of remote service that is published
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * @flags: indicates whether service is created or destroyed
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ *
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * This message is sent across to publish a new service (or announce
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * about its removal).
+ When we receives these messages, an appropriate
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * rpmsg channel (i.e device) is created/destroyed.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+struct rpmsg_ns_msgoon_config {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+	char name[RPMSG_NAME_SIZE];
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+	u32 addr;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+	u32 flags;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+} __packed;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+/**
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * enum rpmsg_ns_flags - dynamic name service announcement flags
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ *
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * @RPMSG_NS_CREATE: a new remote service was just created
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ * @RPMSG_NS_DESTROY: a remote service was just destroyed
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+ */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+enum rpmsg_ns_flags {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+	RPMSG_NS_CREATE = 0,
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+	RPMSG_NS_DESTROY = 1,
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520994
+
+};
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Description
+
+\change_inserted -1096565211 1333520275
+Device
+\begin_inset space ~
+\end_inset
+
+configuration
+\begin_inset space ~
+\end_inset
+
+layout
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1096565211 1333521209
+At his point none currently defined.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted -1096565211 1333519460
+Device Initialization
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -1096565211 1333520334
+The initialization routine should identify the receive and transmission
+ virtqueues.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted -1096565211 1333520335
+The receive virtqueue should be filled with receive buffers.
+\end_layout
+
+\begin_layout Section*
+
+\change_inserted -1096565211 1333520381
+Device Operation
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1096565211 1333520426
+Messages are transmitted by placing them in the transmitq, and buffers for
+ inbound messages are placed in the receiveq.
+ In any case, messages are always preceded by the following header: 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520439
+
+/**
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520443
+
+ * struct rpmsg_hdr - common header for all rpmsg messages
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520447
+
+ * @src: source address
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520450
+
+ * @dst: destination address
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520453
+
+ * @reserved: reserved for future use
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520456
+
+ * @len: length of payload (in bytes)
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520459
+
+ * @flags: message flags
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520462
+
+ * @data: @len bytes of message payload data
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520464
+
+ *
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520467
+
+ * Every message sent(/received) on the rpmsg bus begins with this header.
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520471
+
+ */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520475
+
+struct rpmsg_hdr {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520477
+
+	u32 src;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520480
+
+	u32 dst;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520481
+
+	u32 reserved;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520484
+
+	u16 len;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520486
+
+	u16 flags;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520489
+
+	u8 data[0];
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1096565211 1333520487
+
+} __packed;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter*
+Appendix 
+\change_deleted -1096565211 1333519318
+H
+\change_inserted -1096565211 1333519319
+I
+\change_unchanged
+: SCSI Host Device
 \end_layout
 
 \begin_layout Standard
