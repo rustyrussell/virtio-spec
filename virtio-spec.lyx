@@ -57,6 +57,7 @@
 \html_css_as_file 0
 \html_be_strict false
 \author -608949062 "Rusty Russell,,," 
+\author 2090695081 "Jason" 
 \end_header
 
 \begin_body
@@ -66,7 +67,13 @@ Virtio PCI Card Specification
 \begin_inset Newline newline
 \end_inset
 
-v0.9.4 DRAFT
+v0.9.
+\change_deleted -608949062 1332721298
+4
+\change_inserted -608949062 1332721298
+5
+\change_unchanged
+ DRAFT
 \begin_inset Newline newline
 \end_inset
 
@@ -78,7 +85,14 @@ Rusty Russell <rusty@rustcorp.com.au> IBM Corporation (Editor)
 \end_layout
 
 \begin_layout Date
-2012February 7.
+2012
+\change_deleted -608949062 1332721284
+February 7.
+
+\change_inserted -608949062 1332721290
+ March 26.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Chapter
@@ -4049,8 +4063,12 @@ configuration
 layout Two configuration fields are currently defined.
  The mac address field always exists (though is only valid if VIRTIO_NET_F_MAC
  is set), and the status field only exists if VIRTIO_NET_F_STATUS is set.
- Two bits are currently defined for the status field: VIRTIO_NET_S_LINK_UP
- and VIRTIO_NET_S_ANNOUNCE.
+ Two 
+\change_inserted 2090695081 1332406434
+read-only 
+\change_unchanged
+bits are currently defined for the status field: VIRTIO_NET_S_LINK_UP and
+ VIRTIO_NET_S_ANNOUNCE.
  
 \begin_inset listings
 inline false
@@ -4933,18 +4951,58 @@ Gratuitous Packet Sending
 \end_layout
 
 \begin_layout Standard
-If the driver negotiates the VIRTIO_NET_F_GUEST_ANNOUNCE, it can ask the
- guest to send gratuitous packets; this is usually done after the guest
- has been physically migrated, and needs to announce its presence on the
- new network links.
+If the driver negotiates the VIRTIO_NET_F_GUEST_ANNOUNCE
+\change_inserted 2090695081 1332407810
+ (depends on VIRTIO_NET_F_CTRL_VQ)
+\change_unchanged
+, it can ask the guest to send gratuitous packets; this is usually done
+ after the guest has been physically migrated, and needs to announce its
+ presence on the new network links.
  (As hypervisor does not have the knowledge of guest network configuration
  (eg.
  tagged vlan) it is simplest to prod the guest in this way).
+\change_inserted 2090695081 1332405026
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 2090695081 1332405026
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 2090695081 1332405658
+
+#define VIRTIO_NET_CTRL_ANNOUNCE       3
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 2090695081 1332407582
+
+ #define VIRTIO_NET_CTRL_ANNOUNCE_ACK             0
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
 The Guest needs to check VIRTIO_NET_S_ANNOUNCE bit in status field when
  it notices the changes of device configuration.
+
+\change_inserted 2090695081 1332407079
+ The command VIRTIO_NET_CTRL_ANNOUNCE_ACK is used to indicate that driver
+ has recevied the notification and device would clear the VIRTIO_NET_S_ANNOUNCE
+ bit in the status filed after it received this command.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -4952,11 +5010,29 @@ Processing this notification involves:
 \end_layout
 
 \begin_layout Enumerate
-Clearing VIRTIO_NET_S_ANNOUNCE bit in the status field.
+
+\change_inserted 2090695081 1332471639
+Sending the gratuitous packets or marking there are pending gratuitous packets
+ to be sent and letting deferred routine to send them.
 \end_layout
 
 \begin_layout Enumerate
-Sending the gratuitous packets.
+
+\change_inserted 2090695081 1332405963
+Sending VIRTIO_NET_CTRL_ANNOUNCE_ACK command through control vq.
+ 
+\change_deleted 2090695081 1332405924
+Clearing VIRTIO_NET_S_ANNOUNCE bit in the status field.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Enumerate
+
+\change_deleted 2090695081 1332471331
+Sending the gratuitous packets
+\change_unchanged
+.
  
 \end_layout
 
@@ -6419,7 +6495,13 @@ Device
 \begin_inset space ~
 \end_inset
 
-ID 7
+ID 
+\change_deleted -608949062 1336354164
+7
+\change_inserted -608949062 1336354165
+8
+\change_unchanged
+
 \end_layout
 
 \begin_layout Description
