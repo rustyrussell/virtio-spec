@@ -5108,13 +5108,32 @@ VIRTIO_BLK_F_SCSI (7) Device supports scsi packet commands.
 \end_layout
 
 \begin_layout Description
-VIRTIO_BLK_F_FLUSH (9) Cache flush command support.
+VIRTIO_BLK_F_
+\change_deleted 1531152142 1341302299
+FLUSH
+\change_inserted 1531152142 1341302304
+WCE
+\change_unchanged
+ (9) 
+\change_deleted 1531152142 1341302317
+Cache flush command support.
+\change_inserted 1531152142 1341305427
+Device cache starts in writeback mode after reset.
+ Guests should not negotiate this feature unless they are capable of sending
+ VIRTIO_BLK_T_FLUSH commands.
 \end_layout
 
 \begin_layout Description
 
 \change_inserted 1531152142 1341301882
 VIRTIO_BLK_F_TOPOLOGY (10) Device exports information on optimal I/O alignment.
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 1531152142 1341302349
+VIRTIO_BLK_F_CONFIG_WCE (11) Device can toggle its cache between writeback
+ and writethrough modes.
 \end_layout
 
 \end_deeper
@@ -5234,6 +5253,15 @@ struct virtio_blk_config {
 
 \begin_layout Plain Layout
 
+\change_inserted 1531152142 1341301918
+
+    u8 writeback;
+\change_unchanged
+
+\end_layout
+
+\begin_layout Plain Layout
+
 };
 \end_layout
 
@@ -5292,6 +5320,33 @@ If the VIRTIO_BLK_F_TOPOLOGY feature is negotiated, the fields in the topology
  struct can be read to determine the physical block size and optimal I/O
  lengths for the driver to use.
  This also does not affect the units in the protocol, only performance.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1531152142 1341305949
+The cache mode should be read from the writeback field of the configuration
+ if the VIRTIO_BLK_F_CONFIG_WCE feature if available; the driver can also
+ write to the field in order to toggle the cache between writethrough (0)
+ and writeback (1) mode.
+ If the feature is not available, the driver can instead look at the result
+ of negotiating VIRTIO_BLK_F_WCE: the cache will be in writeback mode after
+ reset if and only if VIRTIO_BLK_F_WCE is negotiated
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341306004
+Until version 1.1, QEMU remained in writeback mode even after a guest announced
+ lack of support for VIRTIO_BLK_F_FLUSH.
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section*
