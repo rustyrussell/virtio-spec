@@ -1,0 +1,10 @@
+This contains the draft virtio PCI specification, formerly contained
+at:
+	http://ozlabs.org/~rusty/virtio-spec
+
+You can find the virtio paper at that URL:
+
+	http://ozlabs.org/~rusty/virtio-spec/virtio-paper.pdf
+
+Enjoy!
+Rusty Russell, Editor.
