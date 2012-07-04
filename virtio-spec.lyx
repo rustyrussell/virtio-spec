@@ -5211,30 +5211,84 @@ struct virtio_blk_config {
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1341301807
+\change_inserted 1531152142 1341409825
 
     struct virtio_blk_topology {
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1341301810
+\change_inserted 1531152142 1341409827
+
+        // # of logical blocks per physical block (log2)
+\change_inserted 1531152142 1341410119
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341409834
 
         u8 physical_block_exp;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1341301817
+\change_inserted 1531152142 1341409834
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341409836
+
+        // offset of first aligned logical block
+\change_inserted 1531152142 1341410122
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341409840
 
         u8 alignment_offset;
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1341301822
+\change_inserted 1531152142 1341409840
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341409842
+
+        // suggested minimum I/O size in blocks
+\change_inserted 1531152142 1341410124
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341409846
 
         u16 min_io_size;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341409846
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341409848
+
+        // optimal (suggested maximum) I/O size in blocks
+\change_inserted 1531152142 1341410126
+
 \end_layout
 
 \begin_layout Plain Layout
