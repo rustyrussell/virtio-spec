@@ -56,6 +56,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author 1531152142 "Paolo Bonzini,,," 
 \end_header
 
 \begin_body
@@ -5110,6 +5111,12 @@ VIRTIO_BLK_F_SCSI (7) Device supports scsi packet commands.
 VIRTIO_BLK_F_FLUSH (9) Cache flush command support.
 \end_layout
 
+\begin_layout Description
+
+\change_inserted 1531152142 1341301882
+VIRTIO_BLK_F_TOPOLOGY (10) Device exports information on optimal I/O alignment.
+\end_layout
+
 \end_deeper
 \begin_layout Description
 Device
@@ -5185,6 +5192,48 @@ struct virtio_blk_config {
 
 \begin_layout Plain Layout
 
+\change_inserted 1531152142 1341301807
+
+    struct virtio_blk_topology {
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341301810
+
+        u8 physical_block_exp;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341301817
+
+        u8 alignment_offset;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341301822
+
+        u16 min_io_size;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341301827
+
+        u32 opt_io_size;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1341301911
+
+    } topology;
+\end_layout
+
+\begin_layout Plain Layout
+
 };
 \end_layout
 
@@ -5213,13 +5262,36 @@ capacity
 \begin_layout Enumerate
 If the VIRTIO_BLK_F_BLK_SIZE feature is negotiated, the blk_size field can
  be read to determine the optimal sector size for the driver to use.
- This does not effect the units used in the protocol (always 512 bytes),
- but awareness of the correct value can effect performance.
+ This does not 
+\change_deleted 1531152142 1341301967
+e
+\change_inserted 1531152142 1341301967
+a
+\change_unchanged
+ffect the units used in the protocol (always 512 bytes), but awareness of
+ the correct value can 
+\change_deleted 1531152142 1341301978
+e
+\change_inserted 1531152142 1341301978
+a
+\change_unchanged
+ffect performance.
 \end_layout
 
 \begin_layout Enumerate
 If the VIRTIO_BLK_F_RO feature is set by the device, any write requests
  will fail.
+\change_inserted 1531152142 1341301920
+
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1531152142 1341301982
+If the VIRTIO_BLK_F_TOPOLOGY feature is negotiated, the fields in the topology
+ struct can be read to determine the physical block size and optimal I/O
+ lengths for the driver to use.
+ This also does not affect the units in the protocol, only performance.
 \end_layout
 
 \begin_layout Section*
@@ -6982,7 +7054,6 @@ max_lun can be used by the driver as hints to constrain scanning the logical
  units on the host.h
 \end_layout
 
-\end_deeper
 \begin_layout Section*
 Device Initialization
 \end_layout
