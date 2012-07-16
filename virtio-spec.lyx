@@ -8207,7 +8207,20 @@ struct virtio_scsi_event {
 
 \begin_layout Plain Layout
 
+\change_deleted 1531152142 1342440791
+
     ...
+\change_inserted 1531152142 1342440791
+u8  lun[8];
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1531152142 1342440791
+
+    u32 reason;
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -8221,16 +8234,32 @@ struct virtio_scsi_event {
 \end_layout
 
 \begin_layout Standard
-If bit 31 is set in the event field, the device failed to report an event
- due to missing buffers.
+If bit 31 is set in the 
+\series bold
+event
+\series default
+ field, the device failed to report an event due to missing buffers.
  In this case, the driver should poll the logical units for unit attention
  conditions, and/or do whatever form of bus scan is appropriate for the
  guest operating system.
 \end_layout
 
 \begin_layout Standard
-Other data that the device writes to the buffer depends on the contents
- of the event field.
+
+\change_deleted 1531152142 1342440830
+Other data that the device writes to the buffer
+\change_inserted 1531152142 1342440839
+The meaning of the 
+\series bold
+reason
+\series default
+ field
+\change_unchanged
+ depends on the contents of the 
+\series bold
+event
+\series default
+ field.
  The following events are defined:
 \end_layout
 
@@ -8312,35 +8341,49 @@ status open
 
 \begin_layout Plain Layout
 
+\change_deleted 1531152142 1342440799
+
 struct virtio_scsi_event_reset {
 \end_layout
 
 \begin_layout Plain Layout
+
+\change_deleted 1531152142 1342440799
 
     // Write-only part
 \end_layout
 
 \begin_layout Plain Layout
 
+\change_deleted 1531152142 1342440799
+
     u32 event;
 \end_layout
 
 \begin_layout Plain Layout
+
+\change_deleted 1531152142 1342440799
 
     u8  lun[8];
 \end_layout
 
 \begin_layout Plain Layout
 
+\change_deleted 1531152142 1342440799
+
     u32 reason;
 \end_layout
 
 \begin_layout Plain Layout
 
+\change_deleted 1531152142 1342440799
+
 }
 \end_layout
 
 \begin_layout Plain Layout
+
+\change_deleted 1531152142 1342440799
 
 \end_layout
 
@@ -8542,40 +8585,58 @@ status open
 \begin_layout Plain Layout
 
 #define VIRTIO_SCSI_T_ASYNC_NOTIFY     2
-\end_layout
-
-\begin_layout Plain Layout
+\change_deleted 1531152142 1342440854
 
 \end_layout
 
 \begin_layout Plain Layout
+
+\change_deleted 1531152142 1342440854
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_deleted 1531152142 1342440854
 
 struct virtio_scsi_event_an {
 \end_layout
 
 \begin_layout Plain Layout
 
+\change_deleted 1531152142 1342440854
+
     // Write-only part
 \end_layout
 
 \begin_layout Plain Layout
+
+\change_deleted 1531152142 1342440854
 
     u32 event;
 \end_layout
 
 \begin_layout Plain Layout
 
+\change_deleted 1531152142 1342440854
+
     u8  lun[8];
 \end_layout
 
 \begin_layout Plain Layout
+
+\change_deleted 1531152142 1342440854
 
     u32 reason;
 \end_layout
 
 \begin_layout Plain Layout
 
+\change_deleted 1531152142 1342440854
+
 }
+\change_unchanged
+
 \end_layout
 
 \end_inset
