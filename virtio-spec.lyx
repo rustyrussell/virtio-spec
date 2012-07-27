@@ -56,6 +56,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -608949062 "Rusty Russell,,," 
 \author 1531152142 "Paolo Bonzini,,," 
 \end_header
 
@@ -1691,7 +1692,11 @@ static inline unsigned vring_size(unsigned int qsz)
 
 \begin_layout Plain Layout
 
-          + ALIGN(sizeof(struct vring_used_elem)*qsz);
+          + ALIGN(
+\change_inserted -608949062 1343346042
+sizeof(u16)*2 + 
+\change_unchanged
+sizeof(struct vring_used_elem)*qsz);
 \end_layout
 
 \begin_layout Plain Layout
@@ -1706,6 +1711,21 @@ static inline unsigned vring_size(unsigned int qsz)
 
 \begin_layout Standard
 This currently wastes some space with padding, but also allows future extensions.
+\change_inserted -608949062 1343346246
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1343346246
+Such as the VIRTIO_RING_F_EVENT_IDX extension.
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
  The virtqueue layout structure looks like this (qsz is the Queue Size field,
  which is a variable, so this code won't compile):
 \end_layout
@@ -2106,6 +2126,10 @@ struct vring_avail {
 \begin_layout Plain Layout
 
    u16 used_event;
+\change_inserted -608949062 1343346203
+ /* Only if VIRTIO_RING_F_EVENT_IDX */
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -2263,6 +2287,10 @@ struct vring_used {
 \begin_layout Plain Layout
 
     u16 avail_event;
+\change_inserted -608949062 1343346281
+ /* Only if VIRTIO_RING_F_EVENT_IDX */
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -5218,11 +5246,9 @@ struct virtio_blk_config {
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1341409827
-
-        // # of logical blocks per physical block (log2)
 \change_inserted 1531152142 1341410119
 
+        // # of logical blocks per physical block (log2)
 \end_layout
 
 \begin_layout Plain Layout
@@ -5240,11 +5266,9 @@ struct virtio_blk_config {
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1341409836
-
-        // offset of first aligned logical block
 \change_inserted 1531152142 1341410122
 
+        // offset of first aligned logical block
 \end_layout
 
 \begin_layout Plain Layout
@@ -5262,11 +5286,9 @@ struct virtio_blk_config {
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1341409842
-
-        // suggested minimum I/O size in blocks
 \change_inserted 1531152142 1341410124
 
+        // suggested minimum I/O size in blocks
 \end_layout
 
 \begin_layout Plain Layout
@@ -5284,11 +5306,9 @@ struct virtio_blk_config {
 
 \begin_layout Plain Layout
 
-\change_inserted 1531152142 1341409848
-
-        // optimal (suggested maximum) I/O size in blocks
 \change_inserted 1531152142 1341410126
 
+        // optimal (suggested maximum) I/O size in blocks
 \end_layout
 
 \begin_layout Plain Layout
@@ -8766,8 +8786,8 @@ reason
 \change_inserted 1531152142 1342442803
 For MMC devices (inquiry type 5) there would be some overlap between this
  event and the asynchronous notification event.
- For simplicity, as of this version of the specification the host must
- never report this event for MMC devices.
+ For simplicity, as of this version of the specification the host must never
+ report this event for MMC devices.
 \end_layout
 
 \end_deeper
@@ -9332,5 +9352,6 @@ tatus register description is asserted.
  register.
 \end_layout
 
+\end_deeper
 \end_body
 \end_document
