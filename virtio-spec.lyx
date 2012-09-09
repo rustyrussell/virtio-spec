@@ -6446,7 +6446,13 @@ Virtqueues 0:receiveq(port0).
 status open
 
 \begin_layout Plain Layout
-Ports 2 onwards only if VIRTIO_CONSOLE_F_MULTIPORT is set
+Ports 
+\change_inserted 1986246365 1347188327
+1
+\change_deleted 1986246365 1347188327
+2
+\change_unchanged
+ onwards only if VIRTIO_CONSOLE_F_MULTIPORT is set
 \end_layout
 
 \end_inset
