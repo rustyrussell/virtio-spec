@@ -4023,7 +4023,13 @@ Appendix B: Reserved Feature Bits
 \end_layout
 
 \begin_layout Standard
-Currently there are five device-independent feature bits defined:
+Currently there are 
+\change_inserted -608949062 1348033304
+three
+\change_deleted -608949062 1348033303
+five
+\change_unchanged
+ device-independent feature bits defined:
 \end_layout
 
 \begin_layout Description
