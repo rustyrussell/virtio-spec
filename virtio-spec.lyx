@@ -1723,14 +1723,20 @@ static inline unsigned vring_size(unsigned int qsz)
 
 \begin_layout Plain Layout
 
-     return ALIGN(sizeof(struct vring_desc)*qsz + sizeof(u16)*(2 + qsz))
+     return ALIGN(sizeof(struct vring_desc)*qsz + sizeof(u16)*(
+\change_inserted -608949062 1348031895
+3
+\change_deleted -608949062 1348031895
+2
+\change_unchanged
+ + qsz))
 \end_layout
 
 \begin_layout Plain Layout
 
           + ALIGN(
-\change_inserted -608949062 1343346042
-sizeof(u16)*2 + 
+\change_inserted -608949062 1348031898
+sizeof(u16)*3 + 
 \change_unchanged
 sizeof(struct vring_used_elem)*qsz);
 \end_layout
@@ -3273,6 +3279,13 @@ status open
 
 \begin_layout Plain Layout
 
+\change_inserted -608949062 1348032941
+
+#include <stdint.h>
+\end_layout
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -3295,6 +3308,21 @@ status open
 \begin_layout Plain Layout
 
 #define VRING_DESC_F_WRITE      2
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032039
+
+/* This means the buffer contains a list of buffer descriptors.
+ */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032039
+
+#define VRING_DESC_F_INDIRECT   4 
 \end_layout
 
 \begin_layout Plain Layout
@@ -3344,6 +3372,46 @@ status open
 \begin_layout Plain Layout
 
 #define VRING_AVAIL_F_NO_INTERRUPT      1
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348031846
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348031856
+
+/* Support for indirect descriptors */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032111
+
+#define VIRTIO_RING_F_INDIRECT_DESC    28
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032059
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032491
+
+/* Support for avail_idx and used_idx fields */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032115
+
+#define VIRTIO_RING_F_EVENT_IDX        29
 \end_layout
 
 \begin_layout Plain Layout
@@ -3440,7 +3508,15 @@ struct vring_avail {
 
 \begin_layout Plain Layout
 
-        uint16_t used_event;
+        
+\change_inserted -608949062 1348031793
+/* Only if VIRTIO_RING_F_EVENT_IDX: 
+\change_unchanged
+uint16_t used_event;
+\change_inserted -608949062 1348031796
+ */
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -3516,7 +3592,15 @@ struct vring_used {
 
 \begin_layout Plain Layout
 
-        uint16_t avail_event;
+        
+\change_inserted -608949062 1348031778
+/* Only if VIRTIO_RING_F_EVENT_IDX: 
+\change_unchanged
+uint16_t avail_event;
+\change_inserted -608949062 1348031783
+ */
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -3620,6 +3704,17 @@ struct vring {
 \begin_layout Plain Layout
 
  *      __u16 available[num];
+\change_inserted -608949062 1348031413
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032528
+
+ *      __u16 used_event_idx; // Only if VIRTIO_RING_F_EVENT_IDX
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -3654,12 +3749,29 @@ struct vring {
 
 \begin_layout Plain Layout
 
- *      __u16 EVENT_IDX;
+ *      __u16 
+\change_inserted -608949062 1348031459
+used_idx
+\change_deleted -608949062 1348031455
+EVENT_IDX
+\change_unchanged
+;
 \end_layout
 
 \begin_layout Plain Layout
 
  *      struct vring_used_elem used[num];
+\change_inserted -608949062 1348031463
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032535
+
+ *      __u16 avail_event_idx; // Only if VIRTIO_RING_F_EVENT_IDX
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -3710,6 +3822,10 @@ static inline void vring_init(struct vring *vr, unsigned int num, void *p,
 \begin_layout Plain Layout
 
         vr->used = (void *)(((unsigned long)&vr->avail->ring[num]
+\change_inserted -608949062 1348031733
+ + sizeof(uint16_t)
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -3743,7 +3859,13 @@ static inline unsigned vring_size(unsigned int num, unsigned long align)
 
 \begin_layout Plain Layout
 
-        return ((sizeof(struct vring_desc)*num + sizeof(uint16_t)*(2+num)
+        return ((sizeof(struct vring_desc)*num + sizeof(uint16_t)*(
+\change_deleted -608949062 1348031762
+2
+\change_inserted -608949062 1348031763
+3
+\change_unchanged
++num)
 \end_layout
 
 \begin_layout Plain Layout
@@ -3759,6 +3881,99 @@ static inline unsigned vring_size(unsigned int num, unsigned long align)
 \begin_layout Plain Layout
 
 }
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032240
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032254
+
+/* Get location of event indices (only with VIRTIO_RING_F_EVENT_IDX) */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032280
+
+static inline uint16_t *vring_used_event(struct vring *vr)
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032365
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032392
+
+        /* For backwards compat, used event index is at *end* of avail ring.
+ */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032314
+
+        return &vr->avail->ring[vr->num];
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032315
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032317
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032330
+
+static inline uint16_t *vring_avail_event(struct vring *vr)
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032397
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032408
+
+        /* For backwards compat, avail event index is at *end* of used ring.
+ */
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032925
+
+        return (uint16_t *)&vr->used->ring[vr->num];
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -608949062 1348032362
+
+}
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
