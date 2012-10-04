@@ -3028,25 +3028,55 @@ Message Framing
 \end_layout
 
 \begin_layout Standard
+
+\change_inserted -608949062 1349336134
+Unless stated otherwise, it is expected that headers within a message are
+ contained within their own descriptors.
+\change_deleted -608949062 1349336145
 The descriptors used for a buffer should not effect the semantics of the
  message, except for the total length of the buffer.
- For example, a network buffer consists of a 10 byte header followed by
- the network packet.
- Whether this is presented in the ring descriptor chain as (say) a 10 byte
+
+\change_unchanged
+ For example, a network buffer consists of a 10 
+\change_inserted -608949062 1349336182
+or 12 
+\change_unchanged
+byte header followed by the network packet.
+ 
+\change_inserted -608949062 1349336228
+An implementation should expect that this header will be within the first
+ descriptor, and that the remainder of the data will begin on the second
+ descriptor.
+\change_deleted -608949062 1349336241
+Whether this is presented in the ring descriptor chain as (say) a 10 byte
  buffer and a 1514 byte buffer, or a single 1524 byte buffer, or even three
  buffers, should have no effect.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -608949062 1349336241
 In particular, no implementation should use the descriptor boundaries to
  determine the size of any header in a request.
+\change_unchanged
+
 \begin_inset Foot
 status open
 
 \begin_layout Plain Layout
+
+\change_deleted -608949062 1349336247
 The current qemu device implementations mistakenly insist that the first
  descriptor cover the header in these cases exactly, so a cautious driver
  should arrange it so.
+\change_inserted -608949062 1349336397
+It was previously asserted that framing should be independent of message
+ contents, yet invariably drivers layed out messages in reliable ways and
+ devices assumed it.
+ In addition, the specifications for virtio_blk and virtio_scsi require
+ intuiting field lengths from frame boundaries.
+\change_unchanged
+
 \end_layout
 
 \end_inset
