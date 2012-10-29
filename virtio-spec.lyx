@@ -9973,9 +9973,10 @@ Handling Device Features
 
 \begin_layout Standard
 
-\change_inserted -385801441 1345027079
+\change_inserted -385801441 1351067713
 Feature bits are arranged in an array of 32 bit values, making for a total
  of 8192 feature bits.
+ Feature bits are in little-endian byte order.
 \end_layout
 
 \begin_layout Standard
@@ -10112,10 +10113,10 @@ Setting Up Indicators
 
 \begin_layout Standard
 
-\change_inserted -385801441 1347015710
+\change_inserted -385801441 1351067651
 To communicate the location of the indicator bits for host->guest notification,
- the guest uses the CCW_CMD_SET_IND command which sends the guest address
- of the indicators in a 64 bit value.
+ the guest uses the CCW_CMD_SET_IND command, pointing to a location containing
+ the guest address of the indicators in a 64 bit value.
 \end_layout
 
 \begin_layout Standard
