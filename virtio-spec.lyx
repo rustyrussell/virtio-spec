@@ -59,6 +59,7 @@
 \author -608949062 "Rusty Russell,,," 
 \author -385801441 "Cornelia Huck" cornelia.huck@de.ibm.com
 \author 1531152142 "Paolo Bonzini,,," 
+\author 1717892615 "Alexey Zaytsev,,," 
 \author 1986246365 "Michael S. Tsirkin" 
 \end_header
 
@@ -6161,7 +6162,11 @@ the SCSI_CMD and SCSI_CMD_OUT types are equivalent, the device does not
 
 \end_inset
 
-) or a flush (VIRTIO_BLK_T_FLUSH or VIRTIO_BLK_T_FLUSH_OUT
+)
+\change_inserted 1717892615 1355313186
+, device ID (serial number) inquiry (VIRTIO_BLK_T_GET_ID)
+\change_unchanged
+ or a flush (VIRTIO_BLK_T_FLUSH or VIRTIO_BLK_T_FLUSH_OUT
 \begin_inset Foot
 status open
 
@@ -6192,6 +6197,19 @@ status open
 
 \begin_layout Plain Layout
 
+\change_inserted 1717892615 1355312081
+
+#define VIRTIO_BLK_ID_BYTES       20
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1717892615 1355310507
+
+\end_layout
+
+\begin_layout Plain Layout
+
 #define VIRTIO_BLK_T_IN           0
 \end_layout
 
@@ -6218,6 +6236,17 @@ status open
 \begin_layout Plain Layout
 
 #define VIRTIO_BLK_T_FLUSH_OUT    5
+\change_inserted 1717892615 1355310422
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1717892615 1355310087
+
+#define VIRTIO_BLK_T_GET_ID       8
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -6344,6 +6373,17 @@ status open
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 1717892615 1355312551
+When VIRTIO_BLK_T_GET_ID is issued, the device identifier, up to 20 bytes,
+ is written to the buffer.
+ The identifier should be interpreted as an ascii string.
+ It is terminated with 
+\backslash
+0, unless it is exactly 20 bytes long.
 \end_layout
 
 \begin_layout Standard
