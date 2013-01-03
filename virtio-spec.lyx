@@ -58,6 +58,7 @@
 \html_be_strict false
 \author -608949062 "Rusty Russell,,," 
 \author -385801441 "Cornelia Huck" cornelia.huck@de.ibm.com
+\author 1112500848 "Rusty Russell" rusty@rustcorp.com.au
 \author 1531152142 "Paolo Bonzini,,," 
 \author 1717892615 "Alexey Zaytsev,,," 
 \author 1986246365 "Michael S. Tsirkin" 
@@ -9667,8 +9668,14 @@ s on QueueNum, QueueAlign and QueuePFN apply to.
 \begin_inset Newline newline
 \end_inset
 
- Queue size is a number of elements in the queue, therefore size of the
- descriptor table and both available and used rings.
+ Queue size is 
+\change_inserted 1112500848 1357172923
+the
+\change_deleted 1112500848 1357172922
+a
+\change_unchanged
+ number of elements in the queue, therefore size of the descriptor table
+ and both available and used rings.
 \begin_inset Newline newline
 \end_inset
 
@@ -9832,8 +9839,14 @@ reference "sub:Device-Initialization-Sequence"
 \end_layout
 
 \begin_layout Standard
-Virtual queue size is a number of elements in the queue, therefore size
- of the descriptor table and both available and used rings.
+Virtual queue size is 
+\change_inserted 1112500848 1357172933
+the
+\change_deleted 1112500848 1357172932
+a
+\change_unchanged
+ number of elements in the queue, therefore size of the descriptor table
+ and both available and used rings.
 \end_layout
 
 \begin_layout Standard
