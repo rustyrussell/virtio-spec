@@ -5156,7 +5156,7 @@ Control Virtqueue
 \end_layout
 
 \begin_layout Standard
-The driver uses the control virtqueue (if VIRTIO_NET_F_VTRL_VQ is negotiated)
+The driver uses the control virtqueue (if VIRTIO_NET_F_CTRL_VQ is negotiated)
  to send commands to manipulate various features of the device which would
  not easily map into the configuration space.
 \end_layout
@@ -5501,7 +5501,7 @@ struct virtio_net_ctrl_mq {
 
 \change_inserted 1986246365 1353594263
 
-#define VIRTIO_NET_CTRL_MQ    1
+#define VIRTIO_NET_CTRL_MQ    4
 \end_layout
 
 \begin_layout Plain Layout
