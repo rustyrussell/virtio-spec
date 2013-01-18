@@ -56,6 +56,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -1930653948 "Amos Kong" 
 \author -608949062 "Rusty Russell,,," 
 \author -385801441 "Cornelia Huck" cornelia.huck@de.ibm.com
 \author 1112500848 "Rusty Russell" rusty@rustcorp.com.au
@@ -4391,6 +4392,14 @@ VIRTIO_NET_F_GUEST_ANNOUNCE(21) Guest can send gratuitous packets.
 
 \change_inserted 1986246365 1352742808
 VIRTIO_NET_F_MQ(22) Device supports multiqueue with automatic receive steering.
+\change_inserted -1930653948 1358319033
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted -1930653948 1358319080
+VIRTIO_NET_F_CTRL_MAC_ADDR(23) Set MAC address.
 \change_unchanged
 
 \end_layout
@@ -5284,7 +5293,11 @@ The class VIRTIO_NET_CTRL_RX has two commands: VIRTIO_NET_CTRL_RX_PROMISC
 \end_layout
 
 \begin_layout Subsubsection*
-Setting MAC Address Filtering
+Setting MAC Address
+\change_deleted -1930653948 1358318470
+ Filtering
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -5324,6 +5337,17 @@ struct virtio_net_ctrl_mac {
 \begin_layout Plain Layout
 
  #define VIRTIO_NET_CTRL_MAC_TABLE_SET        0 
+\change_inserted -1930653948 1358318313
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -1930653948 1358318331
+
+ #define VIRTIO_NET_CTRL_MAC_ADDR_SET         1
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -5349,6 +5373,48 @@ T_CTRL_MAC_TABLE_SET.
  The command-specific-data is two variable length tables of 6-byte MAC addresses.
  The first table contains unicast addresses, and the second contains multicast
  addresses.
+\change_inserted -1930653948 1358318545
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -1930653948 1358506710
+The config space 
+\begin_inset Quotes eld
+\end_inset
+
+mac
+\begin_inset Quotes erd
+\end_inset
+
+ field and the VIRTIO_NET_CTRL_MAC_ADDR_SET command both set the default
+ MAC address which rx filtering accepts.
+ The VIRTIO_NET_CTRL_MAC_ADDR_SET command is atomic whereas the config space
+ 
+\begin_inset Quotes eld
+\end_inset
+
+mac
+\begin_inset Quotes erd
+\end_inset
+
+ field is not.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+mac
+\begin_inset Quotes erd
+\end_inset
+
+ field will be set to read-only when the VIRTIO_NET_CTRL_MAC_ADDR_SET command
+ is supported.
+ Therefore, VIRTIO_NET_CTRL_MAC_ADDR_SET is preferred, especially while
+ the NIC is up.
+ The command-specific-data is a 6-byte MAC address.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsection*
