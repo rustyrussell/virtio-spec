@@ -56,6 +56,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -875410574 "Pawel Moll" 
 \author -1930653948 "Amos Kong" 
 \author -608949062 "Rusty Russell,,," 
 \author -385801441 "Cornelia Huck" cornelia.huck@de.ibm.com
@@ -1851,6 +1852,17 @@ struct vring {
 
 \begin_layout Subsection
 A Note on Virtqueue Endianness
+\change_inserted -875410574 1360838374
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Virtqueue-Endianness"
+
+\end_inset
+
+
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -9920,8 +9932,24 @@ a
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -875410574 1360838214
 The endianness of the registers follows the native endianness of the Guest.
- Writing to registers described as 
+\change_inserted -875410574 1360838930
+All register values are organized as Little Endian, similarly to the PCI
+ variant, see also 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Virtqueue-Endianness"
+
+\end_inset
+
+.
+ 
+\change_deleted -875410574 1360838262
+ 
+\change_unchanged
+Writing to registers described as 
 \begin_inset Quotes eld
 \end_inset
 
