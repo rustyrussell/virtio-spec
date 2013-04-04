@@ -60,6 +60,7 @@
 \author -875410574 "Pawel Moll" 
 \author -608949062 "Rusty Russell,,," 
 \author -385801441 "Cornelia Huck" cornelia.huck@de.ibm.com
+\author 460276516 "Dmitry Fleytman" dfleytma@redhat.com
 \author 1112500848 "Rusty Russell" rusty@rustcorp.com.au
 \author 1531152142 "Paolo Bonzini,,," 
 \author 1717892615 "Alexey Zaytsev,,," 
@@ -4296,6 +4297,20 @@ VIRTIO_NET_F_GUEST_CSUM
 \end_inset
 
 (1) Guest handles packets with partial checksum
+\change_inserted 460276516 1363712169
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 460276516 1363712334
+VIRTIO_NET_F_CTRL_GUEST_OFFLOADS
+\begin_inset space ~
+\end_inset
+
+(2) Control channel offloads reconfiguration support.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Description
@@ -5708,6 +5723,134 @@ virtqueue_pairs = 1
 
 \change_unchanged
  
+\end_layout
+
+\begin_layout Subsection*
+
+\change_inserted 460276516 1363765850
+Offloads State Configuration
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 460276516 1363765861
+If the VIRTIO_NET_F_CTRL_GUEST_OFFLOADS feature is negotiated, the driver can
+ send control commands for dynamic offloads state configuration.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\change_inserted 460276516 1363765928
+Setting offloads state
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 460276516 1363713225
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363765996
+
+u64 offloads;
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363765997
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363766044
+
+#define VIRTIO_NET_F_GUEST_CSUM       1
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363766051
+
+#define VIRTIO_NET_F_GUEST_TSO4       7
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363766055
+
+#define VIRTIO_NET_F_GUEST_TSO6       8
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363766064
+
+#define VIRTIO_NET_F_GUEST_ECN        9
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363766035
+
+#define VIRTIO_NET_F_GUEST_UFO        10
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363766031
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363765865
+
+#define VIRTIO_NET_CTRL_GUEST_OFFLOADS       5
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 460276516 1363765867
+
+ #define VIRTIO_NET_CTRL_GUEST_OFFLOADS_SET          0
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 460276516 1363766082
+The class VIRTIO_NET_CTRL_GUEST_OFFLOADS has one command: VIRTIO_NET_CTRL_GUEST_OFFLOADS_SET
+ applies the new offloads configuration.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 460276516 1363766435
+u64 value passed as command data is a bitmask, bits set define offloads
+ to be enabled, bits cleared - offloads to be disabled.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 460276516 1363766757
+There is a corresponding device feature for each offload.
+ Upon feature negotiation corresponding offload gets enabled to preserve
+ backward compartibility.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 460276516 1363766720
+Corresponding feature must be negotiated at startup in order to allow dynamic
+ change of specific offload state.
 \end_layout
 
 \begin_layout Chapter*
