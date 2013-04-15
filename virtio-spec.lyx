@@ -5086,7 +5086,18 @@ struct virtio_net_hdr
 
 \change_inserted 1986246365 1353594638
 If VIRTIO_NET_F_MQ is negotiated, each of receiveq0...receiveqN that will be
- used should be populated with receive buffers.
+ used should be populated with receive buffers
+\change_inserted 1112500848 1365994461
+ before multiqueue is activated (See 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Automatic-receive-steering"
+
+\end_inset
+
+)
+\change_inserted 1986246365 1353594638
+.
 \change_unchanged
 
 \end_layout
@@ -5580,6 +5591,14 @@ Sending VIRTIO_NET_CTRL_ANNOUNCE_ACK command through control vq.
 
 \begin_layout Subsection*
 
+\change_inserted 1112500848 1365994442
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Automatic-receive-steering"
+
+\end_inset
+
+
 \change_inserted 1986246365 1353593879
 Automatic receive steering in multiqueue mode
 \end_layout
@@ -5734,8 +5753,8 @@ Offloads State Configuration
 \begin_layout Standard
 
 \change_inserted 460276516 1363765861
-If the VIRTIO_NET_F_CTRL_GUEST_OFFLOADS feature is negotiated, the driver can
- send control commands for dynamic offloads state configuration.
+If the VIRTIO_NET_F_CTRL_GUEST_OFFLOADS feature is negotiated, the driver
+ can send control commands for dynamic offloads state configuration.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -5827,8 +5846,8 @@ u64 offloads;
 \begin_layout Standard
 
 \change_inserted 460276516 1363766082
-The class VIRTIO_NET_CTRL_GUEST_OFFLOADS has one command: VIRTIO_NET_CTRL_GUEST_OFFLOADS_SET
- applies the new offloads configuration.
+The class VIRTIO_NET_CTRL_GUEST_OFFLOADS has one command: VIRTIO_NET_CTRL_GUEST_
+OFFLOADS_SET applies the new offloads configuration.
 \end_layout
 
 \begin_layout Standard
