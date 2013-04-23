@@ -2134,8 +2134,17 @@ Available Ring
 \end_layout
 
 \begin_layout Standard
-The available ring refers to what descriptors we are offering the device:
- it refers to the head of a descriptor chain.
+The available ring refers to what descriptor
+\change_inserted 1112500848 1366689492
+ chain
+\change_unchanged
+s we are offering the device: 
+\change_deleted 1112500848 1366689510
+it
+\change_inserted 1112500848 1366689513
+each entry
+\change_unchanged
+ refers to the head of a descriptor chain.
  The 
 \begin_inset Quotes eld
 \end_inset
@@ -2145,7 +2154,11 @@ flags
 \end_inset
 
  field is currently 0 or 1: 1 indicating that we do not need an interrupt
- when the device consumes a descriptor from the available ring.
+ when the device consumes a descriptor 
+\change_inserted 1112500848 1366689533
+chain 
+\change_unchanged
+from the available ring.
  Alternatively, the guest can ask the device to delay interrupts until an
  entry with an index specified by the 
 \begin_inset Quotes eld
@@ -2647,7 +2660,17 @@ avail->ring[avail->idx % qsz] = head;
 \end_layout
 
 \begin_layout Standard
-However, in general we can add many descriptors before we update the 
+However, in general we can add many 
+\change_inserted 1112500848 1366689395
+separate 
+\change_unchanged
+descriptor
+\change_deleted 1112500848 1366689363
+s
+\change_inserted 1112500848 1366689399
+ chains
+\change_unchanged
+ before we update the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2680,8 +2703,13 @@ Updating The Index Field
 
 \begin_layout Standard
 Once the idx field of the virtqueue is updated, the device will be able
- to access the descriptor entries we've created and the memory they refer
- to.
+ to access the descriptor
+\change_deleted 1112500848 1366689459
+ entries
+\change_inserted 1112500848 1366689460
+ chains
+\change_unchanged
+ we've created and the memory they refer to.
  This is why a memory barrier is generally used before the idx update, to
  ensure it sees the most up-to-date copy.
 \end_layout
@@ -10493,7 +10521,6 @@ tatus register description is asserted.
 
 \end_layout
 
-\end_deeper
 \begin_layout Chapter*
 
 \change_inserted -385801441 1343732726
