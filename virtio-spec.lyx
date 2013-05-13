@@ -6835,6 +6835,17 @@ VIRTIO_CONSOLE_F_SIZE
 VIRTIO_CONSOLE_F_MULTIPORT(1) Device has support for multiple ports; configurati
 on fields nr_ports and max_nr_ports are valid and control virtqueues will
  be used.
+\change_inserted 1112500848 1368412890
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 1112500848 1368412929
+VIRTIO_CONSOLE_F_EMERG_WRITE(2) Device has support for emergency write.
+ Configuration field emerg_wr is valid.
+\change_unchanged
+
 \end_layout
 
 \end_deeper
@@ -6851,6 +6862,14 @@ layout The size of the console is supplied in the configuration space if
  the VIRTIO_CONSOLE_F_SIZE feature is set.
  Furthermore, if the VIRTIO_CONSOLE_F_MULTIPORT feature is set, the maximum
  number of ports supported by the device can be fetched.
+
+\change_inserted 1112500848 1368412999
+ If VIRTIO_CONSOLE_F_EMERG_WRITE is set then one can use emergency write
+ to output single character without initializing virtio queues, or even
+ acknowledging the feature.
+ 
+\change_unchanged
+
 \begin_inset listings
 inline false
 status open
@@ -6877,6 +6896,17 @@ struct virtio_console_config {
 \begin_layout Plain Layout
 
 	u32 max_nr_ports;
+\change_inserted 1112500848 1368413026
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted 1112500848 1368413032
+
+    u32 emerg_wr;
+\change_unchanged
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -6891,6 +6921,16 @@ struct virtio_console_config {
 
 \begin_layout Section*
 Device Initialization
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1112500848 1368413220
+If the VIRTIO_CONSOLE_F_EMERG_WRITE feature is offered, the emerg_wr field
+ of the configuration can be written at any time.
+ Thus it should work for very early boot debugging output as well as catastophic
+ OS failures (eg.
+ virtio ring corruption).
 \end_layout
 
 \begin_layout Enumerate
