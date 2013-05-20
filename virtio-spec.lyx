@@ -6833,8 +6833,13 @@ VIRTIO_CONSOLE_F_SIZE
 
 \begin_layout Description
 VIRTIO_CONSOLE_F_MULTIPORT(1) Device has support for multiple ports; configurati
-on fields nr_ports and max_nr_ports are valid and control virtqueues will
- be used.
+on fields nr_ports and max_nr_ports are valid
+\change_inserted 1986246365 1347188404
+; if this bit is negotiated,
+\change_deleted 1986246365 1347188406
+ and
+\change_unchanged
+ control virtqueues will be used.
 \change_inserted 1112500848 1368412890
 
 \end_layout
