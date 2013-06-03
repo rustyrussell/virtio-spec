@@ -116,7 +116,11 @@ description "Peripheral Component Interconnect; a common device bus.  See\\\\htt
 \end_inset
 
  devices.
- These are devices are found in 
+ These 
+\change_deleted 1112500848 1370222658
+are 
+\change_unchanged
+devices are found in 
 \emph on
 virtual
 \emph default
@@ -1558,7 +1562,11 @@ name "sub:Feature-Bits"
 \end_layout
 
 \begin_layout Standard
-Thefirst configuration field indicates the features that the device supports.
+The
+\change_inserted 1112500848 1370222669
+ 
+\change_unchanged
+first configuration field indicates the features that the device supports.
  The bits are allocated as follows:
 \end_layout
 
@@ -2919,8 +2927,15 @@ For each ring, guest should then disable interrupts by writing VRING_AVAIL_F_NO_
 INTERRUPT flag in avail structure, if required.
  It can then process used ring entries finally enabling interrupts by clearing
  the VRING_AVAIL_F_NO_INTERRUPT flag or updating the EVENT_IDX field in
- the available structure, Guest should then execute a memory barrier, and
- then recheck the ring empty condition.
+ the available structure
+\change_deleted 1112500848 1370222756
+, G
+\change_inserted 1112500848 1370222759
+.
+ The g
+\change_unchanged
+uest should then execute a memory barrier, and then recheck the ring empty
+ condition.
  This is necessary to handle the case where, after the last check and before
  enabling interrupts, an interrupt has been suppressed by the device:
 \end_layout
