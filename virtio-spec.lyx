@@ -7402,9 +7402,14 @@ The driver constructs an array of addresses of memory pages it has previously
 \end_layout
 
 \begin_layout Enumerate
-If the VIRTIO_BALLOON_F_MUST_TELL_HOST feature is set, the guest may not
- use these requested pages until that descriptor in the deflateq has been
- used by the device.
+If the VIRTIO_BALLOON_F_MUST_TELL_HOST feature is 
+\change_deleted 1112500848 1371450904
+set
+\change_inserted 1112500848 1371450905
+negotiated
+\change_unchanged
+, the guest may not use these requested pages until that descriptor in the
+ deflateq has been used by the device.
 \end_layout
 
 \begin_layout Enumerate
