@@ -4255,6 +4255,24 @@ VIRTIO_F_NOTIFY_ON_EMPTY
  packets a finite time after they are transmitted.
  It can avoid using a timer if the device interrupts it when all the packets
  are transmitted.
+\change_inserted 1112500848 1373332792
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 1112500848 1373332797
+VIRTIO_F_ANY_LAYOUT(27) This feature indicates that the device accepts arbitrary
+ descriptor layouts, as described in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Message-Framing"
+
+\end_inset
+
+.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Description
@@ -4316,24 +4334,16 @@ avail_event
 flags
 \emph default
  field is used
-\change_inserted 1112500848 1373244478
+\change_inserted 1112500848 1373332843
 
 \end_layout
 
-\begin_layout Description
+\begin_layout Standard
 
-\change_inserted 1112500848 1373244649
-VIRTIO_F_ANY_LAYOUT(30) This feature indicates that the device accepts arbitrary
- descriptor layouts, as described in Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Message-Framing"
-
-\end_inset
-
-.
-\change_unchanged
-
+\change_inserted 1112500848 1373332894
+In addition, bit 30 is used by qemu's implementation to check for experimental
+ early versions of virtio which did not perform correct feature negotiation,
+ and should not be used.
 \end_layout
 
 \begin_layout Chapter*
